@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Ryaan
@@ -12,6 +13,7 @@ use App\Validator\Constraints\ComplexPassword;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use InvalidArgumentException;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -292,13 +294,11 @@ class User implements AdvancedUserInterface, \Serializable
 
     public function setRoles(array $roles)
     {
-        if (!in_array('ROLE_USER', $roles))
-        {
+        if (!in_array('ROLE_USER', $roles)) {
             $roles[] = 'ROLE_USER';
         }
-        foreach ($roles as $role)
-        {
-            if(substr($role, 0, 5) !== 'ROLE_') {
+        foreach ($roles as $role) {
+            if (substr($role, 0, 5) !== 'ROLE_') {
                 throw new InvalidArgumentException("Chaque rôle doit commencer par 'ROLE_'");
             }
         }
@@ -359,7 +359,7 @@ class User implements AdvancedUserInterface, \Serializable
             $this->firstName,
             $this->lastName,
             $this->phone,
-                $this->roles,
+            $this->roles,
             $this->password,
             $this->isActive,
 
@@ -369,7 +369,7 @@ class User implements AdvancedUserInterface, \Serializable
     /** @see \Serializable::unserialize() */
     public function unserialize($serialized)
     {
-        list (
+        list(
             $this->id,
             $this->email,
             $this->firstName,
@@ -379,6 +379,6 @@ class User implements AdvancedUserInterface, \Serializable
             $this->password,
             $this->isActive,
 
-            ) = unserialize($serialized);
+        ) = unserialize($serialized);
     }
 }
