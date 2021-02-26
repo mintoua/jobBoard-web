@@ -27,6 +27,7 @@
     },
     "require-dev": {
         "symfony/dotenv": "^4.0",
+        "symfony/maker-bundle": "^1.29",
         "symfony/profiler-pack": "^1.0"
     },
     "config": {

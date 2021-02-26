@@ -22,7 +22,7 @@ class OffreEmploiType extends AbstractType
             ->add('maxSalary')
             ->add('minSalary')
             ->add('location')
-            ->add('file', FileType::class)
+            ->add('file', FileType::class, array('data_class' => null))
             ->add('email')
             ->add('Upload', SubmitType::class);
     }

@@ -18,7 +18,7 @@ class OffreEmploi
     private $idOffre;
 
     /**
-     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="offres")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="offres")
      * @ORM\JoinColumn(nullable=true)
      */
     private $idRecruteur;
@@ -54,7 +54,7 @@ class OffreEmploi
     private $categorie;
 
     /**
-     * @ORM\ManyToOne(targetEntity=user::class)
+     * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=true)
      */
     private $idCandidat;
@@ -180,12 +180,12 @@ class OffreEmploi
         return $this;
     }
 
-    public function getIdCandidat(): ?user
+    public function getIdCandidat(): ?User
     {
         return $this->idCandidat;
     }
 
-    public function setIdCandidat(?user $idCandidat): self
+    public function setIdCandidat(?User $idCandidat): self
     {
         $this->idCandidat = $idCandidat;
 

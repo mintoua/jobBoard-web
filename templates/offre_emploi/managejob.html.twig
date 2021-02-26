@@ -23,16 +23,16 @@
 
     <!-- PAGE TITLE HERE -->
     <title>
-      JobBoard - HTML Template
+      JobIni
     </title>
 
     <!-- MOBILE SPECIFIC -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!--  [if lt IE 9]>
+    <!--                          [if lt IE 9]>
 	<script src="{{ asset('frontOffice/') }}js/html5shiv.min.js"></script>
 	<script src="{{ asset('frontOffice/') }}js/respond.min.js"></script>
-	<![endif]  -->
+	<![endif]                          -->
 
     <!-- STYLESHEETS -->
     <link rel="stylesheet"
@@ -72,7 +72,7 @@
             <div class="container clearfix">
               <!-- website logo -->
               <div class="logo-header mostion">
-                <a href="index.html">
+                <a href="{{ asset('index.php') }}">
                   <img src="{{ asset('frontOffice/') }}images/logo.png"
                     class="logo"
                     alt="" />
@@ -178,12 +178,12 @@
                         </a>
                       </li>
                       <li>
-                        <a href="company-post-jobs.html" class="dez-page">
+                        <a href="addjob" class="dez-page">
                           Post A Jobs <span class="new-page">New</span>
                         </a>
                       </li>
                       <li>
-                        <a href="company-manage-job.html" class="dez-page">
+                        <a href="managejobs" class="dez-page">
                           Manage jobs <span class="new-page">New</span>
                         </a>
                       </li>
@@ -542,422 +542,78 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td class="feature">
-                            <div class="custom-control custom-checkbox">
-                              <input type="checkbox"
-                                class="custom-control-input"
-                                id="check1"
-                                name="example1" />
-                              <label class="custom-control-label" for="check1">
+                        {% for c in list %}
+                          <tr>
+                            <td class="feature">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox"
+                                  class="custom-control-input"
+                                  id="check1"
+                                  name="example1" />
+                                <label class="custom-control-label"
+                                  for="check1">
 
-                              </label>
-                            </div>
-                          </td>
-                          <td class="job-name">
-                            <a href="javascript:void(0);">
-                              Social Media Expert
-                            </a>
-                            <ul class="job-post-info">
-                              <li>
-                                <i class="fa fa-map-marker"></i> Sacramento, California
-                              </li>
-                              <li>
-                                <i class="fa fa-bookmark-o"></i> Full Time
-                              </li>
-                              <li><i class="fa fa-filter"></i> Web Designer</li>
-                            </ul>
-                          </td>
-                          <td class="application text-primary">
-                            (5) Applications
-                          </td>
-                          <td class="expired pending">
-                            Pending
-                          </td>
-                          <td class="job-links">
-                            <a href="javascript:void(0);"
-                              data-toggle="modal"
-                              data-target="#exampleModalLong">
-                              <i class="fa fa-eye"></i>
-                            </a>
-                            <a href="javascript:void(0);">
-                              <i class="ti-trash"></i>
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="feature">
-                            <div class="custom-control custom-checkbox">
-                              <input type="checkbox"
-                                class="custom-control-input"
-                                id="check2"
-                                name="example1" />
-                              <label class="custom-control-label" for="check2">
-
-                              </label>
-                            </div>
-                          </td>
-                          <td class="job-name">
-                            <a href="javascript:void(0);">Web Designer</a>
-                            <ul class="job-post-info">
-                              <li>
-                                <i class="fa fa-map-marker"></i> Sacramento, California
-                              </li>
-                              <li>
-                                <i class="fa fa-bookmark-o"></i> Full Time
-                              </li>
-                              <li><i class="fa fa-filter"></i> Web Designer</li>
-                            </ul>
-                          </td>
-                          <td class="application text-primary">
-                            (8) Applications
-                          </td>
-                          <td class="expired text-red">
-                            Expired
-                          </td>
-                          <td class="job-links">
-                            <a href="javascript:void(0);"
-                              data-toggle="modal"
-                              data-target="#exampleModalLong">
-                              <i class="fa fa-eye"></i>
-                            </a>
-                            <a href="javascript:void(0);">
-                              <i class="ti-trash"></i>
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="feature">
-                            <div class="custom-control custom-checkbox">
-                              <input type="checkbox"
-                                class="custom-control-input"
-                                id="check3"
-                                name="example1" />
-                              <label class="custom-control-label" for="check3">
-
-                              </label>
-                            </div>
-                          </td>
-                          <td class="job-name">
-                            <a href="javascript:void(0);">Finance Accountant</a>
-                            <ul class="job-post-info">
-                              <li>
-                                <i class="fa fa-map-marker"></i> Sacramento, California
-                              </li>
-                              <li>
-                                <i class="fa fa-bookmark-o"></i> Full Time
-                              </li>
-                              <li><i class="fa fa-filter"></i> Web Designer</li>
-                            </ul>
-                          </td>
-                          <td class="application text-primary">
-                            (9) Applications
-                          </td>
-                          <td class="expired pending">
-                            Pending
-                          </td>
-                          <td class="job-links">
-                            <a href="javascript:void(0);"
-                              data-toggle="modal"
-                              data-target="#exampleModalLong">
-                              <i class="fa fa-eye"></i>
-                            </a>
-                            <a href="javascript:void(0);">
-                              <i class="ti-trash"></i>
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="feature">
-                            <div class="custom-control custom-checkbox">
-                              <input type="checkbox"
-                                class="custom-control-input"
-                                id="check4"
-                                name="example1" />
-                              <label class="custom-control-label" for="check4">
-
-                              </label>
-                            </div>
-                          </td>
-                          <td class="job-name">
-                            <a href="javascript:void(0);">
-                              Social Media Expert
-                            </a>
-                            <ul class="job-post-info">
-                              <li>
-                                <i class="fa fa-map-marker"></i> Sacramento, California
-                              </li>
-                              <li>
-                                <i class="fa fa-bookmark-o"></i> Full Time
-                              </li>
-                              <li><i class="fa fa-filter"></i> Web Designer</li>
-                            </ul>
-                          </td>
-                          <td class="application text-primary">
-                            (7) Applications
-                          </td>
-                          <td class="expired success">
-                            Active
-                          </td>
-                          <td class="job-links">
-                            <a href="javascript:void(0);"
-                              data-toggle="modal"
-                              data-target="#exampleModalLong">
-                              <i class="fa fa-eye"></i>
-                            </a>
-                            <a href="javascript:void(0);">
-                              <i class="ti-trash"></i>
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="feature">
-                            <div class="custom-control custom-checkbox">
-                              <input type="checkbox"
-                                class="custom-control-input"
-                                id="check5"
-                                name="example1" />
-                              <label class="custom-control-label" for="check5">
-
-                              </label>
-                            </div>
-                          </td>
-                          <td class="job-name">
-                            <a href="javascript:void(0);">Web Designer</a>
-                            <ul class="job-post-info">
-                              <li>
-                                <i class="fa fa-map-marker"></i> Sacramento, California
-                              </li>
-                              <li>
-                                <i class="fa fa-bookmark-o"></i> Full Time
-                              </li>
-                              <li><i class="fa fa-filter"></i> Web Designer</li>
-                            </ul>
-                          </td>
-                          <td class="application text-primary">
-                            (6) Applications
-                          </td>
-                          <td class="expired pending">
-                            Pending
-                          </td>
-                          <td class="job-links">
-                            <a href="javascript:void(0);"
-                              data-toggle="modal"
-                              data-target="#exampleModalLong">
-                              <i class="fa fa-eye"></i>
-                            </a>
-                            <a href="javascript:void(0);">
-                              <i class="ti-trash"></i>
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="feature">
-                            <div class="custom-control custom-checkbox">
-                              <input type="checkbox"
-                                class="custom-control-input"
-                                id="check6"
-                                name="example1" />
-                              <label class="custom-control-label" for="check6">
-
-                              </label>
-                            </div>
-                          </td>
-                          <td class="job-name">
-                            <a href="javascript:void(0);">Finance Accountant</a>
-                            <ul class="job-post-info">
-                              <li>
-                                <i class="fa fa-map-marker"></i> Sacramento, California
-                              </li>
-                              <li>
-                                <i class="fa fa-bookmark-o"></i> Full Time
-                              </li>
-                              <li><i class="fa fa-filter"></i> Web Designer</li>
-                            </ul>
-                          </td>
-                          <td class="application text-primary">
-                            (3) Applications
-                          </td>
-                          <td class="expired text-red">
-                            Expired
-                          </td>
-                          <td class="job-links">
-                            <a href="javascript:void(0);"
-                              data-toggle="modal"
-                              data-target="#exampleModalLong">
-                              <i class="fa fa-eye"></i>
-                            </a>
-                            <a href="javascript:void(0);">
-                              <i class="ti-trash"></i>
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="feature">
-                            <div class="custom-control custom-checkbox">
-                              <input type="checkbox"
-                                class="custom-control-input"
-                                id="check7"
-                                name="example1" />
-                              <label class="custom-control-label" for="check7">
-
-                              </label>
-                            </div>
-                          </td>
-                          <td class="job-name">
-                            <a href="javascript:void(0);">
-                              Social Media Expert
-                            </a>
-                            <ul class="job-post-info">
-                              <li>
-                                <i class="fa fa-map-marker"></i> Sacramento, California
-                              </li>
-                              <li>
-                                <i class="fa fa-bookmark-o"></i> Full Time
-                              </li>
-                              <li><i class="fa fa-filter"></i> Web Designer</li>
-                            </ul>
-                          </td>
-                          <td class="application text-primary">
-                            (2) Applications
-                          </td>
-                          <td class="expired success">
-                            Active
-                          </td>
-                          <td class="job-links">
-                            <a href="javascript:void(0);"
-                              data-toggle="modal"
-                              data-target="#exampleModalLong">
-                              <i class="fa fa-eye"></i>
-                            </a>
-                            <a href="javascript:void(0);">
-                              <i class="ti-trash"></i>
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="feature">
-                            <div class="custom-control custom-checkbox">
-                              <input type="checkbox"
-                                class="custom-control-input"
-                                id="check8"
-                                name="example1" />
-                              <label class="custom-control-label" for="check8">
-
-                              </label>
-                            </div>
-                          </td>
-                          <td class="job-name">
-                            <a href="javascript:void(0);">Web Designer</a>
-                            <ul class="job-post-info">
-                              <li>
-                                <i class="fa fa-map-marker"></i> Sacramento, California
-                              </li>
-                              <li>
-                                <i class="fa fa-bookmark-o"></i> Full Time
-                              </li>
-                              <li><i class="fa fa-filter"></i> Web Designer</li>
-                            </ul>
-                          </td>
-                          <td class="application text-primary">
-                            (4) Applications
-                          </td>
-                          <td class="expired success">
-                            Active
-                          </td>
-                          <td class="job-links">
-                            <a href="javascript:void(0);"
-                              data-toggle="modal"
-                              data-target="#exampleModalLong">
-                              <i class="fa fa-eye"></i>
-                            </a>
-                            <a href="javascript:void(0);">
-                              <i class="ti-trash"></i>
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="feature">
-                            <div class="custom-control custom-checkbox">
-                              <input type="checkbox"
-                                class="custom-control-input"
-                                id="check9"
-                                name="example1" />
-                              <label class="custom-control-label" for="check9">
-
-                              </label>
-                            </div>
-                          </td>
-                          <td class="job-name">
-                            <a href="javascript:void(0);">Finance Accountant</a>
-                            <ul class="job-post-info">
-                              <li>
-                                <i class="fa fa-map-marker"></i> Sacramento, California
-                              </li>
-                              <li>
-                                <i class="fa fa-bookmark-o"></i> Full Time
-                              </li>
-                              <li><i class="fa fa-filter"></i> Web Designer</li>
-                            </ul>
-                          </td>
-                          <td class="application text-primary">
-                            (1) Applications
-                          </td>
-                          <td class="expired text-red">
-                            Expired
-                          </td>
-                          <td class="job-links">
-                            <a href="javascript:void(0);"
-                              data-toggle="modal"
-                              data-target="#exampleModalLong">
-                              <i class="fa fa-eye"></i>
-                            </a>
-                            <a href="javascript:void(0);">
-                              <i class="ti-trash"></i>
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="feature">
-                            <div class="custom-control custom-checkbox">
-                              <input type="checkbox"
-                                class="custom-control-input"
-                                id="check10"
-                                name="example1" />
-                              <label class="custom-control-label" for="check10">
-
-                              </label>
-                            </div>
-                          </td>
-                          <td class="job-name">
-                            <a href="javascript:void(0);">Web Designer</a>
-                            <ul class="job-post-info">
-                              <li>
-                                <i class="fa fa-map-marker"></i> Sacramento, California
-                              </li>
-                              <li>
-                                <i class="fa fa-bookmark-o"></i> Full Time
-                              </li>
-                              <li><i class="fa fa-filter"></i> Web Designer</li>
-                            </ul>
-                          </td>
-                          <td class="application text-primary">
-                            (1) Applications
-                          </td>
-                          <td class="expired success">
-                            Active
-                          </td>
-                          <td class="job-links">
-                            <a href="javascript:void(0);"
-                              data-toggle="modal"
-                              data-target="#exampleModalLong">
-                              <i class="fa fa-eye"></i>
-                            </a>
-                            <a href="javascript:void(0);">
-                              <i class="ti-trash"></i>
-                            </a>
-                          </td>
-                        </tr>
+                                </label>
+                              </div>
+                            </td>
+                            <td class="job-name">
+                              <a href="javascript:void(0);">{{ c.titre }}</a>
+                              <ul class="job-post-info">
+                                <li>
+                                  <i class="fa fa-map-marker"></i>
+                                  {{ c.location }}
+                                </li>
+                                <li>
+                                  <i class="fa fa-bookmark-o"></i>
+                                  {{ c.categorie }}
+                                </li>
+                                <li>
+                                  <i class="fa fa-filter"></i> {{ c.poste }}
+                                </li>
+                              </ul>
+                            </td>
+                            <td class="application text-primary">
+                              (1) Applications
+                            </td>
+                            {% if date(c.getDateExpiration()) > date() %}
+                              <td class="expired success">
+                                Active
+                              </td>
+                            {% else %}
+                              <td class="expired text-red">
+                                Expired
+                              </td>
+                            {% endif %}
+                            <td class="job-links">
+                              <a href="javascript:void(0);"
+                                data-toggle="modal"
+                                data-target="#exampleModalLong">
+                                <i class="fa fa-eye"></i>
+                              </a>
+                              <a href="{{
+                                path(
+                                  'deljob',
+                                  {
+                                    'id': c.idOffre
+                                  }
+                                )
+                                }}">
+                                <i class="ti-trash"></i>
+                              </a>
+                              <a>
+                              <a href="{{
+                                path(
+                                  'modify',
+                                  {
+                                    'id': c.idOffre
+                                  }
+                                )
+                                }}" class="site-button">modify
+                              </a>
+                            </td>
+                          </tr>
+                        {% endfor %}
+                        <tr></tr>
                       </tbody>
                     </table>
                     <div class="pagination-bx m-t30 float-right">
