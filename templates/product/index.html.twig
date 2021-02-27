@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+
+{% block content %}
+        <div class="section-full content-inner bg-gray">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 section-head text-center">
+                        <h2 class="m-b5">MarketPlace</h2>
+                        <h6 class="fw4 m-b0">Find Your E-Book!!!</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    {% for product in products %}
+                        <div class="col-lg-3 col-sm-6 col-md-6 m-b30">
+                            <a href="javascript:void(0);">
+                            <div class="card" style="width: 18rem;">
+                                <img class="card-img-top" src="{{ asset('Livres/img/'~product.image) }}" alt="Image de {{ product.name }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Author : {{ product.name }}</h5>
+                                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                        <a href="{{ path('cart_add', {'id': product.id}) }}" class="btn btn-primary">Add to cart  </a> <h5 class="card-title float-right">{{ product.price }} DT </h5>
+                                    </div>
+                            </div>
+                            </a>
+    
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+{% endblock %}

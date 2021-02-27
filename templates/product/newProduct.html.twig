@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Product{% endblock %}
+
+{% block body %}
+    {{ form(form) }} {# or the following si on veut ajouter des button#}
+    {#{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-primary mt-3"> Add</button>
+    {{ form_end(form) }} #}
+{% endblock %}

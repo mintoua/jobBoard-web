@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Product Controller! {% endblock %}
+
+{%  block body %}
+    <h> Products</h>
+    <a href="{{ path('new_product') }}" class="btn btn-primary nav-link">New Product</a>
+    {% if products %}
+        <table id="classrooms" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Desc </th>
+                    <th>Réference </th>
+                    <th>Quantité </th>
+                    <th>Prix </th>
+                    <th>Thumbnail </th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td> {{ product.id }}</td>
+                    <td> {{ product.name }}</td>
+                    <td> {{ product.description }}</td>
+                    <td> {{ product.ref }}</td>
+                    <td> {{ product.quantity }}</td>
+                    <td> {{ product.price }} DT</td>
+                    <td> {{ product.image }}</td>
+                    <td>
+                        <a href="{{ path('updateProduct', {'id': product.id}) }}" class="btn btn-light">Edit</a>
+                        <a href="{{ path('deleteProduct', {'id': product.id}) }}" class="btn btn-danger btn-sm" > Delete </a>
+
+                    </td>
+
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    {% else %}
+        <p>No Products</p>
+    {% endif %}
+{% endblock %}

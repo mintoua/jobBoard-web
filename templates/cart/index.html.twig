@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+        <div class="section-full content-inner bg-gray">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 section-head text-center">
+                        <h2 class="m-b5">Shop</h2>
+                        <h6 class="fw4 m-b0">Your Cart!!!</h6>
+                    </div>
+                </div>
+                    {% if items | length > 0 %}
+                        <table class="table table-sm ">
+                            <thead>
+                                <tr> 
+                                    <th> Products</th>
+                                    <th> Price</th>
+                                    <th> Quantity</th>
+                                    <th> Total</th>
+                                    <th> Action</th>
+                                </tr>
+                            </thead>
+                            <tbody > 
+                                {% for item in items %}
+                                    <tr>
+                                        <td> {{ item.product.name}}</td>
+                                        <td> {{ item.product.price}} DT</td>
+                                        <td> {{ item.quantity}}</td>
+                                        <td> {{ item.product.price * item.quantity}} DT</td>
+                                        <td> 
+                                            <a href="{{path('cart_remove', {'id': item.product.id})}}" class="btn btn-danger btn-sm">
+                                                <i class="fas fa-trash"> </i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3" class="class text-right">Total :  </td>
+                                    <td>{{ total }} DT</td>
+                                    <td> <a href="{{path('')}}" class="btn btn-primary"> </a></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                    {% else %}
+                        <p> <h1> The cart is empty!!! </h1> </p>
+                    {% endif %}
+
+            </div>
+        </div>
+{% endblock %}
