@@ -6,6 +6,7 @@ use App\Entity\OffreEmploi;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+
 /**
  * @method OffreEmploi|null find($id, $lockMode = null, $lockVersion = null)
  * @method OffreEmploi|null findOneBy(array $criteria, array $orderBy = null)
@@ -47,4 +48,12 @@ class OffreEmploiRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function countj()
+    {
+        return $this->createQueryBuilder('u')
+            ->select('count(u.idOffre)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

@@ -23,7 +23,7 @@
 
     <!-- PAGE TITLE HERE -->
     <title>
-      JobIni
+      Jobini
     </title>
 
     <!-- MOBILE SPECIFIC -->
@@ -154,7 +154,7 @@
                         </a>
                       </li>
                       <li>
-                        <a href="{{ asset('managejobs') }}" class="dez-page">
+                        <a href="{{ asset('joblist') }}" class="dez-page">
                           CV Manager <span class="new-page">New</span>
                         </a>
                       </li>
@@ -186,7 +186,7 @@
                         </a>
                       </li>
                       <li>
-                        <a href="managejobs" class="dez-page">
+                        <a href="joblist" class="dez-page">
                           Manage jobs <span class="new-page">New</span>
                         </a>
                       </li>
@@ -227,7 +227,7 @@
                         </a>
                         <ul class="sub-menu">
                           <li>
-                            <a href="browse-job-list.html" class="dez-page">
+                            <a href="browsejob" class="dez-page">
                               browse job list
                             </a>
                           </li>
@@ -256,7 +256,7 @@
                         </a>
                         <ul class="sub-menu">
                           <li>
-                            <a href="category-all-jobs.html" class="dez-page">
+                            <a href="browsejob" class="dez-page">
                               all jobs <span class="new-page">New</span>
                             </a>
                           </li>
@@ -491,12 +491,16 @@
                     <div class="job-bx-title clearfix">
                       <h5 class="font-weight-700 pull-left text-uppercase">
                         Post A Job
+                        
                       </h5>
                       <a href="company-profile.html"
                         class="site-button right-arrow button-sm float-right">
                         Back
                       </a>
                     </div>{{ form_start(form) }}
+                    <element class="expired pending">
+                        {{ message }}
+                    </element>
                     <form>
                       <div class="row">
                         <div class="col-lg-6 col-md-6">

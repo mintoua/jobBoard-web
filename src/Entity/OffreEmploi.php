@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\OffreEmploiRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=OffreEmploiRepository::class)
@@ -17,11 +18,12 @@ class OffreEmploi
      */
     private $idOffre;
 
+
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="offres")
+     * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=true)
      */
-    private $idRecruteur;
+    private $idCandidat;
 
     /**
      * @ORM\Column(type="string", length=20)
@@ -30,6 +32,7 @@ class OffreEmploi
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\NotBlank(message="title is required."))
      */
     private $poste;
 
@@ -53,11 +56,6 @@ class OffreEmploi
      */
     private $categorie;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class)
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $idCandidat;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -80,9 +78,14 @@ class OffreEmploi
     private $file;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=true)
+     * @ORM\Column(type="string", length=50, nullable=false)
      */
     private $email;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="offreEmplois")
+     */
+    private $idRecruteur;
 
     public function getIdOffre(): ?int
     {

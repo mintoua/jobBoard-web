@@ -10,6 +10,8 @@
 namespace App\Entity;
 
 use App\Validator\Constraints\ComplexPassword;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
@@ -109,6 +111,16 @@ class User implements AdvancedUserInterface, \Serializable
      * @ORM\Column(type="string", nullable=true)
      */
     private $phone;
+
+    /**
+     * @ORM\OneToMany(targetEntity=OffreEmploi::class, mappedBy="idRecruteur")
+     */
+    private $offreEmplois;
+
+    public function __construct()
+    {
+        $this->offreEmplois = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -409,5 +421,35 @@ class User implements AdvancedUserInterface, \Serializable
     public function getActivatedAt(): ?\DateTimeInterface
     {
         return $this->activatedAt;
+    }
+
+    /**
+     * @return Collection|OffreEmploi[]
+     */
+    public function getOffreEmplois(): Collection
+    {
+        return $this->offreEmplois;
+    }
+
+    public function addOffreEmploi(OffreEmploi $offreEmploi): self
+    {
+        if (!$this->offreEmplois->contains($offreEmploi)) {
+            $this->offreEmplois[] = $offreEmploi;
+            $offreEmploi->setIdRecruteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffreEmploi(OffreEmploi $offreEmploi): self
+    {
+        if ($this->offreEmplois->removeElement($offreEmploi)) {
+            // set the owning side to null (unless already changed)
+            if ($offreEmploi->getIdRecruteur() === $this) {
+                $offreEmploi->setIdRecruteur(null);
+            }
+        }
+
+        return $this;
     }
 }

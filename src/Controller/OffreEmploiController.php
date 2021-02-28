@@ -18,41 +18,28 @@ class OffreEmploiController extends AbstractController
         $offre = new OffreEmploi();
         $form = $this->createForm(OffreEmploiType::class, $offre);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        $datenow = new \DateTime('now');
+        $con = ($offre->getDateExpiration() > $datenow) && ($offre->getMinSalary() <= $offre->getMaxSalary());
+        if ($con && $form->isSubmitted()) {
             $em = $this->getDoctrine()->getManager();
             $offre->setIdRecruteur(null);
             $offre->setIdCandidat(null);
             $offre->setDateDebut(new \DateTime('now'));
             $em->persist($offre);
             $em->flush();
+            $this->addFlash(
+                'success',
+                'Job added !'
+            );
             return $this->redirectToRoute('joblist');
+        } else if ($form->isSubmitted()) {
+            return $this->render('offre_emploi/postjob.html.twig', [
+                'form' => $form->createView(), 'message' => 'Check your fields !'
+            ]);
         }
 
         return $this->render('offre_emploi/postjob.html.twig', [
-            'form' => $form->createView()
-        ]);
-    }
-
-    /**
-     * @Route("/managejobs", name="managejobs")
-     */
-    public function managejob(Request $request)
-    {
-        $offre = new OffreEmploi();
-        $form = $this->createForm(OffreEmploiType::class, $offre);
-        $form->handleRequest($request);
-        if ($form->isSubmitted()) {
-            $em = $this->getDoctrine()->getManager();
-            $offre->setIdRecruteur(null);
-            $offre->setIdCandidat(null);
-            $offre->setDateDebut(new \DateTime('now'));
-            $em->persist($offre);
-            $em->flush();
-            return $this->redirect('joblist');
-        }
-
-        return $this->render('offre_emploi/managejob.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(), 'message' => ''
         ]);
     }
 
@@ -65,6 +52,19 @@ class OffreEmploiController extends AbstractController
         $jobs = $r->findAll();
         return $this->render('offre_emploi/managejob.html.twig', [
             'list' => $jobs
+        ]);
+    }
+
+    /**
+     * @Route("/browsejob", name="browsejob")
+     */
+    public function browsejob()
+    {
+        $r = $this->getDoctrine()->getRepository(OffreEmploi::class);
+        $jobs = $r->findAll();
+        $nb = $r->countj();
+        return $this->render('offre_emploi/browsejob.html.twig', [
+            'list' => $jobs, 'nb' => $nb
         ]);
     }
 
@@ -92,7 +92,7 @@ class OffreEmploiController extends AbstractController
 
 
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($job);
             $em->flush();
