@@ -36,4 +36,11 @@ class CartController extends AbstractController
         $cartService->remove($id);
         return $this->redirectToRoute("cart");
      }
+
+     /**
+      * @Route("/cart/addProductCart", name="addProductCart")
+      */
+      public function addProductCart(CartService $cartService){
+        
+      }
 }

@@ -10,17 +10,17 @@
 namespace App\Service\Cart;
 
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use App\Repository\ProductRepository;
+use App\Repository\ProductsRepository;
 
 class CartService{
 
     protected $session;
-    protected $productRepository;
+    protected $productsRepository;
 
-    public function __construct(SessionInterface $session, ProductRepository $productRepository){
+    public function __construct(SessionInterface $session, ProductsRepository $productsRepository){
 
         $this->session = $session;
-        $this->productRepository = $productRepository;
+        $this->productsRepository = $productsRepository;
     }
 
     public function add(int $id){
@@ -53,7 +53,7 @@ class CartService{
 
         foreach($panier as $id => $quantity){
             $panierWithData[]=[
-                'product' => $this->productRepository->find($id),
+                'product' => $this->productsRepository->find($id),
                 'quantity'=> $quantity
             ];
         }
@@ -70,10 +70,17 @@ class CartService{
             $price = $item['product']->getPrice();
             $totalItem = $price * $item['quantity'];
             $total += $totalItem;
-            dump($item['product']);
-            dump($item['product']->getPrice());
+          
         }
         
         return $total;
+    }
+
+    public function clearCart(){
+        $panierWithData = $this->getFullCart();
+        foreach($panierWithData as $item){
+            unset($item['product']);
+            unset($item['quantity']);
+        }
     }
 }

@@ -2,13 +2,15 @@
 
 namespace App\Controller;
 
-use App\Entity\Product;
+
+use App\Entity\Products;
 use App\Form\ProductType;
-use App\Repository\ProductRepository;
+
+use App\Repository\ProductsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+
 use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends AbstractController
@@ -18,7 +20,7 @@ class ProductController extends AbstractController
      */
     public function index()
     {
-        $read = $this->getDoctrine()->getRepository(Product::class);
+        $read = $this->getDoctrine()->getRepository(Products::class);
         $products= $read->findAll();
 
         return $this->render('product/index.html.twig', [
@@ -31,13 +33,13 @@ class ProductController extends AbstractController
      */
 
     public function createProduct(Request $request){
-        $product =new Product();
+        $product =new Products();
 
         $form = $this->createForm(ProductType::class,$product);
         $form
         ->add('Add',SubmitType::class,[
             'label'=>'Add',
-            'attr'=>['class'=>'btn btn-primary mt-3']
+            'attr'=>['class'=>'btn btn-primary']
             ]);
         $form->handleRequest($request);
 
@@ -53,12 +55,13 @@ class ProductController extends AbstractController
     return $this->render('product/newProduct.html.twig',['form'=>$form->createView()]);
 
     }
+    
     /**
      * 
      *@Route("/product_list", name="product_list")
      */
     public function readProducts(){
-        $read = $this->getDoctrine()->getRepository(Product::class);
+        $read = $this->getDoctrine()->getRepository(Products::class);
         $products = $read->findAll();
 
         return $this->render('product/readProduct.html.twig',
@@ -68,7 +71,7 @@ class ProductController extends AbstractController
     /**
      *@Route("/product/updateProduct/{id}", name="updateProduct")
      */
-    public function updateProduct(Request $request, $id, ProductRepository $rep){
+    public function updateProduct(Request $request, $id, ProductsRepository $rep){
         $product = $rep->find($id);
         $form = $this->createForm(ProductType::class,$product);
         $form->add('Save',SubmitType::class,[
@@ -90,7 +93,7 @@ class ProductController extends AbstractController
      * @Route("/deleteProduct/{id}", name="deleteProduct")
      */
 
-    public function deleteProduct($id, ProductRepository $rep){
+    public function deleteProduct($id, ProductsRepository $rep){
         $product = $rep->find($id);
         $em = $this->getDoctrine()->getManager();
         $em->remove($product);

@@ -1,9 +1,19 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseback.html.twig' %}
 
-{% block title %} Product Controller! {% endblock %}
+{% block contentHeader %}
+           <div class="breadcrumb-holder">
+        <div class="container-fluid">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('back_end') }}">Home</a></li>
+            <li class="breadcrumb-item active">Store Management</li>
+            <li class="breadcrumb-item active">Products</li>
+          </ul>
+        </div>
+      </div>
+{% endblock %}
 
-{%  block body %}
-    <h> Products</h>
+{%  block content %}
+    
     <a href="{{ path('new_product') }}" class="btn btn-primary nav-link">New Product</a>
     {% if products %}
         <table id="classrooms" class="table table-striped">
@@ -11,7 +21,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Desc </th>
+                    <th>Description </th>
                     <th>Réference </th>
                     <th>Quantité </th>
                     <th>Prix </th>

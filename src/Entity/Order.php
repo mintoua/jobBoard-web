@@ -21,6 +21,7 @@ class Order
     /**
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(name="idUser",referencedColumnName="id",nullable=false)
+     * @ORM\Column(type="integer")
      */
     private $idUser;
 
@@ -39,17 +40,24 @@ class Order
      */
     private $date;
 
+    function __construct($idUser,$totalPayment,$state,$date){
+        $this->setIdUser($idUser);
+        $this->setTotalPayment($totalPayment);
+        $this->setState($state);
+        $this->setDate($date);
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getIdUser(): ?User
+    public function getIdUser()
     {
         return $this->idUser;
     }
 
-    public function setIdUser(?User $idUser): self
+    public function setIdUser($idUser)
     {
         $this->idUser = $idUser;
 

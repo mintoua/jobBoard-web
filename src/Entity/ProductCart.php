@@ -24,7 +24,7 @@ class ProductCart
     private $idOrder;
 
     /**
-     * @ORM\OneToOne(targetEntity=Product::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Products::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="idProduct",referencedColumnName="id",nullable=false)
      */
     private $idProduct;
@@ -33,6 +33,12 @@ class ProductCart
      * @ORM\Column(type="integer")
      */
     private $quantity;
+
+    function __construct($idOrder,$idProduct,$quantity){
+        $this->setIdOrder($idOrder);
+        $this->setIdProduct($idProduct);
+        $this->setQuantity($quantity);
+    }
 
     public function getId(): ?int
     {
@@ -44,7 +50,7 @@ class ProductCart
         return $this->idOrder;
     }
 
-    public function setIdOrder(Order $idOrder): self
+    public function setIdOrder($idOrder): self
     {
         $this->idOrder = $idOrder;
 
@@ -56,7 +62,7 @@ class ProductCart
         return $this->idProduct;
     }
 
-    public function setIdProduct(Product $idProduct): self
+    public function setIdProduct($idProduct): self
     {
         $this->idProduct = $idProduct;
 
