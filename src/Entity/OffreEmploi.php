@@ -27,27 +27,64 @@ class OffreEmploi
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Assert\NotBlank(message="title is required."))
+     * @Assert\Length(
+     *      min = "6",
+     *      max = "50",
+     *      minMessage = "{{ limit }} is the min letters"
+     * )
      */
     private $titre;
 
     /**
      * @ORM\Column(type="string", length=30)
-     * @Assert\NotBlank(message="title is required."))
+     * @Assert\NotBlank(message="poste is required."))
+     * @Assert\Length(
+     *      min = "6",
+     *      max = "50",
+     *      minMessage = "{{ limit }} is the min letters"
+     * )
+     * @Assert\NotBlank(message="Email is required")
      */
     private $poste;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      min = "8",
+     *      max = "50",
+     *      minMessage = "{{ limit }} is the min letters"
+     * )
      */
     private $description;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\Type(
+     *      type = "\DateTime",
+     *      message = "vacancy.date.valid",
+     * )
+     * @Assert\GreaterThanOrEqual(
+     *      value = "today",
+     *      message = "vacancy.date.not_today"
+     * )
      */
     private $date_debut;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\Type(
+     *      type = "\DateTime",
+     *      message = "vacancy.date.valid",
+     * )
+     * @Assert\GreaterThanOrEqual(
+     *      value = "today",
+     *      message = "vacancy.date.not_today"
+     * )
+     * @Assert\Expression(
+     *     "this.getDateExpiration() >= this.getDateDebut()",
+     *     message="expiration date nedds to be greater than today"
+     * )
      */
     private $date_expiration;
 
@@ -59,11 +96,29 @@ class OffreEmploi
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * * @Assert\Range(
+     *      min = 100,
+     *      max = 9999,
+     *      notInRangeMessage = "You must be between {{ min }} $ and {{ max }} $ ",
+     * )
+     * @Assert\Expression(
+     *     "this.getMaxSalary() <= this.getMinSalary()",
+     *     message="min salary is bigger than max salary"
+     * )
      */
     private $maxSalary;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * * @Assert\Range(
+     *      min = 100,
+     *      max = 9999,
+     *      notInRangeMessage = "You must be between {{ min }} $ and {{ max }} $ ",
+     * )
+     * @Assert\Expression(
+     *     "this.getMaxSalary() <= this.getMinSalary()",
+     *     message="min salary is bigger than max salary"
+     * )
      */
     private $minSalary;
 
@@ -79,6 +134,8 @@ class OffreEmploi
 
     /**
      * @ORM\Column(type="string", length=50, nullable=false)
+     * @Assert\NotBlank(message="Email is required")
+     * @Assert\Email(message = "The email '{{ value }}' is not a valid email.")
      */
     private $email;
 

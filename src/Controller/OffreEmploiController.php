@@ -18,25 +18,26 @@ class OffreEmploiController extends AbstractController
         $offre = new OffreEmploi();
         $form = $this->createForm(OffreEmploiType::class, $offre);
         $form->handleRequest($request);
-        $datenow = new \DateTime('now');
-        $con = ($offre->getDateExpiration() > $datenow) && ($offre->getMinSalary() <= $offre->getMaxSalary());
-        if ($con && $form->isSubmitted()) {
-            $em = $this->getDoctrine()->getManager();
-            $offre->setIdRecruteur(null);
-            $offre->setIdCandidat(null);
-            $offre->setDateDebut(new \DateTime('now'));
-            $em->persist($offre);
-            $em->flush();
-            $this->addFlash(
-                'success',
-                'Job added !'
-            );
-            return $this->redirectToRoute('joblist');
-        } else if ($form->isSubmitted()) {
-            return $this->render('offre_emploi/postjob.html.twig', [
-                'form' => $form->createView(), 'message' => 'Check your fields !'
-            ]);
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $offre->setIdRecruteur(null);
+                $offre->setIdCandidat(null);
+                $offre->setDateDebut(new \DateTime('now'));
+                $em->persist($offre);
+                $em->flush();
+                $this->addFlash(
+                    'success',
+                    'Job added !'
+                );
+                return $this->redirectToRoute('joblist');
+            } else {
+                return $this->render('offre_emploi/postjob.html.twig', [
+                    'form' => $form->createView(), 'message' => 'Check your fields !'
+                ]);
+            }
         }
+
 
         return $this->render('offre_emploi/postjob.html.twig', [
             'form' => $form->createView(), 'message' => ''

@@ -186,11 +186,6 @@
                         <a href="joblist" class="dez-page">
                           Manage jobs <span class="new-page">New</span>
                         </a>
-                        <a>
-                          {% for a in app.flashes('success') %}
-                              {{ a }}lol
-                          {% endfor %}
-                        </a>
                       </li>
                       <li>
                         <a href="company-transactions.html" class="dez-page">
@@ -494,6 +489,14 @@
                       <h5 class="font-weight-700 pull-left text-uppercase">
                         Manage jobs
                       </h5>
+                        </br><h5 class="font-weight-700 pull-left text-uppercase">
+                        {% for a in app.flashes('success') %}
+                          <div class="expired success">
+                              {{ a }}
+                          </div>
+                          {% endfor %}
+                      </h5>
+                          
                       <div class="float-right">
                         <span class="select-title">Sort by freshness</span>
                         <select>
