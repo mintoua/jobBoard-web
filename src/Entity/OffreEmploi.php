@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\OffreEmploiRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -16,7 +18,7 @@ class OffreEmploi
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $idOffre;
+    private $id;
 
 
     /**
@@ -144,16 +146,19 @@ class OffreEmploi
      */
     private $idRecruteur;
 
-    public function getIdOffre(): ?int
+    /**
+     * @ORM\OneToMany(targetEntity=DemandeRecrutement::class, mappedBy="offre", orphanRemoval=true)
+     */
+    private $applies;
+
+    public function __construct()
     {
-        return $this->idOffre;
+        $this->applies = new ArrayCollection();
     }
 
-    public function setIdOffre(int $idOffre): self
+    public function getId()
     {
-        $this->idOffre = $idOffre;
-
-        return $this;
+        return $this->id;
     }
 
     public function getIdRecruteur(): ?User
@@ -308,6 +313,36 @@ class OffreEmploi
     public function setEmail(?string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DemandeRecrutement[]
+     */
+    public function getApplies(): Collection
+    {
+        return $this->applies;
+    }
+
+    public function addApply(DemandeRecrutement $apply): self
+    {
+        if (!$this->applies->contains($apply)) {
+            $this->applies[] = $apply;
+            $apply->setOffre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApply(DemandeRecrutement $apply): self
+    {
+        if ($this->applies->removeElement($apply)) {
+            // set the owning side to null (unless already changed)
+            if ($apply->getOffre() === $this) {
+                $apply->setOffre(null);
+            }
+        }
 
         return $this;
     }

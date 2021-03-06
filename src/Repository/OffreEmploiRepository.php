@@ -52,7 +52,20 @@ class OffreEmploiRepository extends ServiceEntityRepository
     public function countj()
     {
         return $this->createQueryBuilder('u')
-            ->select('count(u.idOffre)')
+            ->select('count(u.id)')
+            ->where('u.date_expiration > CURRENT_DATE() ')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function countsearch($title, $location, $secteur)
+    {
+        return $this->createQueryBuilder('u')
+            ->select('count(u.id)')
+            ->where('u.titre = :t and u.location = :l and u.categorie = :s')
+            ->setParameter(':t', $title)
+            ->setParameter(':l', $location)
+            ->setParameter(':s', $secteur)
             ->getQuery()
             ->getSingleScalarResult();
     }

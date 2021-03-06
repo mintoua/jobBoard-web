@@ -7,6 +7,7 @@ use App\Form\OffreEmploiType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\OffreEmploiRepository;
 
 class OffreEmploiController extends AbstractController
 {
@@ -26,10 +27,6 @@ class OffreEmploiController extends AbstractController
                 $offre->setDateDebut(new \DateTime('now'));
                 $em->persist($offre);
                 $em->flush();
-                $this->addFlash(
-                    'success',
-                    'Job added !'
-                );
                 return $this->redirectToRoute('joblist');
             } else {
                 return $this->render('offre_emploi/postjob.html.twig', [
@@ -37,8 +34,32 @@ class OffreEmploiController extends AbstractController
                 ]);
             }
         }
+        return $this->render('offre_emploi/postjob.html.twig', [
+            'form' => $form->createView(), 'message' => ''
+        ]);
+    }
 
-
+    /**
+     * @Route("/modify/{id}", name="modify")
+     */
+    public function modjob(Request $request, $id)
+    {
+        $r = $this->getDoctrine()->getRepository(OffreEmploi::class);
+        $job = $r->find($id);
+        $form = $this->createForm(OffreEmploiType::class, $job);
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($job);
+                $em->flush();
+                return $this->redirectToRoute('joblist');
+            } else {
+                return $this->render('offre_emploi/postjob.html.twig', [
+                    'form' => $form->createView(), 'message' => 'Check your fields !'
+                ]);
+            }
+        }
         return $this->render('offre_emploi/postjob.html.twig', [
             'form' => $form->createView(), 'message' => ''
         ]);
@@ -50,7 +71,7 @@ class OffreEmploiController extends AbstractController
     public function readjob()
     {
         $r = $this->getDoctrine()->getRepository(OffreEmploi::class);
-        $jobs = $r->findAll();
+        $jobs = $r->findBy([], ['date_debut' => 'DESC']);
         return $this->render('offre_emploi/managejob.html.twig', [
             'list' => $jobs
         ]);
@@ -62,7 +83,7 @@ class OffreEmploiController extends AbstractController
     public function browsejob()
     {
         $r = $this->getDoctrine()->getRepository(OffreEmploi::class);
-        $jobs = $r->findAll();
+        $jobs = $r->findBy([], ['date_debut' => 'DESC']);
         $nb = $r->countj();
         return $this->render('offre_emploi/browsejob.html.twig', [
             'list' => $jobs, 'nb' => $nb
@@ -82,26 +103,20 @@ class OffreEmploiController extends AbstractController
     }
 
     /**
-     * @Route("/modify/{id}", name="modify")
+     * @Route("/search", name="search")
      */
-    public function modjob(Request $request, $id)
+    public function searchjob(Request $request)
     {
+        $title = $request->request->get('titre');
+        $location = $request->request->get('location');
+        $secteur = $request->request->get('secteur');
+
         $r = $this->getDoctrine()->getRepository(OffreEmploi::class);
-        $job = $r->find($id);
+        $jobs = $r->findBy(['titre' => $title, 'categorie' => $secteur, 'location' => $location]);
+        $nb = $r->countsearch($title, $location, $secteur);
 
-        $form = $this->createForm(OffreEmploiType::class, $job);
-
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($job);
-            $em->flush();
-            return $this->redirectToRoute('joblist');
-        }
-
-        return $this->render('offre_emploi/postjob.html.twig', [
-            'form' => $form->createView(),
+        return $this->render('offre_emploi/browsejob.html.twig', [
+            'list' => $jobs, 'nb' => $nb
         ]);
     }
 }

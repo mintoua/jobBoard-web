@@ -14,11 +14,11 @@
 
     <!-- FAVICONS ICON -->
     <link rel="icon"
-      href="{{ asset('frontOffice/images/favicon.ico') }}"
+      href="{{ asset('frontOffice/') }}images/favicon.ico"
       type="image/x-icon" />
     <link rel="shortcut icon"
       type="image/x-icon"
-      href="{{ asset('frontOffice/images/favicon.png') }}" />
+      href="{{ asset('frontOffice/') }}images/favicon.png" />
     <title>
       {% block title %}
         Jobini
@@ -27,36 +27,33 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!--        [if lt IE 9]>
-    <script src="{{ asset('frontOffice/js/html5shiv.min.js') }}"></script>
-    <script src="{{ asset('frontOffice/js/respond.min.js') }}"></script>
-    <![endif]        -->
-    <!-- STYLESHEETS -->
+    <script src="{{ asset('frontOffice/') }}js/html5shiv.min.js"></script>
+    <script src="{{ asset('frontOffice/') }}js/respond.min.js"></script>
 
     {% block stylesheets %}
       <link rel="stylesheet"
         type="text/css"
-        href="{{ asset('frontOffice/css/plugins.min.css') }}" />
+        href="{{ asset('frontOffice/') }}css/plugins.min.css" />
       <link rel="stylesheet"
         type="text/css"
         href="{{
         asset(
-          'frontOffice/plugins/fontawesome/css/font-awesome.min.css'
+          'frontOffice'
         )
-        }}" />
+        }}/plugins/fontawesome/css/font-awesome.min.css" />
       <link rel="stylesheet"
         type="text/css"
-        href="{{ asset('frontOffice/plugins/themify/themify-icons.css') }}" />
+        href="{{ asset('frontOffice/') }}plugins/themify/themify-icons.css" />
       <link rel="stylesheet"
         type="text/css"
-        href="{{ asset('frontOffice/css/style.min.css') }}" />
+        href="{{ asset('frontOffice/') }}css/style.min.css" />
       <link rel="stylesheet"
         type="text/css"
-        href="{{ asset('frontOffice/css/templete.min.css') }}" />
+        href="{{ asset('frontOffice/') }}css/templete.min.css" />
       <link class="skin"
         rel="stylesheet"
         type="text/css"
-        href="{{ asset('frontOffice/css/skin/skin-1.min.css') }}" />
+        href="{{ asset('frontOffice/') }}css/skin/skin-1.min.css" />
       <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&amp;family=Montserrat:wght@100;200;300;400;500;600;700;800;900&amp;family=Open+Sans:wght@300;400;600;700;800&amp;family=Roboto:wght@100&amp;family=Rubik:wght@300;400;500;700;900&amp;display=swap"
         rel="stylesheet" />
     {% endblock %}
@@ -112,51 +109,92 @@
                       {% endif %}
                     </div>
                   </div>
-
-                  <!--         Modal A compléte
-                                <div class="modal fade lead-form-modal" id="car-details" tabindex="-1" role="dialog">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                            <div class="modal-body row m-a0 clearfix">
-                                                <div class="col-lg-6 col-md-6 overlay-primary-dark d-flex p-a0"
-                                                     style="background-image: url({{ asset('frontOffice/') }}images/background/bg3.jpg);  background-position:center; background-size:cover;">
-                                                    <div class="form-info text-white align-self-center">
-                                                        <h3 class="m-b15">Login To You Now</h3>
-                                                        <p class="m-b15">Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                            industry has been the industry.</p>
-                                                        <ul class="list-inline m-a0">
-                                                            <li><a href="#" class="m-r10 text-white"><i class="fa fa-facebook"></i></a></li>
-                                                            <li><a href="#" class="m-r10 text-white"><i class="fa fa-google-plus"></i></a></li>
-                                                            <li><a href="#" class="m-r10 text-white"><i class="fa fa-linkedin"></i></a></li>
-                                                            <li><a href="#" class="m-r10 text-white"><i class="fa fa-instagram"></i></a></li>
-                                                            <li><a href="#" class="m-r10 text-white"><i class="fa fa-twitter"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 p-a0">
-                                                    <div class="lead-form browse-job text-left">
-                                                        <form>
-                                                            <h3 class="m-t0">Personal Details</h3>
-                                                            <div class="form-group">
-                                                                <input value="" class="form-control" placeholder="Name"/>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <input value="" class="form-control" placeholder="Mobile Number"/>
-                                                            </div>
-                                                            <div class="clearfix">
-                                                                <button type="button" class="btn-primary site-button btn-block">Submit</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                  <div class="modal fade lead-form-modal"
+                    id="car-details"
+                    tabindex="-1"
+                    role="dialog">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <button type="button"
+                          class="close"
+                          data-dismiss="modal"
+                          aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        {#   <div class="modal-body row m-a0 clearfix">
+                          <div class="col-lg-6 col-md-6 overlay-primary-dark d-flex p-a0"
+                            style="background-image: url({{
+                            asset(
+                              'frontOffice/'
+                            )
+                            }}images/background/bg3.jpg);  background-position:center; background-size:cover;">
+                            <div class="form-info text-white align-self-center">
+                              <h3 class="m-b15">
+                                Login To You Now
+                              </h3>
+                              <p class="m-b15">
+                                Lorem Ipsum is simply dummy text of the printing
+                                and typesetting industry has been the industry.
+                              </p>
+                              <ul class="list-inline m-a0">
+                                <li>
+                                  <a href="#" class="m-r10 text-white">
+                                    <i class="fa fa-facebook"></i>
+                                  </a>
+                                </li>
+                                <li>
+                                  <a href="#" class="m-r10 text-white">
+                                    <i class="fa fa-google-plus"></i>
+                                  </a>
+                                </li>
+                                <li>
+                                  <a href="#" class="m-r10 text-white">
+                                    <i class="fa fa-linkedin"></i>
+                                  </a>
+                                </li>
+                                <li>
+                                  <a href="#" class="m-r10 text-white">
+                                    <i class="fa fa-instagram"></i>
+                                  </a>
+                                </li>
+                                <li>
+                                  <a href="#" class="m-r10 text-white">
+                                    <i class="fa fa-twitter"></i>
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="col-lg-6 col-md-6 p-a0">
+                            <div class="lead-form browse-job text-left">
+                              <form>
+                                <h3 class="m-t0">
+                                  Personal Details
+                                </h3>
+                                <div class="form-group">
+                                  <input value=""
+                                    class="form-control"
+                                    placeholder="Name" />
                                 </div>
-        -->
+                                <div class="form-group">
+                                  <input value=""
+                                    class="form-control"
+                                    placeholder="Mobile Number" />
+                                </div>
+                                <div class="clearfix">
+                                  <button type="button"
+                                    class="btn-primary site-button btn-block">
+                                    Submit
+                                  </button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                        #}
+                      </div>
+                    </div>
+                  </div>
                   <div class="header-nav navbar-collapse collapse justify-content-start"
                     id="navbarNavDropdown">
                     <ul class="nav navbar-nav">
@@ -197,6 +235,11 @@
                             </a>
                           </li>
                           <li>
+                            <a href="jobs-profile.html" class="dez-page">
+                              Apply To A Job<span class="new-page">New</span>
+                            </a>
+                          </li>
+                          <li>
                             <a href="jobs-saved-jobs.html" class="dez-page">
                               Saved Job <span class="new-page">New</span>
                             </a>
@@ -232,12 +275,12 @@
                             </a>
                           </li>
                           <li>
-                            <a href="index.php/addjob" class="dez-page">
+                            <a href="addjob" class="dez-page">
                               Post A Jobs <span class="new-page">New</span>
                             </a>
                           </li>
                           <li>
-                            <a href="index.php/joblist" class="dez-page">
+                            <a href="joblist" class="dez-page">
                               Manage jobs <span class="new-page">New</span>
                             </a>
                           </li>
@@ -605,7 +648,7 @@
         <button class="scroltop fa fa-arrow-up"></button>
       </div>
     </body>
-    <script src="frontOffice/js/combining.js"></script>
+    <script src="{{ asset('frontOffice/') }}js/combining.js"></script>
     <!-- COMBINING JS -->
   {% endblock %}
 </html>

@@ -117,9 +117,15 @@ class User implements AdvancedUserInterface, \Serializable
      */
     private $offreEmplois;
 
+    /**
+     * @ORM\OneToMany(targetEntity=DemandeRecrutement::class, mappedBy="candidat")
+     */
+    private $applies;
+
     public function __construct()
     {
         $this->offreEmplois = new ArrayCollection();
+        $this->applies = new ArrayCollection();
     }
 
     /**
@@ -447,6 +453,36 @@ class User implements AdvancedUserInterface, \Serializable
             // set the owning side to null (unless already changed)
             if ($offreEmploi->getIdRecruteur() === $this) {
                 $offreEmploi->setIdRecruteur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DemandeRecrutement[]
+     */
+    public function getApplies(): Collection
+    {
+        return $this->applies;
+    }
+
+    public function addApply(DemandeRecrutement $apply): self
+    {
+        if (!$this->applies->contains($apply)) {
+            $this->applies[] = $apply;
+            $apply->setCandidat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApply(DemandeRecrutement $apply): self
+    {
+        if ($this->applies->removeElement($apply)) {
+            // set the owning side to null (unless already changed)
+            if ($apply->getCandidat() === $this) {
+                $apply->setCandidat(null);
             }
         }
 

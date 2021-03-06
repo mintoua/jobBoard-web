@@ -16,13 +16,19 @@
                 50,000
               </span> Open Jobs.
             </h2>
-            <form class="dezPlaceAni">
+            <form class="dezPlaceAni"
+              id="myForm"
+              method="POST"
+              action="{{ path('search') }}">
               <div class="row">
                 <div class="col-lg-4 col-md-6">
                   <div class="form-group">
                     <label>Job Title, Keywords, or Phrase</label>
                     <div class="input-group">
-                      <input type="text" class="form-control" placeholder="" />
+                      <input type="text"
+                        name="titre"
+                        class="form-control"
+                        placeholder="" />
                       <div class="input-group-append">
                         <span class="input-group-text">
                           <i class="fa fa-search"></i>
@@ -35,7 +41,10 @@
                   <div class="form-group">
                     <label>City, State or ZIP</label>
                     <div class="input-group">
-                      <input type="text" class="form-control" placeholder="" />
+                      <input type="text"
+                        name="location"
+                        class="form-control"
+                        placeholder="" />
                       <div class="input-group-append">
                         <span class="input-group-text">
                           <i class="fa fa-map-marker"></i>
@@ -46,50 +55,25 @@
                 </div>
                 <div class="col-lg-3 col-md-6">
                   <div class="form-group">
-                    <select>
-                      <option>
-                        Select Sector
-                      </option>
-                      <option>
-                        Construction
-                      </option>
-                      <option>
-                        Corodinator
-                      </option>
-                      <option>
-                        Employer
-                      </option>
-                      <option>
-                        Financial Career
-                      </option>
-                      <option>
-                        Information Technology
-                      </option>
-                      <option>
-                        Marketing
-                      </option>
-                      <option>
-                        Quality check
-                      </option>
-                      <option>
-                        Real Estate
-                      </option>
-                      <option>
-                        Sales
-                      </option>
-                      <option>
-                        Supporting
-                      </option>
-                      <option>
-                        Teaching
-                      </option>
-                    </select>
+                    <label>Categorie</label>
+                    <div class="input-group">
+                      <input type="text"
+                        name="secteur"
+                        class="form-control"
+                        placeholder="" />
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <i class="fa fa-map-marker"></i>
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="col-lg-2 col-md-6">
                   <button type="submit"
-                    href="error-404.html"
-                    class="site-button btn-block">
+                    href="{{ path('search') }}"
+                    class="site-button btn-block"
+                    id="button_save">
                     Find Job
                   </button>
                 </div>
