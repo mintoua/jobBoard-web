@@ -49,11 +49,12 @@ class OffreEmploiRepository extends ServiceEntityRepository
     }
     */
 
-    public function countj()
+    public function countj($filtre)
     {
         return $this->createQueryBuilder('u')
             ->select('count(u)')
-            ->where('u.date_expiration > CURRENT_DATE() ')
+            ->where('u.date_expiration > CURRENT_DATE() and u.titre LIKE :fil')
+            ->setParameter('fil', '%' . $filtre . '%')
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -78,6 +79,21 @@ class OffreEmploiRepository extends ServiceEntityRepository
             ->setParameter(':t', '%' . $title . '%')
             ->setParameter(':l', '%' . $location . '%')
             ->setParameter(':s', '%' . $secteur . '%')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getdonn($filtre = null)
+    {
+        $query = $this->createQueryBuilder('u')
+            ->where(' u.date_expiration > CURRENT_DATE()');
+
+        if ($filtre != null) {
+            $query->andWhere('u.titre LIKE :t')
+                ->setParameter(':t', '%' . $filtre . '%');
+        }
+
+        return $query->orderBy('u.date_debut', 'DESC')
             ->getQuery()
             ->getResult();
     }

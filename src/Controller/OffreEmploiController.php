@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class OffreEmploiController extends AbstractController
 {
@@ -88,9 +89,21 @@ class OffreEmploiController extends AbstractController
     public function browsejob(Request $request, PaginatorInterface $pag)
     {
         $r = $this->getDoctrine()->getRepository(OffreEmploi::class);
-        $donnes = $r->findBy([], ['date_debut' => 'DESC']);
+        $filtre = $request->get("searchaj");
+
+        $donnes = $r->getdonn($filtre);
+
         $jobs = $pag->paginate($donnes, $request->query->getInt('page', 1), 4);
-        $nb = $r->countj();
+        $nb = $r->countj($filtre);
+
+        if ($request->get('ajax')) {
+            return new JsonResponse([
+                'content' => $this->renderView('offre_emploi/content.html.twig', [
+                    'list' => $jobs, 'nb' => $nb
+                ])
+            ]);
+        }
+
         return $this->render('offre_emploi/browsejob.html.twig', [
             'list' => $jobs, 'nb' => $nb
         ]);
