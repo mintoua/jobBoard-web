@@ -56,7 +56,7 @@
                     <li>
                       <a href="jobs-saved-jobs.html" class="active">
                         <i class="fa fa-heart-o" aria-hidden="true"></i>
-                        <span>Saved Jobs</span>
+                        <span>Applied Jobs</span>
                       </a>
                     </li>
                     <li>
@@ -179,21 +179,7 @@
                   </tbody>
                 </table>
                 <div class="pagination-bx float-right">
-                  <ul class="pagination">
-                    <li class="previous">
-                      <a href="javascript:void(0);">
-                        <i class="ti-arrow-left"></i> Prev
-                      </a>
-                    </li>
-                    <li class="active"><a href="javascript:void(0);">1</a></li>
-                    <li><a href="javascript:void(0);">2</a></li>
-                    <li><a href="javascript:void(0);">3</a></li>
-                    <li class="next">
-                      <a href="javascript:void(0);">
-                        Next <i class="ti-arrow-right"></i>
-                      </a>
-                    </li>
-                  </ul>
+                  {{ knp_pagination_render(list) }}
                 </div>
               </div>
               <!-- Modal -->

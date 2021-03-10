@@ -21,7 +21,7 @@
       href="{{ asset('frontOffice/') }}images/favicon.png" />
     <title>
       {% block title %}
-        Jobini
+        JobHub
       {% endblock %}
     </title>
 
@@ -121,77 +121,6 @@
                           aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
-                        {#   <div class="modal-body row m-a0 clearfix">
-                          <div class="col-lg-6 col-md-6 overlay-primary-dark d-flex p-a0"
-                            style="background-image: url({{
-                            asset(
-                              'frontOffice/'
-                            )
-                            }}images/background/bg3.jpg);  background-position:center; background-size:cover;">
-                            <div class="form-info text-white align-self-center">
-                              <h3 class="m-b15">
-                                Login To You Now
-                              </h3>
-                              <p class="m-b15">
-                                Lorem Ipsum is simply dummy text of the printing
-                                and typesetting industry has been the industry.
-                              </p>
-                              <ul class="list-inline m-a0">
-                                <li>
-                                  <a href="#" class="m-r10 text-white">
-                                    <i class="fa fa-facebook"></i>
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#" class="m-r10 text-white">
-                                    <i class="fa fa-google-plus"></i>
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#" class="m-r10 text-white">
-                                    <i class="fa fa-linkedin"></i>
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#" class="m-r10 text-white">
-                                    <i class="fa fa-instagram"></i>
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#" class="m-r10 text-white">
-                                    <i class="fa fa-twitter"></i>
-                                  </a>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                          <div class="col-lg-6 col-md-6 p-a0">
-                            <div class="lead-form browse-job text-left">
-                              <form>
-                                <h3 class="m-t0">
-                                  Personal Details
-                                </h3>
-                                <div class="form-group">
-                                  <input value=""
-                                    class="form-control"
-                                    placeholder="Name" />
-                                </div>
-                                <div class="form-group">
-                                  <input value=""
-                                    class="form-control"
-                                    placeholder="Mobile Number" />
-                                </div>
-                                <div class="clearfix">
-                                  <button type="button"
-                                    class="btn-primary site-button btn-block">
-                                    Submit
-                                  </button>
-                                </div>
-                              </form>
-                            </div>
-                          </div>
-                        </div>
-                        #}
                       </div>
                     </div>
                   </div>
@@ -199,15 +128,13 @@
                     id="navbarNavDropdown">
                     <ul class="nav navbar-nav">
                       <li class="active">
-                        <a href="#">Home <i class="fa fa-chevron-down"></i></a>
-                        <ul class="sub-menu">
-                          <li>
-                            <a href="index-2.html" class="dez-page">Home 1</a>
-                          </li>
-                          <li>
-                            <a href="index-3.html" class="dez-page">Home 2</a>
-                          </li>
-                        </ul>
+                        <a href="{{
+                              path(
+                                'homepage'
+                              )
+                              }}">
+                          Home <i class="fa fa-chevron-down"></i>
+                        </a>
                       </li>
                       <li>
                         <a href="#">
@@ -225,12 +152,20 @@
                             </a>
                           </li>
                           <li>
-                            <a href="jobs-applied-job.html" class="dez-page">
-                              Applied Job <span class="new-page">New</span>
+                            <a href="{{
+                              path(
+                                'listapp',
+                                {
+                                  'id': 2
+                                }
+                              )
+                              }}" class="dez-page">
+                              Applied Jobs <span class="new-page">New</span>
                             </a>
                           </li>
                           <li>
-                            <a href="jobs-alerts.html" class="dez-page">
+                            <a href="#"
+                              class="dez-page">
                               Jobs Alerts <span class="new-page">New</span>
                             </a>
                           </li>
@@ -275,12 +210,20 @@
                             </a>
                           </li>
                           <li>
-                            <a href="addjob" class="dez-page">
+                            <a href="{{
+                              path(
+                                'addjob'
+                              )
+                              }}" class="dez-page">
                               Post A Jobs <span class="new-page">New</span>
                             </a>
                           </li>
                           <li>
-                            <a href="joblist" class="dez-page">
+                            <a href="{{
+                              path(
+                                'joblist'
+                              )
+                              }}" class="dez-page">
                               Manage jobs <span class="new-page">New</span>
                             </a>
                           </li>
@@ -328,7 +271,11 @@
                             </a>
                             <ul class="sub-menu">
                               <li>
-                                <a href="browsejob" class="dez-page">
+                                <a href="{{
+                              path(
+                                'browsejob'
+                              )
+                              }}" class="dez-page">
                                   browse job list
                                 </a>
                               </li>
@@ -357,7 +304,11 @@
                             </a>
                             <ul class="sub-menu">
                               <li>
-                                <a href="browsejob" class="dez-page">
+                                <a href="{{
+                              path(
+                                'browsejob'
+                              )
+                              }}" class="dez-page">
                                   all jobs
                                   <span class="new-page">New</span>
                                 </a>
@@ -425,18 +376,8 @@
                             </a>
                             <ul class="sub-menu">
                               <li>
-                                <a href="login.html" class="dez-page">
-                                  login 1
-                                </a>
-                              </li>
-                              <li>
-                                <a href="login-2.html" class="dez-page">
-                                  login 2 <span class="new-page">New</span>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="login-3.html" class="dez-page">
-                                  login 3 <span class="new-page">New</span>
+                                <a href="" class="dez-page">
+                                  login
                                 </a>
                               </li>
                             </ul>
@@ -450,12 +391,6 @@
                                 <a href="register.html" class="dez-page">
                                   register 1
                                 </a>
-                              </li>
-                              <li>
-                                <a href="register-2.html" class="dez-page">
-                                  register 2 <span class="new-page">New</span>
-                                </a>
-                              </li>
                             </ul>
                           </li>
                           <li>
@@ -649,6 +584,7 @@
       </div>
     </body>
     <script src="{{ asset('frontOffice/') }}js/combining.js"></script>
+    {% block javascripts %}{% endblock %}
     <!-- COMBINING JS -->
   {% endblock %}
 </html>

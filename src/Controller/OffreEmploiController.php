@@ -7,7 +7,9 @@ use App\Form\OffreEmploiType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Repository\OffreEmploiRepository;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Knp\Component\Pager\PaginatorInterface;
 
 class OffreEmploiController extends AbstractController
 {
@@ -68,10 +70,13 @@ class OffreEmploiController extends AbstractController
     /**
      * @Route("/joblist", name="joblist")
      */
-    public function readjob()
+    public function readjob(Request $request, PaginatorInterface $pag)
     {
         $r = $this->getDoctrine()->getRepository(OffreEmploi::class);
-        $jobs = $r->findBy([], ['date_debut' => 'DESC']);
+        $donnes = $r->findBy([], ['date_debut' => 'DESC']);
+
+        $jobs = $pag->paginate($donnes, $request->query->getInt('page', 1), 4);
+
         return $this->render('offre_emploi/managejob.html.twig', [
             'list' => $jobs
         ]);
@@ -80,10 +85,11 @@ class OffreEmploiController extends AbstractController
     /**
      * @Route("/browsejob", name="browsejob")
      */
-    public function browsejob()
+    public function browsejob(Request $request, PaginatorInterface $pag)
     {
         $r = $this->getDoctrine()->getRepository(OffreEmploi::class);
-        $jobs = $r->findBy([], ['date_debut' => 'DESC']);
+        $donnes = $r->findBy([], ['date_debut' => 'DESC']);
+        $jobs = $pag->paginate($donnes, $request->query->getInt('page', 1), 4);
         $nb = $r->countj();
         return $this->render('offre_emploi/browsejob.html.twig', [
             'list' => $jobs, 'nb' => $nb
@@ -105,18 +111,66 @@ class OffreEmploiController extends AbstractController
     /**
      * @Route("/search", name="search")
      */
-    public function searchjob(Request $request)
+    public function searchjob(Request $request, PaginatorInterface $pag)
     {
         $title = $request->request->get('titre');
         $location = $request->request->get('location');
         $secteur = $request->request->get('secteur');
 
         $r = $this->getDoctrine()->getRepository(OffreEmploi::class);
-        $jobs = $r->findBy(['titre' => $title, 'categorie' => $secteur, 'location' => $location]);
+        $donnes = $r->search($title, $location, $secteur);
         $nb = $r->countsearch($title, $location, $secteur);
+        $jobs = $pag->paginate($donnes, $request->query->getInt('page', 1), 4);
 
         return $this->render('offre_emploi/browsejob.html.twig', [
             'list' => $jobs, 'nb' => $nb
         ]);
+    }
+
+
+    /**
+     * @Route("/pdf/{id}", name="pdf")
+     */
+    public function pofjob($id)
+    {
+        $job = $this->getDoctrine()->getManager()->getRepository(OffreEmploi::class)->findBy(['id' => $id]);
+
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+        $dompdf = new Dompdf($pdfOptions);
+        $html = $this->renderView('offre_emploi/pdf.html.twig', [
+            'list' => $job
+        ]);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        $dompdf->stream("PDFPffre.pdf", [
+            "Attachment" => true
+        ]);
+
+        return $this->redirectToRoute('browsejob');
+    }
+
+    /**
+     * @Route("/pdfAll", name="pdfAll")
+     */
+    public function pofjobs()
+    {
+        $job = $this->getDoctrine()->getManager()->getRepository(OffreEmploi::class)->findAll();
+
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+        $dompdf = new Dompdf($pdfOptions);
+        $html = $this->renderView('offre_emploi/pdf.html.twig', [
+            'list' => $job
+        ]);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        $dompdf->stream("PDFPffres.pdf", [
+            "Attachment" => true
+        ]);
+
+        return $this->redirectToRoute('browsejob');
     }
 }

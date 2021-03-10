@@ -52,7 +52,7 @@ class OffreEmploiRepository extends ServiceEntityRepository
     public function countj()
     {
         return $this->createQueryBuilder('u')
-            ->select('count(u.id)')
+            ->select('count(u)')
             ->where('u.date_expiration > CURRENT_DATE() ')
             ->getQuery()
             ->getSingleScalarResult();
@@ -61,12 +61,24 @@ class OffreEmploiRepository extends ServiceEntityRepository
     public function countsearch($title, $location, $secteur)
     {
         return $this->createQueryBuilder('u')
-            ->select('count(u.id)')
-            ->where('u.titre = :t and u.location = :l and u.categorie = :s')
-            ->setParameter(':t', $title)
-            ->setParameter(':l', $location)
-            ->setParameter(':s', $secteur)
+            ->select('count(u)')
+            ->where('u.titre LIKE :t and u.location LIKE :l and u.categorie LIKE :s and u.date_expiration > CURRENT_DATE()')
+            ->setParameter(':t', '%' . $title . '%')
+            ->setParameter(':l', '%' . $location . '%')
+            ->setParameter(':s', '%' . $secteur . '%')
             ->getQuery()
             ->getSingleScalarResult();
+    }
+
+    public function search($title, $location, $secteur)
+    {
+        return $this->createQueryBuilder('u')
+            ->select('u')
+            ->where('u.titre LIKE :t and u.location LIKE :l and u.categorie LIKE :s and u.date_expiration > CURRENT_DATE()')
+            ->setParameter(':t', '%' . $title . '%')
+            ->setParameter(':l', '%' . $location . '%')
+            ->setParameter(':s', '%' . $secteur . '%')
+            ->getQuery()
+            ->getResult();
     }
 }

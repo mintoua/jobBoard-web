@@ -1,394 +1,373 @@
 {% extends 'base.html.twig' %}
 {% block content %}
-      <!-- Content -->
-      <div class="page-content bg-white">
-        <!-- inner page banner -->
-        <div class="dez-bnr-inr overlay-black-middle"
-          style="background-image:url(images/banner/bnr1.jpg);">
-          <div class="container">
-            <div class="dez-bnr-inr-entry">
-              <h1 class="text-white">
-                Browse Jobs List
-              </h1>
-              <!-- Breadcrumb row -->
-              <div class="breadcrumb-row">
-                <ul class="list-inline">
-                  <li><a href="#">Home</a></li>
-                  <li>Browse Jobs List</li>
-                </ul>
-              </div>
-              <!-- Breadcrumb row END -->
-            </div>
+  <!-- Content -->
+  <div class="page-content bg-white">
+    <!-- inner page banner -->
+    <div class="dez-bnr-inr overlay-black-middle"
+      style="background-image:url(images/banner/bnr1.jpg);">
+      <div class="container">
+        <div class="dez-bnr-inr-entry">
+          <h1 class="text-white">
+            Browse Jobs List
+          </h1>
+          <!-- Breadcrumb row -->
+          <div class="breadcrumb-row">
+            <ul class="list-inline">
+              <li><a href="#">Home</a></li>
+              <li>Browse Jobs List</li>
+            </ul>
           </div>
-        </div>
-        <!-- inner page banner END -->
-        <!-- Filters Search -->
-        <div class="section-full browse-job-find">
-          <div class="container">
-            <div class="find-job-bx">
-              <form class="dezPlaceAni"
-                id="myForm"
-                method="POST"
-                action="{{ path('search') }}">
-                <div class="row">
-                  <div class="col-lg-4 col-md-6">
-                    <div class="form-group">
-                      <label>Job Title, Keywords, or Phrase</label>
-                      <div class="input-group">
-                        <input type="text"
-                          name="titre"
-                          class="form-control"
-                          placeholder="" />
-                        <div class="input-group-append">
-                          <span class="input-group-text">
-                            <i class="fa fa-search"></i>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-6">
-                    <div class="form-group">
-                      <label>City, State or ZIP</label>
-                      <div class="input-group">
-                        <input type="text"
-                          name="location"
-                          class="form-control"
-                          placeholder="" />
-                        <div class="input-group-append">
-                          <span class="input-group-text">
-                            <i class="fa fa-map-marker"></i>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-6">
-                    <div class="form-group">
-                      <label>Categorie</label>
-                      <div class="input-group">
-                        <input type="text"
-                          name="secteur"
-                          class="form-control"
-                          placeholder="" />
-                        <div class="input-group-append">
-                          <span class="input-group-text">
-                            <i class="fa fa-map-marker"></i>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-2 col-md-6">
-                    <button type="submit"
-                      href="{{ path('search') }}"
-                      class="site-button btn-block"
-                      id="button_save">
-                      Find Job
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <!-- Filters Search END -->
-        <!-- contact area -->
-        <div class="content-block">
-          <!-- Browse Jobs -->
-          <div class="section-full browse-job p-b50">
-            <div class="container">
-              <div class="row">
-                <div class="col-xl-9 col-lg-8 col-md-7">
-                  <div class="job-bx-title clearfix">
-                    <h5 class="font-weight-700 pull-left text-uppercase">
-                      {{ nb }} Jobs Found
-                    </h5>
-                    {% set i = 0 %}
-                    {% set j = 0 %}
-                    {% for c in list %}
-                      {% set j = j + 1 %}
-                      {% if date(c.getDateExpiration()) < date() %}
-                        {% set i = i + 1 %}
-                      {% endif %}
-                    {% endfor %}
-                    {% if list is empty %}
-                      <h5 class="font-weight-700 pull-left text-uppercase">
-                        <p class="expired text-red" style="margin-left: 2.5em">
-                          No Results !
-                        </p>
-                      </h5>
-                    {% endif %}
-                    {% if i == j %}
-                      <h5 class="font-weight-700 pull-left text-uppercase">
-                        <p class="expired text-red" style="margin-left: 2.5em">
-                          All Dates are expired !
-                        </p>
-                      </h5>
-                    {% endif %}
-                    <div class="float-right">
-                      <span class="select-title">Sort by freshness</span>
-                      <select>
-                        <option>
-                          Last 2 Months
-                        </option>
-                        <option>
-                          Last Months
-                        </option>
-                        <option>
-                          Last Weeks
-                        </option>
-                        <option>
-                          Last 3 Days
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                  <ul class="post-job-bx">
-                    {% for c in list %}
-                      {% if date(c.getDateExpiration()) > date() %}
-                        <li>
-                          <div class="post-bx">
-                            <div class="d-flex m-b30">
-                              <div class="job-post-company">
-                                <a href="javascript:void(0);">
-                                  <span>
-                                    <img alt=""
-                                      src="{{
-                                      asset(
-                                        'frontOffice/'
-                                      )
-                                      }}images/logo/icon1.png" />
-                                  </span>
-                                </a>
-                              </div>
-                              <div class="job-post-info">
-                                <h4>
-                                  <a href="job-detail.html">{{ c.titre }}</a>
-                                </h4>
-                                <ul>
-                                  <li>
-                                    <i class="fa fa-map-marker"></i>
-                                    {{ c.location }}
-                                  </li>
-                                  <li>
-                                    <i class="fa fa-bookmark-o"></i>
-                                    {{ c.description }}
-                                  </li>
-                                  <li>
-                                    {% set dateTime = date(c.getDatedebut()) %}
-                                    {% set mounth =
-                                      dateTime|date('F')|number_format
-                                    %}
-                                    {% set year =
-                                      dateTime|date('y')|number_format
-                                    %}
-                                    {% set Nmounth =
-                                      date()|date('F')|number_format
-                                    %}
-                                    {% set Nyear =
-                                      date()|date('y')|number_format
-                                    %}
-                                    <i class="fa fa-clock-o"></i> Published {{ (Nyear
-                                      - year)
-                                      * 12
-                                      + Nmounth
-                                      - mounth }} mounths ago
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                            <div class="d-flex">
-                              <div class="job-time mr-auto">
-                                <a href="javascript:void(0);">
-                                  <span>{{ c.poste }}</span>
-                                </a>
-                              </div>
-                              <div class="salary-bx">
-                                <span>
-                                  ${{ c.maxSalary }} - ${{ c.minSalary }}
-                                </span>
-                                <span>
-                                <form
-                                action="{{ path('apply',
-                                  {
-                                    'id': c.id
-                                  }) }}">
-                                  <button class="site-button">Apply Job</button>
-                                </span>
-                                </form>
-                              </div>
-                            </div>
-                            <label class="like-btn">
-                              <input type="checkbox" />
-                              <span class="checkmark"></span>
-                            </label>
-                          </div>
-                        </li>
-                      {% endif %}
-                    {% endfor %}
-                  </ul>
-                  <div class="pagination-bx m-t30">
-                    <ul class="pagination">
-                      <li class="previous">
-                        <a href="javascript:void(0);">
-                          <i class="ti-arrow-left"></i> Prev
-                        </a>
-                      </li>
-                      <li class="active">
-                        <a href="javascript:void(0);">1</a>
-                      </li>
-                      <li><a href="javascript:void(0);">2</a></li>
-                      <li><a href="javascript:void(0);">3</a></li>
-                      <li class="next">
-                        <a href="javascript:void(0);">
-                          Next <i class="ti-arrow-right"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="col-xl-3 col-lg-4 col-md-5">
-                  <div class="sticky-top">
-                    <div class="candidates-are-sys m-b30">
-                      <div class="candidates-bx">
-                        <div class="testimonial-pic radius">
-                          <img src="{{
-                            asset(
-                              'frontOffice/'
-                            )
-                            }}images/testimonials/pic3.jpg"
-                            alt=""
-                            width="100"
-                            height="100" />
-                        </div>
-                        <div class="testimonial-text">
-                          <p>
-                            I just got a job that I applied for via careerfy! I
-                            used the site all the time during my job hunt.
-                          </p>
-                        </div>
-                        <div class="testimonial-detail">
-                          <strong class="testimonial-name">
-                            Richard Anderson
-                          </strong>
-                          <span class="testimonial-position">Nevada, USA</span>
-                        </div>
-                      </div>
-                    </div>
-                    <ul class="company-logo-wg sidebar bg-white job-bx m-b30 clearfix">
-                      <li class="brand-logo">
-                        <a href="javascript:void(0);">
-                          <img src="{{
-                            asset(
-                              'frontOffice/'
-                            )
-                            }}images/logo/logo1.jpg"
-                            alt="" />
-                        </a>
-                      </li>
-                      <li class="brand-logo">
-                        <a href="javascript:void(0);">
-                          <img src="{{
-                            asset(
-                              'frontOffice/'
-                            )
-                            }}images/logo/logo2.jpg"
-                            alt="" />
-                        </a>
-                      </li>
-                      <li class="brand-logo">
-                        <a href="javascript:void(0);">
-                          <img src="{{
-                            asset(
-                              'frontOffice/'
-                            )
-                            }}images/logo/logo3.jpg"
-                            alt="" />
-                        </a>
-                      </li>
-                      <li class="brand-logo">
-                        <a href="javascript:void(0);">
-                          <img src="{{
-                            asset(
-                              'frontOffice/'
-                            )
-                            }}images/logo/logo4.jpg"
-                            alt="" />
-                        </a>
-                      </li>
-                      <li class="brand-logo">
-                        <a href="javascript:void(0);">
-                          <img src="{{
-                            asset(
-                              'frontOffice/'
-                            )
-                            }}images/logo/logo5.jpg"
-                            alt="" />
-                        </a>
-                      </li>
-                      <li class="brand-logo">
-                        <a href="javascript:void(0);">
-                          <img src="{{
-                            asset(
-                              'frontOffice/'
-                            )
-                            }}images/logo/logo6.jpg"
-                            alt="" />
-                        </a>
-                      </li>
-                      <li class="brand-logo">
-                        <a href="javascript:void(0);">
-                          <img src="{{
-                            asset(
-                              'frontOffice/'
-                            )
-                            }}images/logo/logo7.jpg"
-                            alt="" />
-                        </a>
-                      </li>
-                      <li class="brand-logo">
-                        <a href="javascript:void(0);">
-                          <img src="{{
-                            asset(
-                              'frontOffice/'
-                            )
-                            }}images/logo/logo8.jpg"
-                            alt="" />
-                        </a>
-                      </li>
-                      <li class="brand-logo">
-                        <a href="javascript:void(0);">
-                          <img src="{{
-                            asset(
-                              'frontOffice/'
-                            )
-                            }}images/logo/logo9.jpg"
-                            alt="" />
-                        </a>
-                      </li>
-                    </ul>
-                    <div class="quote-bx">
-                      <div class="quote-info">
-                        <h4>
-                          Make a Difference with Your Online Resume!
-                        </h4>
-                        <p>
-                          Your resume in minutes with JobBoard resume assistant
-                          is ready!
-                        </p>
-                        <a href="register.html" class="site-button">
-                          Create an Account
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Browse Jobs END -->
+          <!-- Breadcrumb row END -->
         </div>
       </div>
-      <!-- Content END -->
+    </div>
+    <!-- inner page banner END -->
+    <!-- Filters Search -->
+    <div class="section-full browse-job-find">
+      <div class="container">
+        <div class="find-job-bx">
+          <form class="dezPlaceAni"
+            id="myForm"
+            method="POST"
+            action="{{ path('search') }}">
+            <div class="row">
+              <div class="col-lg-4 col-md-6">
+                <div class="form-group">
+                  <label>Job Title, Keywords, or Phrase</label>
+                  <div class="input-group">
+                    <input type="text"
+                      name="titre"
+                      class="form-control"
+                      placeholder="" />
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="fa fa-search"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="form-group">
+                  <label>City, State or ZIP</label>
+                  <div class="input-group">
+                    <input type="text"
+                      name="location"
+                      class="form-control"
+                      placeholder="" />
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="fa fa-map-marker"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="form-group">
+                  <label>Categorie</label>
+                  <div class="input-group">
+                    <input type="text"
+                      name="secteur"
+                      class="form-control"
+                      placeholder="" />
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="fa fa-map-marker"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6">
+                <button type="submit"
+                  href="{{ path('search') }}"
+                  class="site-button btn-block"
+                  id="button_save">
+                  Find Job
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Filters Search END -->
+    <!-- contact area -->
+    <div class="content-block">
+      <!-- Browse Jobs -->
+      <div class="section-full browse-job p-b50">
+        <div class="container">
+          <div class="row">
+            <div class="col-xl-9 col-lg-8 col-md-7">
+              <div class="job-bx-title clearfix">
+                <h5 class="font-weight-700 pull-left text-uppercase">
+                  {{ nb }} Jobs Found <span>
+                    <form action="{{ path('pdfAll') }}">
+                      <button class="site-button">Print Job Infos</button>
+                    </form>
+                  </span>
+                </h5>
+                {% if list is empty %}
+                  <h5 class="font-weight-700 pull-left text-uppercase">
+                    <p class="expired text-red" style="margin-left: 2.5em">
+                      No Results !
+                    </p>
+                  </h5>
+                {% endif %}
+                <div class="float-right">
+                  <form id="filters">
+                    <p>
+                      <input type="text"
+                        name="searchaj"
+                        id="searchaj"
+                        class="form-control"
+                        placeholder="" />
+                    </p>
+                  </form>
+                </div>
+              </div>
+              <ul class="post-job-bx">
+                {% for c in list %}
+                  {% if date(c.getDateExpiration()) > date() %}
+                    <li>
+                      <div class="post-bx">
+                        <div class="d-flex m-b30">
+                          <div class="job-post-company">
+                            <a href="javascript:void(0);">
+                              <span>
+                                <img alt=""
+                                  src="{{
+                                  asset(
+                                    'frontOffice/'
+                                  )
+                                  }}images/logo/icon1.png" />
+                              </span>
+                            </a>
+                          </div>
+                          <div class="job-post-info">
+                            <h4>
+                              <a href="job-detail.html">{{ c.titre }}</a>
+                            </h4>
+                            <ul>
+                              <li>
+                                <i class="fa fa-map-marker"></i>
+                                {{ c.location }}
+                              </li>
+                              <li>
+                                <i class="fa fa-bookmark-o"></i>
+                                {{ c.description }}
+                              </li>
+                              <li>
+                                {% set dateTime = date(c.getDatedebut()) %}
+                                {% set mounth =
+                                  dateTime|date('F')|number_format
+                                %}
+                                {% set year =
+                                  dateTime|date('y')|number_format
+                                %}
+                                {% set Nmounth =
+                                  date()|date('F')|number_format
+                                %}
+                                {% set Nyear = date()|date('y')|number_format %}
+                                <i class="fa fa-clock-o"></i> Published {{ (Nyear
+                                  - year)
+                                  * 12
+                                  + Nmounth
+                                  - mounth }} mounths ago
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div class="d-flex">
+                          <div class="job-time mr-auto">
+                            <a href="javascript:void(0);">
+                              <span>{{ c.poste }}</span>
+                            </a>
+                          </div>
+                          <div class="salary-bx">
+                            <span>${{ c.maxSalary }} - ${{ c.minSalary }}</span>
+                            <span>
+                              <form action="{{
+                                path(
+                                  'apply',
+                                  {
+                                    id: c.id
+                                  }
+                                )
+                                }}">
+                                <button class="site-button">Apply Job</button>
+                              </form>
+                            </span>
+                          </div>
+                        </div>
+                        <label class="like-btn">
+                          <input type="checkbox" />
+                          <span class="checkmark"></span>
+                        </label>
+                        <span>
+                          <form action="{{
+                            path(
+                              'pdf',
+                              {
+                                id: c.id
+                              }
+                            )
+                            }}">
+                            <button class="site-button">Print Job Infos</button>
+                          </form>
+                        </span>
+                      </div>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+              <div class="pagination-bx m-t30">
+                {{ knp_pagination_render(list) }}
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-5">
+              <div class="sticky-top">
+                <div class="candidates-are-sys m-b30">
+                  <div class="candidates-bx">
+                    <div class="testimonial-pic radius">
+                      <img src="{{
+                        asset(
+                          'frontOffice/'
+                        )
+                        }}images/testimonials/pic3.jpg"
+                        alt=""
+                        width="100"
+                        height="100" />
+                    </div>
+                    <div class="testimonial-text">
+                      <p>
+                        I just got a job that I applied for via careerfy! I used
+                        the site all the time during my job hunt.
+                      </p>
+                    </div>
+                    <div class="testimonial-detail">
+                      <strong class="testimonial-name">Richard Anderson</strong>
+                      <span class="testimonial-position">Nevada, USA</span>
+                    </div>
+                  </div>
+                </div>
+                <ul class="company-logo-wg sidebar bg-white job-bx m-b30 clearfix">
+                  <li class="brand-logo">
+                    <a href="javascript:void(0);">
+                      <img src="{{
+                        asset(
+                          'frontOffice/'
+                        )
+                        }}images/logo/logo1.jpg"
+                        alt="" />
+                    </a>
+                  </li>
+                  <li class="brand-logo">
+                    <a href="javascript:void(0);">
+                      <img src="{{
+                        asset(
+                          'frontOffice/'
+                        )
+                        }}images/logo/logo2.jpg"
+                        alt="" />
+                    </a>
+                  </li>
+                  <li class="brand-logo">
+                    <a href="javascript:void(0);">
+                      <img src="{{
+                        asset(
+                          'frontOffice/'
+                        )
+                        }}images/logo/logo3.jpg"
+                        alt="" />
+                    </a>
+                  </li>
+                  <li class="brand-logo">
+                    <a href="javascript:void(0);">
+                      <img src="{{
+                        asset(
+                          'frontOffice/'
+                        )
+                        }}images/logo/logo4.jpg"
+                        alt="" />
+                    </a>
+                  </li>
+                  <li class="brand-logo">
+                    <a href="javascript:void(0);">
+                      <img src="{{
+                        asset(
+                          'frontOffice/'
+                        )
+                        }}images/logo/logo5.jpg"
+                        alt="" />
+                    </a>
+                  </li>
+                  <li class="brand-logo">
+                    <a href="javascript:void(0);">
+                      <img src="{{
+                        asset(
+                          'frontOffice/'
+                        )
+                        }}images/logo/logo6.jpg"
+                        alt="" />
+                    </a>
+                  </li>
+                  <li class="brand-logo">
+                    <a href="javascript:void(0);">
+                      <img src="{{
+                        asset(
+                          'frontOffice/'
+                        )
+                        }}images/logo/logo7.jpg"
+                        alt="" />
+                    </a>
+                  </li>
+                  <li class="brand-logo">
+                    <a href="javascript:void(0);">
+                      <img src="{{
+                        asset(
+                          'frontOffice/'
+                        )
+                        }}images/logo/logo8.jpg"
+                        alt="" />
+                    </a>
+                  </li>
+                  <li class="brand-logo">
+                    <a href="javascript:void(0);">
+                      <img src="{{
+                        asset(
+                          'frontOffice/'
+                        )
+                        }}images/logo/logo9.jpg"
+                        alt="" />
+                    </a>
+                  </li>
+                </ul>
+                <div class="quote-bx">
+                  <div class="quote-info">
+                    <h4>
+                      Make a Difference with Your Online Resume!
+                    </h4>
+                    <p>
+                      Your resume in minutes with JobBoard resume assistant is
+                      ready!
+                    </p>
+                    <a href="register.html" class="site-button">
+                      Create an Account
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Browse Jobs END -->
+    </div>
+  </div>
+  <!-- Content END -->
+{% endblock %}
+{% block javascripts %}
+  <script src="{{ asset('js/filters.js') }}"></script>
 {% endblock %}

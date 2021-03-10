@@ -8,13 +8,15 @@ use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class DemandeRecrutementController extends AbstractController
 {
     /**
      * @Route("/apply/{id}", name="apply")
      */
-    public function addapp($id)
+    public function addapp($id, Request $request, PaginatorInterface $pag)
     {
         $apply = new DemandeRecrutement();
 
@@ -58,11 +60,12 @@ class DemandeRecrutementController extends AbstractController
             }
         }
 
-        $offapp = $b->findOff($str);
+        $donnes = $b->findOff($str);
+        $jobs = $pag->paginate($donnes, $request->query->getInt('page', 1), 4);
         $count = $b->countOff($str);
 
         return $this->render('demande_recrutement/appliedjobs.html.twig', [
-            'list' => $offapp, 'nb' => $count
+            'list' => $jobs, 'nb' => $count
         ]);
     }
 
@@ -78,7 +81,7 @@ class DemandeRecrutementController extends AbstractController
     /**
      * @Route("/listapp/{id}", name="listapp")
      */
-    public function listapp($id)
+    public function listapp($id, Request $request, PaginatorInterface $pag)
     {
         $em = $this->getDoctrine()->getManager();
         $b = $this->getDoctrine()->getRepository(DemandeRecrutement::class);
@@ -100,11 +103,12 @@ class DemandeRecrutementController extends AbstractController
             }
         }
 
-        $offapp = $b->findOff($str);
+        $donnes = $b->findOff($str);
+        $jobs = $pag->paginate($donnes, $request->query->getInt('page', 1), 4);
         $count = $b->countOff($str);
 
         return $this->render('demande_recrutement/appliedjobs.html.twig', [
-            'list' => $offapp, 'nb' => $count
+            'list' => $jobs, 'nb' => $count
         ]);
     }
 }
