@@ -16,7 +16,7 @@ class DemandeRecrutementController extends AbstractController
     /**
      * @Route("/apply/{id}", name="apply")
      */
-    public function addapp($id, Request $request, PaginatorInterface $pag)
+    public function addapp($id, Request $request, PaginatorInterface $pag, \Swift_Mailer $mailer)
     {
         $apply = new DemandeRecrutement();
 
@@ -37,13 +37,17 @@ class DemandeRecrutementController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($apply);
             $em->flush();
-            $this->addFlash(
-                'successD',
-                'applied to !'
-            );
+            $mes = "Job Applied";
+            $message = (new \Swift_Message('Nouvelle demande de recrutement !'))
+                ->setFrom('jobhubwebsiteesprit@gmail.com')
+                ->setTo('oussema.makni@esprit.tn')
+                ->setBody($this->renderView('demande_recrutement/email.html.twig', ['c' => $job]), 'text/html');
+
+            $mailer->send($message);
         } else {
-            dump("existe");
+            $mes = "Job Application Exist";
         }
+
 
         $offresapplied = new ArrayCollection();
         $offresapplied = $user->getApplies();
@@ -65,17 +69,17 @@ class DemandeRecrutementController extends AbstractController
         $count = $b->countOff($str);
 
         return $this->render('demande_recrutement/appliedjobs.html.twig', [
-            'list' => $jobs, 'nb' => $count
+            'list' => $jobs, 'nb' => $count, 'mes' => $mes
         ]);
     }
 
     /**
      * @Route("/delapp/{id}", name="delapp")
      */
-    public function delapp($id)
+    public function delapp($id, Request $request, PaginatorInterface $pag)
     {
         $b = $this->getDoctrine()->getRepository(DemandeRecrutement::class)->delap($id);
-        return $this->listapp(2);
+        return $this->listapp(2,  $request,  $pag);
     }
 
     /**
@@ -89,6 +93,11 @@ class DemandeRecrutementController extends AbstractController
             ->find($id);
         $off = new ArrayCollection();
         $off = $use->getApplies();
+        if ($off->isEmpty()) {
+            return $this->render('demande_recrutement/appliedjobs.html.twig', [
+                'list' => null, 'nb' => 0, 'mes' => "No Applies"
+            ]);
+        }
         $arr = array();
         foreach ($off->getIterator() as $key => $value) {
             array_push($arr, $value->getOffre()->getId());
@@ -108,7 +117,7 @@ class DemandeRecrutementController extends AbstractController
         $count = $b->countOff($str);
 
         return $this->render('demande_recrutement/appliedjobs.html.twig', [
-            'list' => $jobs, 'nb' => $count
+            'list' => $jobs, 'nb' => $count, 'mes' => ''
         ]);
     }
 }

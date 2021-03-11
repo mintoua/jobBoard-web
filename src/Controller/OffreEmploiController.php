@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\OffreEmploi;
+use App\Entity\DemandeRecrutement;
 use App\Form\OffreEmploiType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,6 +12,7 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 class OffreEmploiController extends AbstractController
 {
@@ -167,7 +169,7 @@ class OffreEmploiController extends AbstractController
     /**
      * @Route("/pdfAll", name="pdfAll")
      */
-    public function pofjobs()
+    public function pdfjobs()
     {
         $job = $this->getDoctrine()->getManager()->getRepository(OffreEmploi::class)->findAll();
 
@@ -185,5 +187,44 @@ class OffreEmploiController extends AbstractController
         ]);
 
         return $this->redirectToRoute('browsejob');
+    }
+    /**
+     * @Route("/details", name="details")
+     */
+    public function details()
+    {
+        $r = $this->getDoctrine()->getManager();
+        $jobs = $r->getRepository(OffreEmploi::class)->findAll();
+
+        $categNom = [];
+        $categColor = [];
+        $categCount = [];
+
+        // On "démonte" les données pour les séparer tel qu'attendu par ChartJS
+        foreach ($jobs as $job) {
+            $categNom[] = $job->getTitre();
+            $categColor[] = $job->getCouleur();
+            $categCount[] = count($job->getApplies());
+        }
+        // On va chercher le nombre d'annonces publiées par date
+        $annRepo = $r->getRepository(DemandeRecrutement::class);
+        $annonces = $annRepo->countByDate();
+
+        $dates = [];
+        $annoncesCount = [];
+
+        // On "démonte" les données pour les séparer tel qu'attendu par ChartJS
+        foreach ($annonces as $annonce) {
+            $dates[] = $annonce['dateAnnonces'];
+            $annoncesCount[] = $annonce['count'];
+        }
+        
+        return $this->render('offre_emploi/jobdetails.html.twig', [
+            'categNom' => json_encode($categNom),
+            'categColor' => json_encode($categColor),
+            'categCount' => json_encode($categCount),
+            'dates' => json_encode($dates),
+            'annoncesCount' => json_encode($annoncesCount),
+        ]);
     }
 }

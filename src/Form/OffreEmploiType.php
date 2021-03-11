@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\OffreEmploi;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -17,6 +18,7 @@ class OffreEmploiType extends AbstractType
             ->add('titre')
             ->add('poste')
             ->add('description')
+            ->add('couleur',ColorType::class)
             ->add('date_expiration')
             ->add('categorie')
             ->add('maxSalary')

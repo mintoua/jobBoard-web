@@ -43,24 +43,24 @@ class DemandeRecrutement
         return $this->id;
     }
 
-    public function getOffre(): ?offreemploi
+    public function getOffre(): ?OffreEmploi
     {
         return $this->offre;
     }
 
-    public function setOffre(?offreemploi $offre): self
+    public function setOffre(?OffreEmploi $offre): self
     {
         $this->offre = $offre;
 
         return $this;
     }
 
-    public function getCandidat(): ?user
+    public function getCandidat(): ?User
     {
         return $this->candidat;
     }
 
-    public function setCandidat(?user $candidat): self
+    public function setCandidat(?User $candidat): self
     {
         $this->candidat = $candidat;
 

@@ -26,7 +26,7 @@ class DemandeRecrutementRepository extends ServiceEntityRepository
 
         $entityManager = $this->getEntityManager();
 
-        return $entityManager->createQuery('select m FROM App\Entity\OffreEmploi m WHERE m.id IN (' . $str . ') ')
+        return $entityManager->createQuery('select m FROM App\Entity\OffreEmploi m WHERE m.id IN (' . $str . ')')
             ->getResult();
     }
     public function countOff($str)
@@ -42,8 +42,20 @@ class DemandeRecrutementRepository extends ServiceEntityRepository
     {
         $entityManager = $this->getEntityManager();
 
-        return $entityManager->createQuery('delete from App\Entity\DemandeRecrutement m WHERE m.offre = ' . $id)
+        return $entityManager->createQuery('delete from App\Entity\DemandeRecrutement m WHERE m.offre = ' . $id . 'and m.candidat = 2')
             ->execute();
+    }
+
+    /**
+     * Returns number of "Annonces" per day
+     * @return void 
+     */
+    public function countByDate()
+    {
+        $query = $this->getEntityManager()->createQuery("
+            SELECT SUBSTRING(a.dateDebut, 1, 10) as dateAnnonces, COUNT(a) as count FROM App\Entity\DemandeRecrutement a GROUP BY dateAnnonces
+        ");
+        return $query->getResult();
     }
 
     // /**

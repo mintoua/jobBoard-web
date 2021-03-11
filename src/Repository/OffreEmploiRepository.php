@@ -49,7 +49,7 @@ class OffreEmploiRepository extends ServiceEntityRepository
     }
     */
 
-    public function countj($filtre)
+    public function countj($filtre = null)
     {
         return $this->createQueryBuilder('u')
             ->select('count(u)')

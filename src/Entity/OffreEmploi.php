@@ -151,6 +151,11 @@ class OffreEmploi
      */
     private $applies;
 
+    /**
+     * @ORM\Column(type="string", length=7, nullable=true)
+     */
+    private $couleur;
+
     public function __construct()
     {
         $this->applies = new ArrayCollection();
@@ -343,6 +348,18 @@ class OffreEmploi
                 $apply->setOffre(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCouleur(): ?string
+    {
+        return $this->couleur;
+    }
+
+    public function setCouleur(?string $couleur): self
+    {
+        $this->couleur = $couleur;
 
         return $this;
     }

@@ -97,7 +97,12 @@
               <div class="job-bx save-job table-job-bx clearfix">
                 <div class="job-bx-title clearfix">
                   <h5 class="font-weight-700 pull-left text-uppercase">
-                    {{ nb }} Saved Jobs
+                    {{ nb }} Applied Jobs<div class="expired text-red"
+                      style="margin-left: 2.5em">
+                      <p>
+                        {{ mes }}
+                      </p>
+                    </div>
                   </h5>
                   <div class="float-right">
                     <span class="select-title">Sort by freshness</span>
@@ -167,7 +172,7 @@
                             path(
                               'delapp',
                               {
-                                id: c.id
+                                'id': c.id
                               }
                             )
                             }}">
@@ -179,7 +184,9 @@
                   </tbody>
                 </table>
                 <div class="pagination-bx float-right">
-                  {{ knp_pagination_render(list) }}
+                  {% if mes is empty %}
+                    {{ knp_pagination_render(list) }}
+                  {% endif %}
                 </div>
               </div>
               <!-- Modal -->

@@ -31,6 +31,7 @@
     <script src="{{ asset('frontOffice/') }}js/respond.min.js"></script>
 
     {% block stylesheets %}
+    {% endblock %}
       <link rel="stylesheet"
         type="text/css"
         href="{{ asset('frontOffice/') }}css/plugins.min.css" />
@@ -56,7 +57,6 @@
         href="{{ asset('frontOffice/') }}css/skin/skin-1.min.css" />
       <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&amp;family=Montserrat:wght@100;200;300;400;500;600;700;800;900&amp;family=Open+Sans:wght@300;400;600;700;800&amp;family=Roboto:wght@100&amp;family=Rubik:wght@300;400;500;700;900&amp;display=swap"
         rel="stylesheet" />
-    {% endblock %}
   </head>
   <!-- <div id="loading-area"></div> -->
 
@@ -250,7 +250,7 @@
                             </a>
                           </li>
                           <li>
-                            <a href="job-detail.html" class="dez-page">
+                            <a href="{{ path('details') }}" class="dez-page">
                               Job Detail
                             </a>
                           </li>
