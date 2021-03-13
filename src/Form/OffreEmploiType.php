@@ -18,7 +18,7 @@ class OffreEmploiType extends AbstractType
             ->add('titre')
             ->add('poste')
             ->add('description')
-            ->add('couleur',ColorType::class)
+            ->add('couleur', ColorType::class)
             ->add('date_expiration')
             ->add('categorie')
             ->add('maxSalary')
