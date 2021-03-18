@@ -2,29 +2,33 @@
 
 namespace App\Controller;
 
-
+use App\Data\SearchData;
 use App\Entity\Products;
 use App\Form\ProductType;
-
+use App\Form\SearchForm;
 use App\Repository\ProductsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
-
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ProductController extends AbstractController
 {
     /**
      * @Route("/product", name="product")
      */
-    public function index()
+    public function index(Request $request, ProductsRepository $rep)
     {
-        $read = $this->getDoctrine()->getRepository(Products::class);
-        $products= $read->findAll();
 
+        $data = new SearchData();
+        $form = $this->createForm(SearchForm::class,$data);
+        $form->handleRequest($request);
+        $products= $rep->findSearch($data);
         return $this->render('product/index.html.twig', [
             'products' => $products,
+            'form' => $form->createView()
         ]);
     }
    /**
@@ -100,5 +104,53 @@ class ProductController extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute("product_list");
+    }
+
+    /**
+     *
+     * @param ProductsRepository $rep
+     * @Route("/ListDQL", name="sorted_product_price")
+     */
+    public function OrderByPriceDQL(ProductsRepository $rep){
+
+        $product = $rep->OrderByPrice();
+
+        return $this->render('product/index.html.twig', [
+            'products' => $product
+        ]);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param ProductsRepository $rep
+     * @param Request $request
+     * @Route("/product/searchName", name="searchName")
+     */
+    public function searchProductByName(ProductsRepository $rep, Request $request){
+        $name =$request->get('search');
+        $product =$rep->searchProductByName($name);
+
+        return $this->render('product/index.html.twig', [
+            'products' => $product
+        ]);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @param NormalizerInterface $normalizer
+     * @param ProductsRepository $rep
+     * @Route("/searchProduct", name="seachProduct")
+     */
+    public function searchProductx(Request $request, NormalizerInterface $normalizer, ProductsRepository $rep){
+        
+        $requestString =  $request->get('searchValue');
+        $products = $rep->searchProductByName($requestString);
+        $jsonContent = $normalizer->normalize($products, 'json',['groups'=>'post:read']);
+        $retour= json_encode($jsonContent);
+        return new Response($retour);
+
     }
 }

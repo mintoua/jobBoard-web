@@ -12,12 +12,13 @@
     <meta property="og:image" content="social-image.png"/>
     <meta name="format-detection" content="telephone=no">
 
+
     <!-- FAVICONS ICON -->
     <link rel="icon" href="{{ asset('frontOffice/images/favicon.ico') }}" type="image/x-icon"/>
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontOffice/images/favicon.png') }}"/>
     <title>{% block title %}JobBoard {% endblock %}</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Google Fonts -->
 
     <!--[if lt IE 9]>
     <script src="{{ asset('frontOffice/js/html5shiv.min.js') }}"></script>
@@ -25,16 +26,23 @@
     <![endif]-->
     <!-- STYLESHEETS -->
 
-    {% block stylesheets %}
+    {% block stylesheets %}    <!-- CSS links -->
+
         <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/css/plugins.min.css') }}">
-        <link rel="stylesheet" type="text/css"
-              href="{{ asset('frontOffice/plugins/fontawesome/css/font-awesome.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/plugins/fontawesome/css/font-awesome.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/plugins/themify/themify-icons.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/css/style.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/css/templete.min.css') }}">
         <link class="skin" rel="stylesheet" type="text/css" href="{{ asset('frontOffice/css/skin/skin-1.min.css') }}">
         <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&amp;family=Montserrat:wght@100;200;300;400;500;600;700;800;900&amp;family=Open+Sans:wght@300;400;600;700;800&amp;family=Roboto:wght@100&amp;family=Rubik:wght@300;400;500;700;900&amp;display=swap"
               rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,400i,700,800|Varela+Round" rel="stylesheet">
+
+        <link rel="stylesheet" type="text/css" href=" {{ asset('frontOffice/shop/css/bootstrap.min.css') }} ">
+        <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/font-awesome.min.css') }} ">
+        <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/owl.carousel.min.css') }} ">
+        <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/style.css') }} ">
+        <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/responsive.css') }} ">
     {% endblock %}
 
 </head>
@@ -78,6 +86,12 @@
 
                                     {% endif %}
                                 </div>
+                            </div>
+                            <div class="extra-nav">
+                                <a href="{{ path('cart') }}">
+                                    <i class="fa fa-shopping-cart fa-1x"></i>
+                                    <span>{{ app.session.get('panier', []) | length }}</span>
+                                </a>
                             </div>
 
                             <!-- Modal A compléte
@@ -256,8 +270,8 @@
                                             <li><a href="blog-details.html" class="dez-page">Blog Details</a></li>
                                         </ul>
                                     </li>
-                                            <li> 
-                                            
+                                            <li>
+
                                                 <a href="{{ path('product') }}">Shop <i class="fa fa-chevron"></i></a>
                                             </li>
                                 </ul>
@@ -356,7 +370,29 @@
 
     </div>
     </body>
-    <script src="frontOffice/js/combining.js"></script><!-- COMBINING JS  -->
 
+    <!-- JavaScript files-->
+    {% block jsOrder %}
+    {% endblock %}
+    {% block javascipts %}
+    <script src="frontOffice/shop/js/jquery-3.1.1.min.js"></script>
+    <script src="frontOffice/shop/js/bootstrap.min.js"></script>
+    <script src="frontOffice/shop/js/bootstrap-select.min.js"></script>
+    <script src="frontOffice/shop/js/swiper.min.js"></script>
+    <script src="frontOffice/shop/js/jquery.ajaxchimp.js"></script>
+    <script src="frontOffice/shop/js/jquery.countTo.js"></script>
+    <script src="frontOffice/shop/js/jquery.inview.min.js"></script>
+    <script src="frontOffice/shop/js/jquery.magnific-popup.min.js"></script>
+    <script src="frontOffice/shop/js/jquery.easypiechart.min.js"></script>
+    <script src="frontOffice/shop/js/jquery-ui.min.js"></script>
+    <script src="frontOffice/shop/js/owl.carousel.min.js"></script>
+    <script src="frontOffice/shop/js/tinymce/tinymce.min.js"></script>
+    <script src="frontOffice/shop/js/countdown.js"></script>
+    <script src="frontOffice/shop/js/isotope.min.js"></script>
+    <script src="frontOffice/shop/js/custom.js"></script>
+    <script src="frontOffice/js/combining.js"></script>
+    <!-- COMBINING JS  -->
+    {% endblock %}
+    <!-- end JS Files-->
 {% endblock %}
 </html>

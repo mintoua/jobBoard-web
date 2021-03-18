@@ -18,13 +18,13 @@ class ProductCart
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=Order::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Order::class, cascade={"persist"})
      * @ORM\JoinColumn(name="idOrder",referencedColumnName="id",nullable=false)
      */
     private $idOrder;
 
     /**
-     * @ORM\OneToOne(targetEntity=Products::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Products::class, cascade={"persist"})
      * @ORM\JoinColumn(name="idProduct",referencedColumnName="id",nullable=false)
      */
     private $idProduct;
@@ -45,7 +45,7 @@ class ProductCart
         return $this->id;
     }
 
-    public function getIdOrder(): ?Order
+    public function getIdOrder()
     {
         return $this->idOrder;
     }
@@ -57,7 +57,7 @@ class ProductCart
         return $this;
     }
 
-    public function getIdProduct(): ?Product
+    public function getIdProduct()
     {
         return $this->idProduct;
     }

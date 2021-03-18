@@ -5,8 +5,8 @@
         <div class="container-fluid">
           <ul class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ path('back_end') }}">Home</a></li>
-            <li class="breadcrumb-item active">Store Management</li>
-            <li class="breadcrumb-item active">Orders</li>
+            <li class="breadcrumb-item active"><a href="{{ path('back_end') }}">Store Management</a></li>
+            <li class="breadcrumb-item active"><a href="{{ path('order_list') }}">Orders</a></li>
           </ul>
         </div>
       </div>
@@ -35,8 +35,8 @@
                     <td> {{ order.state ? 'Yes' : 'No' }}</td>
                     <td> {{ order.date }}</td>
                     <td>
-                        <a href="{{ path('updateProduct', {'id': order.id}) }}" class="btn btn-light">Edit</a>
-                        <a href="{{ path('deleteProduct', {'id': order.id}) }}" class="btn btn-danger btn-sm" > Delete </a>
+                        <a href="{{ path('edit_order', {'id': order.id}) }}" class="btn btn-light">Edit</a>
+                        <a href="{{ path('delete_order', {'id': order.id}) }}" class="btn btn-danger btn-sm" > Delete </a>
 
                     </td>
 
@@ -47,6 +47,6 @@
         </table>
 
     {% else %}
-        <p>No Products</p>
+        <p>Empty</p>
     {% endif %}
 {% endblock %}

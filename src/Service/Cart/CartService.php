@@ -35,6 +35,20 @@ class CartService{
 
         $this->session->set('panier',$panier);
     }
+    public function decrease(int $id){
+
+        $panier = $this->session->get('panier', []);
+
+        if(!empty($panier[$id])){
+            $panier[$id]--;
+        }
+        if($panier[$id]==0)
+        {
+            unset($panier[$id]);
+        }
+
+        $this->session->set('panier',$panier);
+    }
 
     public function remove(int $id){
         $panier = $this->session->get('panier',[]);
@@ -45,6 +59,7 @@ class CartService{
 
         $this->session->set('panier', $panier);
     }
+
 
     public function getFullCart() :array {
         $panier = $this->session->get('panier',[]);
@@ -82,5 +97,7 @@ class CartService{
             unset($item['product']);
             unset($item['quantity']);
         }
+        $panier = $this->session->get('panier');
+        unset($panier);
     }
 }

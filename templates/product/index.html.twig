@@ -2,31 +2,143 @@
 
 
 {% block content %}
-        <div class="section-full content-inner bg-gray">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 section-head text-center">
-                        <h2 class="m-b5">MarketPlace</h2>
-                        <h6 class="fw4 m-b0">Find Your E-Book!!!</h6>
-                    </div>
-                </div>
-                <div class="row">
-                    {% for product in products %}
-                        <div class="col-lg-3 col-sm-6 col-md-6 m-b30">
-                            <a href="javascript:void(0);">
-                            <div class="card" style="width: 18rem;">
-                                <img class="card-img-top" src="{{ asset('Livres/img/'~product.image) }}" alt="Image de {{ product.name }}">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Author : {{ product.name }}</h5>
-                                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                        <a href="{{ path('cart_add', {'id': product.id}) }}" class="btn btn-primary">Add to cart  </a> <h5 class="card-title float-right">{{ product.price }} DT </h5>
-                                    </div>
-                            </div>
-                            </a>
-    
-                        </div>
-                    {% endfor %}
+    <!-- =============== Start of Page Header 1 Section =============== -->
+    <section class="page-header">
+        <div class="container">
+
+            <!-- Start of Page Title -->
+
+            <!-- End of Page Title -->
+
+            <!-- Start of Breadcrumb -->
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="breadcrumb">
+                        <li><a href="#">home</a></li>
+                        <li class="active">shop</li>
+                    </ul>
                 </div>
             </div>
+            <!-- End of Breadcrumb -->
+
         </div>
+    </section>
+    <!-- =============== End of Page Header 1 Section =============== -->
+
+
+
+
+
+    <!-- ===== Start of Shop Section ===== -->
+    <section class="shop ptb80">
+        <div class="container">
+            <div class="row">
+
+                <!-- Start of Shop Product Wrapper -->
+                <div class="col-md-8 col-md-push-4 col-xs-12 shop-products-wrapper">
+
+                    <!-- Start of Products -->
+                    <div class="row">
+                        {% for product in products %}
+                        <!-- Start of Product 1 -->
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="product">
+
+                                <!-- Product Image -->
+                                <div class="product-image">
+
+                                    <a href="{{ asset('Livres/img/'~product.image) }}" class="hover-zoom">
+                                        <img src="{{ asset('Livres/img/'~product.image) }}" class="img-responsive" alt="Image de {{ product.name }}">
+                                    </a>
+
+                                    <!-- Product overlay -->
+                                    <div class="product-overlay">
+                                        <a href="{{ path('cart_add', {'id': product.id}) }}"><i class="fa fa-shopping-cart"></i>Add to Cart</a>
+                                    </div>
+
+                                </div>
+
+                                <!-- Product Description -->
+                                <div class="product-descr">
+
+                                    <a href="#">
+                                        <h4>Author: {{ product.name }}</h4>
+
+                                        <!-- Price -->
+                                        <span class="price">
+                                        <span class="amount">{{ product.price }} DT</span>
+                                        </span>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- End of Product 1 -->
+                        {% endfor %}
+                    </div>
+                    <!-- End of Products -->
+
+
+                    <!-- Start of Pagination -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="pagination list-inline text-center">
+                                <li>{{ knp_pagination_render(products) }}</li>
+                               <!-- <li class="active"><a href="javascript:void(0)">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><a href="#">Next</a></li> -->
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- End of Pagination -->
+
+                </div>
+                <!-- End of Shop Product Wrapper -->
+
+
+
+
+                <!-- Start of Shop Sidebar -->
+                <div class="col-md-4 col-md-pull-8 col-xs-12 shop-sidebar">
+
+                    <!-- Start of Search -->
+                    <div class="col-md-12">
+                       <h4 class="widget-title">Product Filter</h4>
+
+                        <div id="price-slider"></div>
+                        <form action="#" method="get">
+                            <!--<input type="text" class="form-control" placeholder="search..."> -->
+                            {{ form_start(form)}}
+                                {{ form_row(form.q) }}
+                                <div class="row">
+
+                                    <div class="col-md-6">  
+                                        {{ form_row(form.price)}}
+                                    </div>
+                                </div>
+                            <button class="btn btn-blue btn-effect" type="submit">Filter</button>
+                            {{ form_end(form) }}
+                        </form>
+                    </div>
+                    <!-- End of Search -->
+
+                    <!-- Start of Price Filter -->
+                    <!--
+                    <div class="col-md-12 price-filter mt40">
+                        <div class="price-slider-amount mt40">
+                            <input type="text" id="amount" name="price" placeholder="Add Your Price"> 
+                        </div>
+
+                    </div> -->
+                    <!-- End of Price Filter -->
+
+                </div>
+                <!-- End of Shop Sidebar -->
+
+            </div>
+        </div>
+    </section>
+    <!-- ===== End of Shop Section ===== -->
 {% endblock %}

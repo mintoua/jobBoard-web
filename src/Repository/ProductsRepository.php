@@ -2,9 +2,13 @@
 
 namespace App\Repository;
 
+use App\Data\SearchData;
 use App\Entity\Products;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @method Products|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,9 +18,15 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ProductsRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
+
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, Products::class);
+        $this->paginator = $paginator;
     }
 
     // /**
@@ -47,4 +57,44 @@ class ProductsRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * @param SearchData $search
+     * @return PaginationInterface
+     */
+    public function findSearch(SearchData $search): PaginationInterface{
+
+        $query = $this
+            ->createQueryBuilder('p');
+        if(!empty($search->q)){
+            $query = $query
+                ->andWhere('p.name LIKE :q')
+                ->setParameter('q', "%{$search->q}%");
+        }
+        if(!empty($search->price)){
+            $query = $query
+                ->andWhere('p.price = :price')
+                ->setParameter('price', "%{$search->price}%");
+        }   
+
+        $query= $query->getQuery();
+        return $this->paginator->paginate($query,1,3);
+    }
+
+
+
+    public function OrderByPrice(){
+
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('
+                select p from App\Entity\Products p order by p.price ASC');
+        return $query->getResult();
+    }
+
+    public function searchProductByName($name){
+        return $this->createQueryBuilder('p')
+            ->where('p.name LIKE :name')
+            ->setParameter('name', '%'.$name.'%')
+            ->getQuery()->getResult();
+    }
 }

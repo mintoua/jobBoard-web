@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\ProductsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ProductsRepository::class)
@@ -14,36 +16,63 @@ class Products
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=5, max=32,
+     * minMessage = "Your first name must be at least 5 characters long",
+     * maxMessage = "Your first name cannot be longer than 32 characters")
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Your name cannot contain a number"
+     * )
+     * @Assert\NotBlank
+     * @Groups("post:read")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Groups("post:read")
      */
     private $ref;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Regex("/^\w+/")
+     * @Assert\Length(min=10)
+     * @Groups("post:read")
      */
     private $description;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\Positive
+     * @Assert\NotNull
+     * @Groups("post:read")
      */
     private $price;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Positive
+     * @Assert\NotBlank
+     * @Assert\NotNull
+     * @Groups("post:read")
      */
     private $quantity;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\NotNull
+     * @Assert\Regex(pattern ="/^[^\\s]+.(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$/i")
+     * @Groups("post:read")
      */
     private $image;
 

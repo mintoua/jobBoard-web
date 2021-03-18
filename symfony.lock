@@ -86,6 +86,12 @@
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
+    "knplabs/knp-components": {
+        "version": "v2.5.1"
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v5.3.0"
+    },
     "laminas/laminas-code": {
         "version": "3.4.1"
     },
@@ -133,6 +139,9 @@
             "version": "1.2",
             "ref": "6c1ceb662f8997085f739cd089bfbef67f245983"
         }
+    },
+    "stripe/stripe-php": {
+        "version": "v7.75.0"
     },
     "swiftmailer/swiftmailer": {
         "version": "v6.0.2"
@@ -314,6 +323,9 @@
     "symfony/security-http": {
         "version": "v4.4.19"
     },
+    "symfony/serializer": {
+        "version": "v4.4.20"
+    },
     "symfony/service-contracts": {
         "version": "v2.2.0"
     },
@@ -379,6 +391,28 @@
             "version": "3.3",
             "ref": "dae9b39fd6717970be7601101ce5aa960bf53d9a"
         }
+    },
+    "symfony/webpack-encore-bundle": {
+        "version": "1.9",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.9",
+            "ref": "9399a0bfc6ee7a0c019f952bca46d6a6045dd451"
+        },
+        "files": [
+            "./assets/app.js",
+            "./assets/bootstrap.js",
+            "./assets/controllers.json",
+            "./assets/controllers/hello_controller.js",
+            "./assets/styles/app.css",
+            "./config/packages/assets.yaml",
+            "./config/packages/prod/webpack_encore.yaml",
+            "./config/packages/test/webpack_encore.yaml",
+            "./config/packages/webpack_encore.yaml",
+            "./package.json",
+            "./webpack.config.js"
+        ]
     },
     "symfony/webpack-encore-pack": {
         "version": "1.0",
