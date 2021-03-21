@@ -21,6 +21,15 @@ class DemandeRecrutementRepository extends ServiceEntityRepository
         parent::__construct($registry, DemandeRecrutement::class);
     }
 
+    public function finddemande($off, $user)
+    {
+
+        $entityManager = $this->getEntityManager();
+
+        return $entityManager->createQuery('select m FROM App\Entity\DemandeRecrutement m WHERE m.offre =' . $off . ' and m.candidat =' . $user)
+            ->getResult();
+    }
+
     public function findOff($str)
     {
 

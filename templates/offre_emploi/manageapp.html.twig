@@ -1,0 +1,223 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+	<!-- Content -->
+	<div
+		class="page-content bg-white">
+		<!-- contact area -->
+		<div
+			class="content-block">
+			<!-- Browse Jobs -->
+			<div class="section-full bg-white p-t50 p-b20">
+				<div class="container">
+					<div class="row">
+						<div class="col-xl-3 col-lg-4 m-b30">
+							<div class="sticky-top">
+								<div class="candidate-info company-info">
+									<div class="candidate-detail text-center">
+										<div class="canditate-des">
+											<a href="javascript:void(0);">
+												<img alt="" src="{{ asset( 'frontOffice/' ) }}images/logo/icon3.jpg"/>
+											</a>
+											<div class="upload-link" title="update" data-toggle="tooltip" data-placement="right">
+												<input type="file" class="update-flie"/>
+												<i class="fa fa-pencil"></i>
+											</div>
+										</div>
+										<div class="candidate-title">
+											<h4 class="m-b5">
+												<a href="javascript:void(0);">@COMPANY</a>
+											</h4>
+										</div>
+									</div>
+									<ul>
+										<li><a href="company-profile.html"><i class="fa fa-user-o" aria-hidden="true"></i><span>Company Profile</span></a></li>
+										<li><a href="company-post-jobs.html"><i class="fa fa-file-text-o" aria-hidden="true"></i><span>Post A Job</span></a></li>
+										<li><a href="company-transactions.html"><i class="fa fa-random" aria-hidden="true"></i><span>Transactions</span></a></li>
+										<li><a href="company-manage-job.html" class="active"><i class="fa fa-briefcase" aria-hidden="true"></i><span>Manage jobs</span></a></li>
+										<li><a href="company-resume.html"><i class="fa fa-id-card-o" aria-hidden="true"></i><span>Resume</span></a></li>
+										<li><a href="jobs-change-password.html"><i class="fa fa-key" aria-hidden="true"></i><span>Change Password</span></a></li>
+										<li><a href="index.html"><i class="fa fa-sign-out" aria-hidden="true"></i><span>Log Out</span></a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-9 col-lg-8 m-b30">
+							<div class="job-bx clearfix">
+								<div class="job-bx-title clearfix">
+									<h5 class="font-weight-700 pull-left text-uppercase">
+										Job applies
+									</h5>
+								</br>
+								<h5 class="font-weight-700 pull-left text-uppercase">
+									{% for c in offre %}
+										Job Title :
+										{{ c.titre }}
+									{% endfor %}
+								</h5>
+
+								<div class="float-right">
+									<span class="select-title">Sort by freshness</span>
+									<select>
+										<option>
+											All
+										</option>
+										<option>
+											None
+										</option>
+										<option>
+											Read
+										</option>
+										<option>
+											Unread
+										</option>
+										<option>
+											Starred
+										</option>
+										<option>
+											Unstarred
+										</option>
+									</select>
+								</div>
+							</div>
+							<table class="table-job-bx cv-manager company-manage-job">
+								<thead>
+									<tr>
+										<th class="feature">
+											<div class="custom-control custom-checkbox">
+												<input type="checkbox" id="check12" class="custom-control-input selectAllCheckBox" name="example1"/>
+												<label class="custom-control-label" for="check12"></label>
+											</div>
+										</th>
+										<th>
+											User Name
+										</th>
+										<th>
+											Applications
+										</th>
+										<th>
+											Actions
+										</th>
+										<th style="text-align:center">
+											Status
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for c in list %}
+										{% for i in arr %}
+											{% if i[0][0].id == c.id %}
+												<tr>
+													<td class="feature">
+														<div class="custom-control custom-checkbox">
+															<input type="checkbox" class="custom-control-input" id="check1" name="example1"/>
+															<label class="custom-control-label" for="check1"></label>
+														</div>
+													</td>
+													<td class="job-name">
+														<a href="javascript:void(0);">
+															{{ i[1][0].firstName }}
+														</a>
+														<a href="javascript:void(0);">
+															{{ i[1][0].lastName }}
+														</a>
+														<ul class="job-post-info">
+															<li>
+																<i class="fa fa-map-marker"></i>
+																{{ i[1][0].lastName }}
+															</li>
+															<li>
+																<i class="fa fa-bookmark-o"></i>
+																{{ i[1][0].firstName }}
+															</li>
+															<li>
+																<i class="fa fa-filter"></i>
+																{{ i[1][0].firstName }}
+															</li>
+														</ul>
+													</td>
+													<td class="application text-primary">
+														(1) Applications
+													</td>
+													<td class="job-links">
+														<a href="" style="site-button">
+															Treat apply
+														</a>
+													</td>
+													<td>
+														{% if i[0][0].status %}
+															<div class="expired success">
+																Treated
+															</div>
+														{% else %}
+															<div class="expired text-red">
+																Loading ...
+															</div>
+														{% endif %}
+													</td>
+												</tr>
+											{% endif %}
+										{% endfor %}
+									{% endfor %}
+									<tr></tr>
+								</tbody>
+							</table>
+							<div class="pagination-bx m-t30 float-right">
+								{{ knp_pagination_render(list) }}
+							</div>
+							<!-- Modal -->
+							<div class="modal fade modal-bx-info" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<div class="logo-img">
+												<img alt="" src="{{ asset( 'frontOffice/' ) }}images/logo/icon2.png"/>
+											</div>
+											<h5 class="modal-title">
+												Company Name
+											</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<ul>
+												<li>
+													<strong>User Name :</strong>
+													<p>
+														Web Developer – PHP, HTML, CSS
+													</p>
+												</li>
+												<li>
+													<strong>Experience :</strong>
+													<p>
+														5 Year 3 Months
+													</p>
+												</li>
+												<li>
+													<strong>Deseription :</strong>
+													<p>
+														Lorem Ipsum is simply dummy text of the printing
+														                              and typesetting industry has been the industry's
+														                              standard dummy text ever since.
+													</p>
+												</li>
+											</ul>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">
+												Close
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- Modal End -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Browse Jobs END -->
+	</div>
+</div>
+<!-- Content END -->{% endblock %}

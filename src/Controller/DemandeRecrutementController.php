@@ -23,7 +23,7 @@ class DemandeRecrutementController extends AbstractController
         $r = $this->getDoctrine()->getRepository(OffreEmploi::class);
         $job = $r->find($id);
         $a = $this->getDoctrine()->getRepository(User::class);
-        $user = $a->find(2);
+        $user = $a->find(3);
         $b = $this->getDoctrine()->getRepository(DemandeRecrutement::class);
 
         $apply->setOffre($job);
@@ -34,7 +34,7 @@ class DemandeRecrutementController extends AbstractController
         //$exp->format('Y-m-d H:i:s');
         //date('Y-m-d H:i:s', strtotime('+1 day', $exp));
         $apply->setDateexpiration($exp);
-        if ($b->findBy(['offre' => $id]) == null) {
+        if ($b->finddemande($id, $user->getId()) == null) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($apply);
             $em->flush();
@@ -52,9 +52,16 @@ class DemandeRecrutementController extends AbstractController
 
         $offresapplied = new ArrayCollection();
         $offresapplied = $user->getApplies();
+        if ($offresapplied == null) {
+            return $this->render('demande_recrutement/appliedjobs.html.twig', [
+                'list' => null, 'nb' => 0, 'mes' => "No Applies"
+            ]);
+        }
         $arr = array();
+        $stat = array();
         foreach ($offresapplied->getIterator() as $key => $value) {
             array_push($arr, $value->getOffre()->getId());
+            array_push($stat, $value->getStatus());
         }
         $str = "";
         for ($i = 0; $i < count($arr); $i++) {
@@ -70,7 +77,7 @@ class DemandeRecrutementController extends AbstractController
         $count = $b->countOff($str);
 
         return $this->render('demande_recrutement/appliedjobs.html.twig', [
-            'list' => $jobs, 'nb' => $count, 'mes' => $mes
+            'list' => $jobs, 'nb' => $count, 'mes' => $mes, 'status' => $stat
         ]);
     }
 
@@ -101,7 +108,7 @@ class DemandeRecrutementController extends AbstractController
         $stat = array();
         foreach ($off->getIterator() as $key => $value) {
             array_push($arr, $value->getOffre()->getId());
-            array_push($stat,$value->getStatus());
+            array_push($stat, $value->getStatus());
         }
 
         $str = "";
@@ -118,7 +125,7 @@ class DemandeRecrutementController extends AbstractController
         $count = $b->countOff($str);
 
         return $this->render('demande_recrutement/appliedjobs.html.twig', [
-            'list' => $jobs, 'nb' => $count, 'mes' => '','status'=>$stat
+            'list' => $jobs, 'nb' => $count, 'mes' => '', 'status' => $stat
         ]);
     }
 }

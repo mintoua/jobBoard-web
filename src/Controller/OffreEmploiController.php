@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\OffreEmploi;
+use App\Entity\User;
 use App\Entity\DemandeRecrutement;
 use App\Form\OffreEmploiType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -44,13 +45,35 @@ class OffreEmploiController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/seeapp/{id}", name="seeapp")
+     */
+    public function seeapp($id, Request $request, PaginatorInterface $pag)
+    {
+        $r = $this->getDoctrine()->getRepository(User::class);
+        $app = $this->getDoctrine()->getRepository(DemandeRecrutement::class)->findBy(['offre' => $id]);
+        $off = $this->getDoctrine()->getRepository(OffreEmploi::class)->findBy(['id' => $id]);
+        $arr = array();
+        foreach ($app as $value) {
+            $user = $r->findBy(['id' => $value->getCandidat()]);
+            array_push($arr, array($app, $user));
+        }
+        //dump($arr[0][1]);
+
+        $apps = $pag->paginate($app, $request->query->getInt('page', 1), 4);
+
+        return $this->render('offre_emploi/manageapp.html.twig', [
+            'list' => $apps, 'arr' => $arr, 'offre' => $off
+        ]);
+    }
+
     /**
      * @Route("/modify/{id}", name="modify")
      */
     public function modjob(Request $request, $id)
     {
-        $r = $this->getDoctrine()->getRepository(OffreEmploi::class);
-        $job = $r->find($id);
+        $job = $this->getDoctrine()->getRepository(OffreEmploi::class)->find($id);
         $form = $this->createForm(OffreEmploiType::class, $job);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
