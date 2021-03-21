@@ -135,11 +135,15 @@
                       <th>
                         Date
                       </th>
+                      <th>
+                        Status
+                      </th>
                       <th></th>
                     </tr>
                   </thead>
                   <tbody>
                     {% for c in list %}
+                    {% set var = 0 %}
                       <tr>
                         <td class="job-post-company">
                           <a href="javascript:void(0);">
@@ -159,8 +163,20 @@
                         <td class="criterias text-primary">
                           <a href="company-profile.html">@company-name</a>
                         </td>
-                        <td class="date">
+                        <td>
                           {{ date(c.getDateExpiration())|date('d-m-Y') }}
+                        </td>
+                        <td class="date">
+                          {% if status[var] %}
+                              <div class="expired success">
+                              Treated
+                              </div>
+                            {% else %}
+                            <div class="expired text-red">
+                              Loading ...
+                              </div>
+                          {% endif %}
+                          {% set var = var + 1 %}
                         </td>
                         <td class="job-links">
                           <a href="javascript:void(0);"

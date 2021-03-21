@@ -218,7 +218,7 @@ class OffreEmploiController extends AbstractController
             $dates[] = $annonce['dateAnnonces'];
             $annoncesCount[] = $annonce['count'];
         }
-        
+
         return $this->render('offre_emploi/jobdetails.html.twig', [
             'categNom' => json_encode($categNom),
             'categColor' => json_encode($categColor),

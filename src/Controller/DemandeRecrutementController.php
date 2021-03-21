@@ -27,6 +27,7 @@ class DemandeRecrutementController extends AbstractController
         $b = $this->getDoctrine()->getRepository(DemandeRecrutement::class);
 
         $apply->setOffre($job);
+        $apply->setStatus(false);
         $apply->setCandidat($user);
         $apply->setDateDebut(new \DateTime('now'));
         $exp = new \DateTime('now + 10 day');
@@ -87,10 +88,8 @@ class DemandeRecrutementController extends AbstractController
      */
     public function listapp($id, Request $request, PaginatorInterface $pag)
     {
-        $em = $this->getDoctrine()->getManager();
         $b = $this->getDoctrine()->getRepository(DemandeRecrutement::class);
-        $use = $em->getRepository(User::class)
-            ->find($id);
+        $use = $this->getDoctrine()->getRepository(User::class)->find($id);
         $off = new ArrayCollection();
         $off = $use->getApplies();
         if ($off->isEmpty()) {
@@ -99,8 +98,10 @@ class DemandeRecrutementController extends AbstractController
             ]);
         }
         $arr = array();
+        $stat = array();
         foreach ($off->getIterator() as $key => $value) {
             array_push($arr, $value->getOffre()->getId());
+            array_push($stat,$value->getStatus());
         }
 
         $str = "";
@@ -117,7 +118,7 @@ class DemandeRecrutementController extends AbstractController
         $count = $b->countOff($str);
 
         return $this->render('demande_recrutement/appliedjobs.html.twig', [
-            'list' => $jobs, 'nb' => $count, 'mes' => ''
+            'list' => $jobs, 'nb' => $count, 'mes' => '','status'=>$stat
         ]);
     }
 }

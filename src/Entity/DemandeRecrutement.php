@@ -38,6 +38,11 @@ class DemandeRecrutement
      */
     private $dateexpiration;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $status;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -87,6 +92,18 @@ class DemandeRecrutement
     public function setDateexpiration(\DateTimeInterface $dateexpiration): self
     {
         $this->dateexpiration = $dateexpiration;
+
+        return $this;
+    }
+
+    public function getStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
