@@ -18,13 +18,13 @@ class DemandeRecrutement
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=offreemploi::class, inversedBy="applies")
+     * @ORM\ManyToOne(targetEntity=OffreEmploi::class, inversedBy="applies")
      * @ORM\JoinColumn(nullable=false)
      */
     private $offre;
 
     /**
-     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="applies")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="applies")
      */
     private $candidat;
 

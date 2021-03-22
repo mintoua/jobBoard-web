@@ -30,7 +30,7 @@ class Categorie
     private $couleur;
 
     /**
-     * @ORM\OneToMany(targetEntity=Offreemploi::class, mappedBy="categorie")
+     * @ORM\OneToMany(targetEntity=OffreEmploi::class, mappedBy="categorie")
      */
     private $offreemplois;
 
@@ -69,14 +69,14 @@ class Categorie
     }
 
     /**
-     * @return Collection|Offreemploi[]
+     * @return Collection|OffreEmploi[]
      */
     public function getOffreemplois(): Collection
     {
         return $this->offreemplois;
     }
 
-    public function addOffreemploi(Offreemploi $offreemploi): self
+    public function addOffreemploi(OffreEmploi $offreemploi): self
     {
         if (!$this->offreemplois->contains($offreemploi)) {
             $this->offreemplois[] = $offreemploi;
@@ -86,7 +86,7 @@ class Categorie
         return $this;
     }
 
-    public function removeOffreemploi(Offreemploi $offreemploi): self
+    public function removeOffreemploi(OffreEmploi $offreemploi): self
     {
         if ($this->offreemplois->removeElement($offreemploi)) {
             // set the owning side to null (unless already changed)

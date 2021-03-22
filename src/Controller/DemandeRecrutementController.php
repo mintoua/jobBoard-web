@@ -96,10 +96,10 @@ class DemandeRecrutementController extends AbstractController
     public function listapp($id, Request $request, PaginatorInterface $pag)
     {
         $b = $this->getDoctrine()->getRepository(DemandeRecrutement::class);
-        $use = $this->getDoctrine()->getRepository(User::class)->find($id);
-        $off = new ArrayCollection();
+        $use = $this->getDoctrine()->getRepository(User::class)->find( $id);
         $off = $use->getApplies();
-        if ($off->isEmpty()) {
+
+        if ($off->isEmpty() || $off == null) {
             return $this->render('demande_recrutement/appliedjobs.html.twig', [
                 'list' => null, 'nb' => 0, 'mes' => "No Applies"
             ]);

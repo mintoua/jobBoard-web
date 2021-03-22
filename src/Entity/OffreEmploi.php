@@ -148,7 +148,7 @@ class OffreEmploi
     private $applies;
 
     /**
-     * @ORM\ManyToOne(targetEntity=categorie::class, inversedBy="offreemplois")
+     * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="offreemplois")
      * @ORM\JoinColumn(nullable=false)
      */
     private $categorie;
