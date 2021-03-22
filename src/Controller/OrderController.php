@@ -42,16 +42,17 @@ class OrderController extends AbstractController
     /**
      * @Route("/create-checkout-session", name="checkout")
      */
-    public function checkout(CartService $cartService){
-        $lineItems =[];
-        foreach ($cartService->getFullCart() as $item){
+    public function checkout(CartService $cartService)
+    {
+        $lineItems = [];
+        foreach ($cartService->getFullCart() as $item) {
             $lineItems[] = [
-                'price_data'=>[
+                'price_data' => [
                     'currency' => 'eur',
                     'product_data' => [
                         'name' => $item['product']->getName(),
                     ],
-                    'unit_amount'=> ceil(($item['product']->getPrice())/3)*100,
+                    'unit_amount' => ceil(($item['product']->getPrice()) / 3) * 100,
                 ],
                 'quantity' => $item['quantity'],
             ];
@@ -62,11 +63,11 @@ class OrderController extends AbstractController
             'payment_method_types' => ['card'],
             'line_items' => [$lineItems],
             'mode' => 'payment',
-            'success_url' => $this->generateUrl('add_order',[],UrlGeneratorInterface::ABSOLUTE_URL),
-            'cancel_url' => $this->generateUrl('order',[],UrlGeneratorInterface::ABSOLUTE_URL),
+            'success_url' => $this->generateUrl('add_order', [], UrlGeneratorInterface::ABSOLUTE_URL),
+            'cancel_url' => $this->generateUrl('order', [], UrlGeneratorInterface::ABSOLUTE_URL),
         ]);
 
-        return new JsonResponse([ 'id' => $session->id ]);
+        return new JsonResponse(['id' => $session->id]);
     }
 
     /**
@@ -78,21 +79,21 @@ class OrderController extends AbstractController
         $totalPayment = $cartService->getTotal();
         $state = false;
         $date = date('Y/m/d');
-        $order = new Order($idUser,$totalPayment,$state,$date);
- 
+        $order = new Order($idUser, $totalPayment, $state, $date);
+
         $em = $this->getDoctrine()->getManager();
 
-        foreach ($cartService->getFullCart() as $item){
+        foreach ($cartService->getFullCart() as $item) {
             $idOrder = $order;
             $idProduct = $item['product'];
             $quantity = $item['quantity'];
-            $productCart = new ProductCart($idOrder,$idProduct,$quantity);
+            $productCart = new ProductCart($idOrder, $idProduct, $quantity);
             $em->persist($productCart);
             $em->flush();
         }
         //envoie de notification client
         $message = (new \Swift_Message('Payment affectué'))
-            ->setFrom('tpkdmta@gmail.com')
+            ->setFrom('jobhubwebsiteesprit@gmail.com')
             ->setTo('toupkandimintoua@gmail.com')
             ->setBody(
                 $this->renderView(
@@ -102,7 +103,7 @@ class OrderController extends AbstractController
             );
         $mailer->send($message);
 
-        $this->addFlash('message','Order saved successfully!!');
+        $this->addFlash('message', 'Order saved successfully!!');
         $cartService->clearCart();
         return $this->redirectToRoute("product");
     }
@@ -110,29 +111,33 @@ class OrderController extends AbstractController
      * 
      *@Route("/order_list", name="order_list")
      */
-    public function readOrder(){
+    public function readOrder()
+    {
         $read = $this->getDoctrine()->getRepository(Order::class);
         $orders = $read->findAll();
 
-        return $this->render('order/readOrder.html.twig',
-        ['orders'=>$orders]);
+        return $this->render(
+            'order/readOrder.html.twig',
+            ['orders' => $orders]
+        );
     }
-     
+
     /**
      * @Route("/edit/{id}", name="edit_order")
      */
-    public function editOrder(Request $request, $id){
-        
+    public function editOrder(Request $request, $id)
+    {
+
         $order = $this->getDoctrine()->getRepository(Order::class)->find($id);
 
         $form = $this->createFormBuilder($order)
-            ->add('totalPayment',MoneyType::class)
-            ->add('state',TextType::class)
-            ->add('save',SubmitType::class, array('label'=>'Edit','attr'=>array('class'=>'btn btn-primary mt-3')))
+            ->add('totalPayment', MoneyType::class)
+            ->add('state', TextType::class)
+            ->add('save', SubmitType::class, array('label' => 'Edit', 'attr' => array('class' => 'btn btn-primary mt-3')))
             ->getForm();
 
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
             $em->flush();
@@ -140,14 +145,15 @@ class OrderController extends AbstractController
             return $this->redirectToRoute('order_list');
         }
 
-        return $this->render('order/editOrder.html.twig',[
-            'form'=> $form->createView()
+        return $this->render('order/editOrder.html.twig', [
+            'form' => $form->createView()
         ]);
     }
     /**
      * @Route("/remove_order/{id}", name="delete_order")
      */
-    public function deleteProduct($id, OrderRepository $rep){
+    public function deleteProduct($id, OrderRepository $rep)
+    {
         $order = $rep->find($id);
         $em = $this->getDoctrine()->getManager();
         $em->remove($order);
@@ -155,5 +161,4 @@ class OrderController extends AbstractController
 
         return $this->redirectToRoute("order_list");
     }
-
 }
