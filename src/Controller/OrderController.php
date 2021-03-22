@@ -94,7 +94,7 @@ class OrderController extends AbstractController
         //envoie de notification client
         $message = (new \Swift_Message('Payment affectué'))
             ->setFrom('jobhubwebsiteesprit@gmail.com')
-            ->setTo('toupkandimintoua@gmail.com')
+            ->setTo('oussema.makni@esprit.tn')
             ->setBody(
                 $this->renderView(
                     'order/add_notif.html.twig'
