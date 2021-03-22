@@ -2405,7 +2405,7 @@ input[type=radio]:checked + label:before {
 .loading-pic {
     width: 70px;
     height: 70px;
-    background: url(../error-404.html) center no-repeat;
+    background: url(inc/images/loading.GIF) center no-repeat;
     position: fixed;
     left: 50%;
     top: 50%;
@@ -11103,7 +11103,7 @@ button.scroltop {
 }
 .footer-white .footer-top {
     background-color: #fff9ff;
-	background-image: url(../error-404.html);
+	background-image: url(../images/background/bg8.jpg);
 	background-size: 100%;
 	background-position: top;
 	background-repeat: no-repeat;

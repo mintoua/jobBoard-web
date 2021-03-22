@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Ryaan
@@ -9,9 +10,12 @@
 namespace App\Entity;
 
 use App\Validator\Constraints\ComplexPassword;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use InvalidArgumentException;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -107,6 +111,22 @@ class User implements AdvancedUserInterface, \Serializable
      * @ORM\Column(type="string", nullable=true)
      */
     private $phone;
+
+    /**
+     * @ORM\OneToMany(targetEntity=OffreEmploi::class, mappedBy="idRecruteur")
+     */
+    private $offreEmplois;
+
+    /**
+     * @ORM\OneToMany(targetEntity=DemandeRecrutement::class, mappedBy="candidat")
+     */
+    private $applies;
+
+    public function __construct()
+    {
+        $this->offreEmplois = new ArrayCollection();
+        $this->applies = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -292,13 +312,11 @@ class User implements AdvancedUserInterface, \Serializable
 
     public function setRoles(array $roles)
     {
-        if (!in_array('ROLE_USER', $roles))
-        {
+        if (!in_array('ROLE_USER', $roles)) {
             $roles[] = 'ROLE_USER';
         }
-        foreach ($roles as $role)
-        {
-            if(substr($role, 0, 5) !== 'ROLE_') {
+        foreach ($roles as $role) {
+            if (substr($role, 0, 5) !== 'ROLE_') {
                 throw new InvalidArgumentException("Chaque rôle doit commencer par 'ROLE_'");
             }
         }
@@ -359,7 +377,7 @@ class User implements AdvancedUserInterface, \Serializable
             $this->firstName,
             $this->lastName,
             $this->phone,
-                $this->roles,
+            $this->roles,
             $this->password,
             $this->isActive,
 
@@ -369,7 +387,7 @@ class User implements AdvancedUserInterface, \Serializable
     /** @see \Serializable::unserialize() */
     public function unserialize($serialized)
     {
-        list (
+        list(
             $this->id,
             $this->email,
             $this->firstName,
@@ -379,6 +397,95 @@ class User implements AdvancedUserInterface, \Serializable
             $this->password,
             $this->isActive,
 
-            ) = unserialize($serialized);
+        ) = unserialize($serialized);
+    }
+
+    public function getLng(): ?float
+    {
+        return $this->lng;
+    }
+
+    public function setLng(?float $lng): self
+    {
+        $this->lng = $lng;
+
+        return $this;
+    }
+
+    public function getLat(): ?float
+    {
+        return $this->lat;
+    }
+
+    public function setLat(?float $lat): self
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    public function getActivatedAt(): ?\DateTimeInterface
+    {
+        return $this->activatedAt;
+    }
+
+    /**
+     * @return Collection|OffreEmploi[]
+     */
+    public function getOffreEmplois(): Collection
+    {
+        return $this->offreEmplois;
+    }
+
+    public function addOffreEmploi(OffreEmploi $offreEmploi): self
+    {
+        if (!$this->offreEmplois->contains($offreEmploi)) {
+            $this->offreEmplois[] = $offreEmploi;
+            $offreEmploi->setIdRecruteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffreEmploi(OffreEmploi $offreEmploi): self
+    {
+        if ($this->offreEmplois->removeElement($offreEmploi)) {
+            // set the owning side to null (unless already changed)
+            if ($offreEmploi->getIdRecruteur() === $this) {
+                $offreEmploi->setIdRecruteur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DemandeRecrutement[]
+     */
+    public function getApplies(): Collection
+    {
+        return $this->applies;
+    }
+
+    public function addApply(DemandeRecrutement $apply): self
+    {
+        if (!$this->applies->contains($apply)) {
+            $this->applies[] = $apply;
+            $apply->setCandidat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApply(DemandeRecrutement $apply): self
+    {
+        if ($this->applies->removeElement($apply)) {
+            // set the owning side to null (unless already changed)
+            if ($apply->getCandidat() === $this) {
+                $apply->setCandidat(null);
+            }
+        }
+
+        return $this;
     }
 }

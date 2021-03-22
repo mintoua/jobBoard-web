@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Ryaan
@@ -29,7 +30,7 @@ class Mailer
      * @param LoggerInterface $logger
      * @param string $noreply
      */
-    public function __construct(\Swift_Mailer $mailer, RouterInterface $router, \Twig_Environment $twig, LoggerInterface $logger, $noreply)
+    public function __construct(\Swift_Mailer $mailer, RouterInterface $router, \Twig\Environment $twig, LoggerInterface $logger, $noreply)
     {
         $this->mailer = $mailer;
         $this->router = $router;
