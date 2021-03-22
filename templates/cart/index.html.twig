@@ -1,0 +1,221 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+        <!-- =============== Start of Page Header 1 Section =============== -->
+        <section class="page-header">
+            <div class="container">
+
+                <!-- Start of Page Title -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>cart</h2>
+                    </div>
+                </div>
+                <!-- End of Page Title -->
+
+                <!-- Start of Breadcrumb -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul class="breadcrumb">
+                            <li><a href="#">home</a></li>
+                            <li class="active">shop</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- End of Breadcrumb -->
+
+            </div>
+        </section>
+        <!-- =============== End of Page Header 1 Section =============== -->
+
+
+
+
+
+        <!-- ===== Start of Shop Cart Section ===== -->
+        <section class="shop ptb80">
+            <div class="container">
+                <div class="row">
+
+                    <!-- Start of Cart Wrapper -->
+                    <div class="col-md-12 cart-wrapper">
+
+                        <!-- Start of Table Responsive -->
+                        <div class="table-responsive">
+                            <!-- Start of Cart Table -->
+                            {% if items | length > 0 %}
+                            <table class="table cart">
+                                <thead>
+                                    <tr>
+                                        <th class="cart-product-remove">&nbsp;</th>
+                                        <th class="cart-product-thumbnail">&nbsp;</th>
+                                        <th class="cart-product-name">Product</th>
+                                        <th class="cart-product-price">Unit Price</th>
+                                        <th class="cart-product-quantity">Quantity</th>
+                                        <th class="cart-product-subtotal">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in items %}
+                                        <!-- Start of Cart Item 1 -->
+                                        <tr class="cart-item">
+
+                                            <!-- Cart Remove Product -->
+                                            <td class="cart-product-remove">
+                                                <a href="{{path('cart_remove', {'id': item.product.id})}}" class="remove" title="Remove this item"><i class="fa fa-times"></i></a>
+                                            </td>
+
+                                            <!-- Cart Product Thumbnail -->
+                                            <td class="cart-product-thumbnail">
+                                                <a href="#">
+                                                    <img width="64" height="64" src="{{ asset('Livres/img/'~item.product.image) }}" alt="">
+                                                </a>
+                                            </td>
+
+                                            <!-- Cart Product Name -->
+                                            <td class="cart-product-name">
+                                                <a href="#">{{ item.product.name}}</a>
+                                            </td>
+
+                                            <!-- Cart Product Price -->
+                                            <td class="cart-product-price">
+                                                <span class="amount">{{ item.product.price}} DT</span>
+                                            </td>
+
+                                            <!-- Cart Product Quantity -->
+                                            <td class="cart-product-quantity">
+                                                <div class="quantity clearfix">
+                                                    <a class="minus" href="{{path('cart_decrease', {'id': item.product.id})}}">-</a>
+                                                    <input type="text" name="quantity" value="{{ item.quantity}}" class="qty">
+                                                    <a class="plus" href="{{path('cart_add', {'id': item.product.id})}}">+</a>
+                                                </div>
+                                            </td>
+
+                                            <!-- Cart Subtotal -->
+                                            <td class="cart-product-subtotal">
+                                                <span class="amount">{{ item.product.price * item.quantity}} DT</span>
+                                            </td>
+                                        </tr>
+                                        <!-- End of Cart Item 1 -->
+                                    {% endfor %}
+                                        <!-- Start of Cart Item -->
+                                        <tr class="cart-item">
+                                            <td colspan="6">
+                                                <div class="row clearfix">
+                                                    <div class="col-md-6 col-xs-12">
+                                                    </div>
+                                                    <div class="col-md-6 col-xs-12 proceed-checkout text-right">
+                                                        <button id="checkout-button" class="btn btn-purple btn-effect">
+                                                            Place Order
+                                                        </button><!--il remplacer par checkout.html.twig-->
+                                                    </div>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- End of Cart Item -->
+                                </tbody>
+                            </table>
+
+                            <!-- End of Cart Table -->
+                        </div>
+                        <!-- End of Table Responsive -->
+                        <div class="row clearfix mt60">
+
+                            <!-- Start of Cart Total -->
+                            <div class="col-md-6 clearfix cart-total">
+                                <div class="table-responsive">
+                                    <h4 class="pb30">Cart Totals</h4>
+
+                                    <!-- Start of Table -->
+                                    <table class="table">
+                                        <tbody>
+                                            <!-- Start of Table Row -->
+                                            <tr>
+                                                <td class="cart-product-name">
+                                                    <strong>Cart Subtotal</strong>
+                                                </td>
+                                                <td class="cart-product-name">
+                                                    <span class="amount">{{ total }} DT</span>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Start of Table Row -->
+                                            <tr>
+                                                <td class="cart-product-name">
+                                                    <strong>Shipping</strong>
+                                                </td>
+
+                                                <td class="cart-product-name">
+                                                    <span class="amount">5 DT for Delivery</span>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Start of Table Row -->
+                                            <tr>
+                                                <td class="cart-product-name">
+                                                    <strong>Total</strong>
+                                                </td>
+
+                                                <td class="cart-product-name">
+                                                    <span class="amount text-blue lead">
+                                                        <strong>{{ total + 5}} DT</strong>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                            {% else %}
+                                <p> <h2> The cart is empty!!! xXD </h2></p>
+                            {% endif %}
+                                    <!-- End of Table -->
+
+                                </div>
+                            </div>
+                            <!-- End of Cart Total -->
+                        </div>
+                        <!-- End of Row -->
+
+                    </div>
+                    <!-- End of Cart Wrapper -->
+
+                </div>
+            </div>
+        </section>
+        <!-- ===== End of Shop Cart Section ===== -->
+
+{% endblock %}
+
+  {% block jsOrder %}
+      <script src="https://js.stripe.com/v3/"></script>
+      <script type="text/javascript">
+          // Create an instance of the Stripe object with your publishable API key
+          var stripe = Stripe('pk_test_51IOn8gKWqxg7sCEOxpUkToP1PejEU9LMy7Paq1mUrAx9OSP71hoI7xCVSVmF8wT8oxjPp7LtU5baWMMIIweuMfZJ000J26h66y');
+          var checkoutButton = document.getElementById('checkout-button');
+
+          checkoutButton.addEventListener('click', function() {
+              // Create a new Checkout Session using the server-side endpoint you
+              // created in step 3.
+              fetch('/create-checkout-session', {
+                  method: 'POST',
+              })
+                  .then(function(response) {
+                      return response.json();
+                  })
+                  .then(function(session) {
+                      return stripe.redirectToCheckout({ sessionId: session.id });
+                  })
+                  .then(function(result) {
+                      // If `redirectToCheckout` fails due to a browser or network
+                      // error, you should display the localized error message to your
+                      // customer using `error.message`.
+                      if (result.error) {
+                          alert(result.error.message);
+                      }
+                  })
+                  .catch(function(error) {
+                      console.error('Error:', error);
+                  });
+          });
+      </script>
+  {% endblock %}

@@ -112,6 +112,7 @@ class User implements AdvancedUserInterface, \Serializable
      */
     private $phone;
 
+
     /**
      * @ORM\OneToMany(targetEntity=OffreEmploi::class, mappedBy="idRecruteur")
      */
@@ -488,4 +489,7 @@ class User implements AdvancedUserInterface, \Serializable
 
         return $this;
     }
+
+
+
 }

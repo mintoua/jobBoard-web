@@ -1,0 +1,80 @@
+{% extends 'baseback.html.twig' %}
+
+{% block contentHeader %}
+           <div class="breadcrumb-holder">
+        <div class="container-fluid">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('back_end') }}">Home</a></li>
+            <li class="breadcrumb-item active">Store Management</li>
+            <li class="breadcrumb-item active">Products</li>
+            <li class="breadcrumb-item active">New Product</li>
+          </ul>
+        </div>
+      </div>
+{% endblock %}
+
+{% block content %}
+
+
+            <div class="card-header d-flex align-items-center">
+                <h4>Fill the form to add a product</h4>
+            </div>
+        <div class="card-body">
+        {{ form_start(form) }}
+                  <p>{{ form_errors(form) }}</p>
+                <form class="form-horizontal">
+                    <div class="form-group row">
+                        <div class="col-sm-2"> 
+                            {{ form_label(form.name) }}
+                        </div>
+                        <div class="col-sm-10">
+                            {{ form_widget(form.name) }}<small class="form-text">Example: Name </small>
+                        </div>
+                        
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-2"> 
+                            {{ form_label(form.ref) }}
+                        </div>
+                        <div class="col-sm-10">
+                            {{ form_widget(form.ref) }}<small class="form-text">Example: 18Name2021</small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-2"> 
+                            {{ form_label(form.description) }}
+                        </div>
+                        <div class="col-sm-10">
+                            {{ form_widget(form.description) }}<small class="form-text">About the Product</small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-2"> 
+                            {{ form_label(form.price) }}
+                        </div>
+                        <div class="col-sm-10">
+                            {{ form_widget(form.price) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-2"> 
+                            {{ form_label(form.quantity) }}
+                        </div>
+                        <div class="col-sm-10">
+                            {{ form_widget(form.quantity) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-2"> 
+                            {{ form_label(form.image) }}
+                        </div>
+                        <div class="col-sm-10">
+                            {{ form_widget(form.image) }}<small class="form-text">Example: name.PNG/JPEG/... </small>
+                        </div>
+                    </div>
+                {{ form_end(form) }}
+                </form>
+        </div>
+
+
+{% endblock %}
