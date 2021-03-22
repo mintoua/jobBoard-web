@@ -1,11 +1,6 @@
 web_profiler:
-<<<<<<< HEAD
   toolbar: true
   intercept_redirects: false
-=======
-    toolbar: true
-    intercept_redirects: true
->>>>>>> mta
 
 framework:
   profiler: { only_exceptions: false }

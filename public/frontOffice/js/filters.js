@@ -3,7 +3,7 @@ window.onload = () => {
 
     // On boucle sur les input
     document.querySelectorAll("#filters input").forEach(input => {
-        input.addEventListener("change", () => {
+        input.addEventListener("keyup", () => {
             // Ici on intercepte les clics
             // On récupère les données du formulaire
             const Form = new FormData(FiltersForm);
