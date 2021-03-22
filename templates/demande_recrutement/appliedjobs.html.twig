@@ -142,8 +142,8 @@
                     </tr>
                   </thead>
                   <tbody>
+                      {% set var = 0 %}
                     {% for c in list %}
-                    {% set var = 0 %}
                       <tr>
                         <td class="job-post-company">
                           <a href="javascript:void(0);">
@@ -167,14 +167,14 @@
                           {{ date(c.getDateExpiration())|date('d-m-Y') }}
                         </td>
                         <td class="date">
-                          {% if status[var] %}
-                              <div class="expired success">
+                          {% if status[var] == true %}
+                            <div class="expired success">
                               Treated
-                              </div>
-                            {% else %}
+                            </div>
+                          {% else %}
                             <div class="expired text-red">
                               Loading ...
-                              </div>
+                            </div>
                           {% endif %}
                           {% set var = var + 1 %}
                         </td>
@@ -200,7 +200,7 @@
                   </tbody>
                 </table>
                 <div class="pagination-bx float-right">
-                  {% if mes is empty %}
+                  {% if mes != "No Applies" %}
                     {{ knp_pagination_render(list) }}
                   {% endif %}
                 </div>

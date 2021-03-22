@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\OffreEmploi;
+use App\Entity\Categorie;
 use App\Entity\User;
 use App\Entity\DemandeRecrutement;
 use App\Form\OffreEmploiType;
@@ -227,17 +228,17 @@ class OffreEmploiController extends AbstractController
     public function details()
     {
         $r = $this->getDoctrine()->getManager();
-        $jobs = $r->getRepository(OffreEmploi::class)->findAll();
+        $categs = $r->getRepository(Categorie::class)->findAll();
 
         $categNom = [];
         $categColor = [];
         $categCount = [];
 
         // On "démonte" les données pour les séparer tel qu'attendu par ChartJS
-        foreach ($jobs as $job) {
-            $categNom[] = $job->getTitre();
-            $categColor[] = $job->getCouleur();
-            $categCount[] = count($job->getApplies());
+        foreach ($categs as $categ) {
+            $categNom[] = $categ->getNom();
+            $categColor[] = $categ->getCouleur();
+            $categCount[] = count($categ->getOffreemplois());
         }
         // On va chercher le nombre d'annonces publiées par date
         $annRepo = $r->getRepository(DemandeRecrutement::class);
