@@ -69,6 +69,16 @@ class OffreEmploiController extends AbstractController
     }
 
     /**
+     * 
+     * @Route("/treatapp/{id}", name="treatapp")
+     */
+    public function treatapp($id, Request $request, PaginatorInterface $pag)
+    {
+        $this->getDoctrine()->getRepository(DemandeRecrutement::class)->treat($id);
+        return $this->seeapp(3,  $request,  $pag);
+    }
+
+    /**
      * @Route("/modify/{id}", name="modify")
      */
     public function modjob(Request $request, $id)

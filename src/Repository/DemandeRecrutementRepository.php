@@ -30,6 +30,15 @@ class DemandeRecrutementRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function treat($id)
+    {
+
+        $entityManager = $this->getEntityManager();
+
+        return $entityManager->createQuery('update App\Entity\DemandeRecrutement m set m.status = true WHERE m.id =' . $id)
+            ->getResult();
+    }
+
     public function findOff($str)
     {
 

@@ -92,7 +92,7 @@
 											User Name
 										</th>
 										<th>
-											Applications
+											Application Date
 										</th>
 										<th>
 											Actions
@@ -123,23 +123,23 @@
 														<ul class="job-post-info">
 															<li>
 																<i class="fa fa-map-marker"></i>
-																{{ i[1][0].lastName }}
+																{{ i[1][0].email }}
 															</li>
 															<li>
 																<i class="fa fa-bookmark-o"></i>
-																{{ i[1][0].firstName }}
+																{{ i[1][0].dateOfBirth|date }}
 															</li>
 															<li>
 																<i class="fa fa-filter"></i>
-																{{ i[1][0].firstName }}
+																{{ i[1][0].phone }}
 															</li>
 														</ul>
 													</td>
 													<td class="application text-primary">
-														(1) Applications
+														{{ date(i[0][0].dateDebut)|date }}
 													</td>
 													<td class="job-links">
-														<a href="" style="site-button">
+														<a href="{{ path( 'treatapp', { 'id' : c.id } ) }}" style="site-button">
 															Treat apply
 														</a>
 													</td>
