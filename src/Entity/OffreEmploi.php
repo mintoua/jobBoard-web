@@ -90,10 +90,6 @@ class OffreEmploi
      */
     private $date_expiration;
 
-    /**
-     * @ORM\Column(type="string", length=30)
-     */
-    private $categorie;
 
 
     /**
@@ -152,9 +148,11 @@ class OffreEmploi
     private $applies;
 
     /**
-     * @ORM\Column(type="string", length=7, nullable=true)
+     * @ORM\ManyToOne(targetEntity=categorie::class, inversedBy="offreemplois")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $couleur;
+    private $categorie;
+
 
     public function __construct()
     {
@@ -234,18 +232,6 @@ class OffreEmploi
     public function setDateExpiration(\DateTimeInterface $date_expiration): self
     {
         $this->date_expiration = $date_expiration;
-
-        return $this;
-    }
-
-    public function getCategorie(): ?string
-    {
-        return $this->categorie;
-    }
-
-    public function setCategorie(string $categorie): self
-    {
-        $this->categorie = $categorie;
 
         return $this;
     }
@@ -352,14 +338,14 @@ class OffreEmploi
         return $this;
     }
 
-    public function getCouleur(): ?string
+    public function getCategorie(): ?Categorie
     {
-        return $this->couleur;
+        return $this->categorie;
     }
 
-    public function setCouleur(?string $couleur): self
+    public function setCategorie(?Categorie $categorie): self
     {
-        $this->couleur = $couleur;
+        $this->categorie = $categorie;
 
         return $this;
     }
