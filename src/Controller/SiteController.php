@@ -12,6 +12,7 @@ namespace App\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use App\Entity\Categorie;
 
 class SiteController extends AbstractController
 {
@@ -21,7 +22,8 @@ class SiteController extends AbstractController
      */
     function homepage()
     {
-        return $this->render('index.html.twig');
+        $categ = $this->getDoctrine()->getManager()->getRepository(Categorie::class)->findAll();
+        return $this->render('index.html.twig',['categ'=>$categ]);
     }
 
     /**
