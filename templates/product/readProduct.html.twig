@@ -12,6 +12,12 @@
       </div>
 {% endblock %}
 
+{% block stylesheet %}
+
+      <link rel="stylesheet" type="text/css" href=" {{ asset('frontOffice/shop/css/bootstrap.min.css') }} ">{% endblock %}
+
+
+
 {%  block content %}
     
     <a href="{{ path('new_product') }}" class="btn btn-primary nav-link">New Product</a>

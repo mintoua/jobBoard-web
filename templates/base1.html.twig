@@ -14,25 +14,35 @@
       {% endblock %}
     </title>
 
+        <!-- Google Fonts -->
+
     <script src="{{ asset('frontOffice/') }}js/html5shiv.min.js"></script>
     <script src="{{ asset('frontOffice/') }}js/respond.min.js"></script>
 
     {% block stylesheets %}
+    {% endblock %}
+      <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/css/plugins.min.css') }}">
+      <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/plugins/fontawesome/css/font-awesome.min.css') }}">
+      <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/plugins/themify/themify-icons.css') }}">
+      <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/css/style.min.css') }}">
+      <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/css/templete.min.css') }}">
+      <link class="skin" rel="stylesheet" type="text/css" href="{{ asset('frontOffice/css/skin/skin-1.min.css') }}">
+      <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&amp;family=Montserrat:wght@100;200;300;400;500;600;700;800;900&amp;family=Open+Sans:wght@300;400;600;700;800&amp;family=Roboto:wght@100&amp;family=Rubik:wght@300;400;500;700;900&amp;display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,400i,700,800|Varela+Round" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" href=" {{ asset('frontOffice/shop/css/bootstrap.min.css') }} ">
+      <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/font-awesome.min.css') }} ">
+      <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/owl.carousel.min.css') }} ">
+      <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/style.css') }} ">
+      <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/responsive.css') }} ">
       <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}css/plugins.min.css" />
       <link rel="stylesheet" type="text/css" href="{{ asset( 'frontOffice' ) }}/plugins/fontawesome/css/font-awesome.min.css" />
       <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}plugins/themify/themify-icons.css" />
       <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}css/style.min.css" />
       <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}css/templete.min.css" />
       <link class="skin" rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}css/skin/skin-1.min.css" />
-      <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&amp;family=Montserrat:wght@100;200;300;400;500;600;700;800;900&amp;family=Open+Sans:wght@300;400;600;700;800&amp;family=Roboto:wght@100&amp;family=Rubik:wght@300;400;500;700;900&amp;display=swap" rel="stylesheet" />  
-      <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/font-awesome.min.css') }} ">
-      <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,400i,700,800|Varela+Round" rel="stylesheet">
-      <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/owl.carousel.min.css') }} ">
-      <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/style.css') }} ">
-      <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/responsive.css') }} ">
-
-    {% endblock %}
-    </head>
+      <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&amp;family=Montserrat:wght@100;200;300;400;500;600;700;800;900&amp;family=Open+Sans:wght@300;400;600;700;800&amp;family=Roboto:wght@100&amp;family=Rubik:wght@300;400;500;700;900&amp;display=swap" rel="stylesheet" />
+  </head>
+  <!-- <div id="loading-area"></div> -->
 
   {% block body %}
     <body id="bg">
@@ -51,49 +61,59 @@
                         alt="" />
                     </a>
                   </div>
-                  <!-- extra nav -->
-                  <div class="extra-nav">
-                    <div class="extra-cell">
-                      {% if is_granted('ROLE_USER') %}
-                        <a href="{{ path('security_logout') }}" class="site-button"> <i class="fa fa-user"></i> Logout </a>
-                      {% else %}
-                        <a href="{{ path('cart') }}"> <i class="fa fa-shopping-cart fa-1x"></i><span>{{ app.session.get('panier', []) | length }}</span></a>
-                        <a href="{{ path('security_login') }}" class="site-button"> <i class="fa fa-user"></i>Login </a>
-                        <a href="{{ path('user_register') }}" class="site-button"> <i class="fa fa-user"></i> Sign Up </a>{% endif %}
-                    </div>
-                  </div>
-                  <div class="modal fade lead-form-modal"
-                    id="car-details"
-                    tabindex="-1"
-                    role="dialog">
-                    <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                        <button type="button"
-                          class="close"
-                          data-dismiss="modal"
-                          aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="header-nav navbar-collapse collapse justify-content-start"
-                    id="navbarNavDropdown">
-                    <ul class="nav navbar-nav">
-                      <li class="active">
-                        <a href="{{
-                              path(
-                                'homepage'
-                              )
-                              }}">
-                          Home <i class="fa fa-chevron-down"></i>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          For Candidates <i class="fa fa-chevron-down"></i>
-                        </a>
-                        <ul class="sub-menu">
+            <header class="site-header mo-left header ">
+                <!-- main header -->
+                <div class="sticky-header main-bar-wraper navbar-expand-lg">
+                    <div class="main-bar clearfix">
+                        <div class="container clearfix">
+                            <!-- website logo -->
+                            <div class="logo-header mostion">
+                                <a href="{{ asset('index.php') }}"><img src="{{ asset('frontOffice/') }}images/logo.png"
+                                                            class="logo" alt=""></a>
+                            </div>
+                            <!-- nav toggle button -->
+                            <button class="navbar-toggler collapsed navicon justify-content-end" type="button"
+                                    data-toggle="collapse" data-target="#navbarNavDropdown"
+                                    aria-controls="navbarNavDropdown" aria-expanded="false"
+                                    aria-label="Toggle navigation">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </button>
+                            <!-- extra nav -->
+                            <div class="extra-nav">
+                                <div class="extra-cell">
+                                    {% if is_granted('ROLE_USER') %}
+                                        <a href="{{ path('security_logout') }}" class="site-button"><i
+                                                    class="fa fa-user"></i> Logout</a>
+                                    {% else %}
+                                        <a href="{{ path('security_login') }}" class="site-button"><i
+                                                    class="fa fa-user"></i>Login </a>
+                                        <a href="{{ path('user_register') }}" class="site-button"><i
+                                                    class="fa fa-user"></i> Sign Up</a>
+
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="extra-nav">
+                                <a href="{{ path('cart') }}">
+                                    <i class="fa fa-shopping-cart fa-1x"></i>
+                                    <span>{{ app.session.get('panier', []) | length }}</span>
+                                </a>
+                            </div>
+                            <div class="header-nav navbar-collapse collapse justify-content-start"
+                                 id="navbarNavDropdown">
+                                <ul class="nav navbar-nav">
+                                    <li class="active">
+                                        <a href="#">Home <i class="fa fa-chevron-down"></i></a>
+                                        <ul class="sub-menu">
+                                            <li><a href="index-2.html" class="dez-page">Home 1</a></li>
+                                            <li><a href="index-3.html" class="dez-page">Home 2</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#">For Candidates <i class="fa fa-chevron-down"></i></a>
+                                        <ul class="sub-menu">
                           <li>
                             <a href="jobs-profile.html" class="dez-page">
                               My Profile<span class="new-page">New</span>
@@ -145,12 +165,10 @@
                             </a>
                           </li>
                         </ul>
-                      </li>
-                      <li>
-                        <a href="#">
-                          For Employers <i class="fa fa-chevron-down"></i>
-                        </a>
-                        <ul class="sub-menu">
+                                    </li>
+                                    <li>
+                                        <a href="#">For Employers <i class="fa fa-chevron-down"></i></a>
+                                        <ul class="sub-menu">
                           <li>
                             <a href="company-profile.html" class="dez-page">
                               Company Profile
@@ -193,10 +211,10 @@
                             </a>
                           </li>
                         </ul>
-                      </li>
-                      <li>
-                        <a href="#">Pages <i class="fa fa-chevron-down"></i></a>
-                        <ul class="sub-menu">
+                                    </li>
+                                    <li>
+                                        <a href="#">Pages <i class="fa fa-chevron-down"></i></a>
+                                        <ul class="sub-menu">
                           <li>
                             <a href="about-us.html" class="dez-page">
                               About Us
@@ -362,49 +380,47 @@
                             </a>
                           </li>
                         </ul>
-                      </li>
-                      <li>
-                        <a href="#">Blog <i class="fa fa-chevron-down"></i></a>
-                        <ul class="sub-menu">
-                          <li>
-                            <a href="blog-classic.html" class="dez-page">
-                              Classic
-                            </a>
-                          </li>
-                          <li>
-                            <a href="blog-classic-sidebar.html"
-                              class="dez-page">
-                              Classic Sidebar
-                            </a>
-                          </li>
-                          <li>
-                            <a href="blog-detailed-grid.html" class="dez-page">
-                              Detailed Grid
-                            </a>
-                          </li>
-                          <li>
-                            <a href="blog-detailed-grid-sidebar.html"
-                              class="dez-page">
-                              Detailed Grid Sidebar
-                            </a>
-                          </li>
-                          <li>
-                            <a href="blog-left-img.html" class="dez-page">
-                              Left Image Sidebar
-                            </a>
-                          </li>
-                          <li>
-                            <a href="blog-details.html" class="dez-page">
-                              Blog Details
-                            </a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li>
-                        <a href="{{ path('product') }}">Shop <i class="fa fa-chevron"></i></a>
-                      </li>
-                    </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#">Blog <i class="fa fa-chevron-down"></i></a>
+                                        <ul class="sub-menu">
+                                            <li><a href="blog-classic.html" class="dez-page">Classic</a></li>
+                                            <li><a href="blog-classic-sidebar.html" class="dez-page">Classic
+                                                    Sidebar</a></li>
+                                            <li><a href="blog-detailed-grid.html" class="dez-page">Detailed Grid</a>
+                                            </li>
+                                            <li><a href="blog-detailed-grid-sidebar.html" class="dez-page">Detailed
+                                                    Grid Sidebar</a></li>
+                                            <li><a href="blog-left-img.html" class="dez-page">Left Image Sidebar</a>
+                                            </li>
+                                            <li><a href="blog-details.html" class="dez-page">Blog Details</a></li>
+                                        </ul>
+                                    </li>
+                                            <li>
+
+                                                <a href="{{ path('product') }}">Shop <i class="fa fa-chevron"></i></a>
+                                            </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                   </div>
+                  <div class="modal fade lead-form-modal"
+                    id="car-details"
+                    tabindex="-1"
+                    role="dialog">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <button type="button"
+                          class="close"
+                          data-dismiss="modal"
+                          aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  
                 </div>
               </div>
             </div>
@@ -452,7 +468,9 @@
                               <button name="submit"
                                 value="Submit"
                                 type="submit"
-                                class="site-button radius-xl"> Subscribe </button>
+                                class="site-button radius-xl">
+                                Subscribe
+                              </button>
                             </span>
                           </div>
                         </form>
@@ -537,7 +555,6 @@
         <button class="scroltop fa fa-arrow-up"></button>
       </div>
     </body>
-    <script src="{{ asset('frontOffice/') }}js/combining.js"></script>
     {% block javascripts %}{% endblock %}
   {% endblock %}
     {% block jsOrder %}
