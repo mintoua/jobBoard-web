@@ -5,6 +5,7 @@ parameters:
     app.email_noreply: noreply@noreply.com
     app.recaptcha_key: '%env(RECAPTCHA_KEY)%'
     app.recaptcha_secret: '%env(RECAPTCHA_SECRET)%'
+    upload_directory: '%kernel.project_dir%/public/uploads/'
 
 services:
     # default configuration for services in *this* file
@@ -37,3 +38,6 @@ services:
         arguments:
             $key: '%app.recaptcha_key%'
             $secret: '%app.recaptcha_secret%'
+    App\Service\FileUploader:
+        arguments:
+            $targetDirectory: '%upload_directory%'

@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 
+use App\Entity\User;
 use App\Form\Security\LoginType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,14 +34,7 @@ class SecurityController extends AbstractController
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
-
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        $form = $this->createForm(LoginType::class, [
-            '_username' => $lastUsername,
-        ]);
-
+        $form = $this->createForm(LoginType::class);
         return $this->render(
             'user/security/login.html.twig', [
                 'form' => $form->createView(),
@@ -53,8 +47,10 @@ class SecurityController extends AbstractController
      * @Route("/logout", name="logout")
      * @throws \Exception
      */
-    public function logoutAction()
+    public function logout()
     {
-        throw new \Exception("this should not be reached");
+        throw new \Exception('Don\'t forget to activate logout in security.yaml');
+        return $this->redirectToRoute('security_login');
     }
+
 }

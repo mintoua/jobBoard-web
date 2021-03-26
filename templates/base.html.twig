@@ -19,11 +19,6 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!--[if lt IE 9]>
-    <script src="{{ asset('frontOffice/js/html5shiv.min.js') }}"></script>
-    <script src="{{ asset('frontOffice/js/respond.min.js') }}"></script>
-    <![endif]-->
-    <!-- STYLESHEETS -->
 
     {% block stylesheets %}
         <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/css/plugins.min.css') }}">
@@ -35,7 +30,9 @@
         <link class="skin" rel="stylesheet" type="text/css" href="{{ asset('frontOffice/css/skin/skin-1.min.css') }}">
         <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&amp;family=Montserrat:wght@100;200;300;400;500;600;700;800;900&amp;family=Open+Sans:wght@300;400;600;700;800&amp;family=Roboto:wght@100&amp;family=Rubik:wght@300;400;500;700;900&amp;display=swap"
               rel="stylesheet">
+
     {% endblock %}
+
 
 </head>
 <!--<div id="loading-area"></div>-->
@@ -52,8 +49,8 @@
                         <div class="container clearfix">
                             <!-- website logo -->
                             <div class="logo-header mostion">
-                                <a href="index-2.html"><img src="{{ asset('frontOffice/') }}images/logo.png"
-                                                            class="logo" alt=""></a>
+                                <a href="{{ path('homepage') }}"><img src="{{ asset('frontOffice/') }}images/logo.png "
+                                                            class="logo" alt="" ></a>
                             </div>
                             <!-- nav toggle button -->
                             <button class="navbar-toggler collapsed navicon justify-content-end" type="button"
@@ -68,6 +65,8 @@
                             <div class="extra-nav">
                                 <div class="extra-cell">
                                     {% if is_granted('ROLE_USER') %}
+                                        <a href="{{ path('user_candidateprofile') }}" class="site-button"><i
+                                                    class="fa fa-user"></i> {{ app.user.username }}</a>
                                         <a href="{{ path('security_logout') }}" class="site-button"><i
                                                     class="fa fa-user"></i> Logout</a>
                                     {% else %}
@@ -80,7 +79,7 @@
                                 </div>
                             </div>
 
-                            <!-- Modal A compléte
+                            <!-- Modal A compléter
                                 <div class="modal fade lead-form-modal" id="car-details" tabindex="-1" role="dialog">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
@@ -127,19 +126,12 @@
                             <div class="header-nav navbar-collapse collapse justify-content-start"
                                  id="navbarNavDropdown">
                                 <ul class="nav navbar-nav">
-                                    <li class="active">
-                                        <a href="#">Home <i class="fa fa-chevron-down"></i></a>
-                                        <ul class="sub-menu">
-                                            <li><a href="index-2.html" class="dez-page">Home 1</a></li>
-                                            <li><a href="index-3.html" class="dez-page">Home 2</a></li>
-                                        </ul>
-                                    </li>
                                     <li>
                                         <a href="#">For Candidates <i class="fa fa-chevron-down"></i></a>
                                         <ul class="sub-menu">
-                                            <li><a href="jobs-profile.html" class="dez-page">My Profile<span
+                                            <li><a href="{{ path('user_candidateprofile') }}" class="dez-page">My Profile<span
                                                             class="new-page">New</span></a></li>
-                                            <li><a href="jobs-my-resume.html" class="dez-page">My Resume <span
+                                            <li><a href="{{ path('resume_candidateresume') }}" class="dez-page">My Resume <span
                                                             class="new-page">New</span></a></li>
                                             <li><a href="jobs-applied-job.html" class="dez-page">Applied Job <span
                                                             class="new-page">New</span></a></li>
@@ -156,7 +148,7 @@
                                     <li>
                                         <a href="#">For Employers <i class="fa fa-chevron-down"></i></a>
                                         <ul class="sub-menu">
-                                            <li><a href="company-profile.html" class="dez-page">Company Profile
+                                            <li><a href="{{ path('company_companyprofile') }}" class="dez-page">Company Profile
                                                     <span class="new-page">New</span></a></li>
                                             <li><a href="company-resume.html" class="dez-page">Employer Resume <span
                                                             class="new-page">New</span></a></li>
@@ -296,18 +288,19 @@
                                                     class="site-button radius-xl">Subscribe</button>
 										</span>
                                             </div>
-                                        </form>
+                                        </form>Resume Headline
+
                                     </div>
                                     <ul class="list-inline m-a0">
-                                        <li><a href="javascript:void(0);" class="site-button white facebook circle "><i
+                                        <li><a href="#" class="site-button white facebook circle "><i
                                                         class="fa fa-facebook"></i></a></li>
-                                        <li><a href="javascript:void(0);" class="site-button white google-plus circle "><i
+                                        <li><a href="#" class="site-button white google-plus circle "><i
                                                         class="fa fa-google-plus"></i></a></li>
-                                        <li><a href="javascript:void(0);" class="site-button white linkedin circle "><i
+                                        <li><a href="#" class="site-button white linkedin circle "><i
                                                         class="fa fa-linkedin"></i></a></li>
-                                        <li><a href="javascript:void(0);" class="site-button white instagram circle "><i
+                                        <li><a href="#" class="site-button white instagram circle "><i
                                                         class="fa fa-instagram"></i></a></li>
-                                        <li><a href="javascript:void(0);" class="site-button white twitter circle "><i
+                                        <li><a href="#" class="site-button white twitter circle "><i
                                                         class="fa fa-twitter"></i></a></li>
                                     </ul>
                                 </div>
@@ -317,7 +310,7 @@
                                     <h5 class="m-b30 text-white">Frequently Asked Questions</h5>
                                     <ul class="list-2 list-line">
 
-                                        <li><a href="javascript:void(0);">Support</a></li>
+                                        <li><a href="#">Support</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -325,7 +318,7 @@
                                 <div class="widget border-0">
                                     <h5 class="m-b30 text-white">Find Jobs</h5>
                                     <ul class="list-2 w10 list-line">
-                                        <li><a href="javascript:void(0);">Tunis Jobs</a></li>
+                                        <li><a href="#">Tunis Jobs</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -338,7 +331,7 @@
                         <div class="row">
                             <div class="col-lg-12 text-center">
 						<span> © Copyright 2021  by <i class="fa fa-heart m-lr5 text-red heart"></i>
-						<a href="javascript:void(0);">BugBusters </a> All rights reserved.</span>
+						<a href="#">BugBusters </a> All rights reserved.</span>
                             </div>
                         </div>
                     </div>
@@ -352,7 +345,9 @@
 
     </div>
     </body>
-    <script src="frontOffice/js/combining.js"></script><!-- COMBINING JS  -->
+
+    <script src="{{ asset('frontOffice/js/app.js') }}"></script>
+    <script src="{{ asset('frontOffice/js/combining.js') }}"></script><!-- COMBINING JS  -->
 
 {% endblock %}
 </html>
