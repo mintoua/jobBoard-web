@@ -1,0 +1,397 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="page-content">
+        <!-- inner page banner -->
+        <div class="overlay-black-dark profile-edit p-t50 p-b20"
+             style="background-image:url(frontOffice/images/banner/bnr1.jpg);">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-7 candidate-info">
+                        <div class="candidate-detail">
+                            <div class="canditate-des text-center">
+                                <a href="#">
+                                    <img alt="" src="{{ asset('uploads/') }}{{ app.user.imageName }}">
+
+                                </a>
+                                <div class="upload-link" title="update" data-toggle="tooltip" data-placement="right">
+                                    <input type="file" class="update-flie">
+                                    <i class="fa fa-camera"></i>
+                                </div>
+                            </div>
+                            <div class="text-white browse-job text-left">
+                                <h4 class="m-b0">{{ app.user.firstName }} {{ app.user.lastName }}
+
+                                </h4>
+                                <p class="m-b15">{{ candidateresume.resumeHeadline }}</p>
+                                <ul class="clearfix">
+                                    <li><i class="ti-location-pin"></i> Address</li>
+                                    <li><i class="ti-mobile"></i> {{ app.user.phone }}</li>
+                                    <li><i class="ti-briefcase"></i> {{ app.user.professionaltitle }}</li>
+                                    <li><i class="ti-email"></i> {{ app.user.email }}</li>
+                                </ul>
+                                <div class="progress-box m-t10">
+                                    <div class="progress-info">Profile Strength (Average)<span>70%</span></div>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-primary" style="width: 80%"
+                                             role="progressbar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-5">
+                        <a href="#">
+                            <div class="pending-info text-white p-a25">
+                                <h5>Pending Action</h5>
+                                <ul class="list-check secondry">
+                                    <li>Verify Mobile Number</li>
+                                    <li>Add Preferred Location</li>
+                                    <li>Add Resume</li>
+                                </ul>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade browse-job modal-bx-info editor" id="profilename" tabindex="-1" role="dialog"
+                 aria-labelledby="ProfilenameModalLongTitle" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ProfilenameModalLongTitle">Basic Details</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="form-group">
+                                            <label>Your Name</label>
+                                            <input type="email" class="form-control" placeholder="Enter Your Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+                                                    <div class="custom-control custom-radio">
+                                                        <input type="radio" class="custom-control-input" id="fresher"
+                                                               name="example1">
+                                                        <label class="custom-control-label"
+                                                               for="fresher">Fresher</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+                                                    <div class="custom-control custom-radio">
+                                                        <input type="radio" class="custom-control-input"
+                                                               id="experienced" name="example1">
+                                                        <label class="custom-control-label" for="experienced">Experienced</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>Select Your Country</label>
+                                            <select>
+                                                <option>India</option>
+                                                <option>Australia</option>
+                                                <option>Bahrain</option>
+                                                <option>China</option>
+                                                <option>Dubai</option>
+                                                <option>France</option>
+                                                <option>Germany</option>
+                                                <option>Hong Kong</option>
+                                                <option>Kuwait</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>Select Your Country</label>
+                                            <input type="text" class="form-control" placeholder="Select Your Country">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="form-group">
+                                            <label>Select Your City</label>
+                                            <input type="text" class="form-control" placeholder="Select Your City">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="form-group">
+                                            <label>Telephone Number</label>
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-4">
+                                                    <input type="text" class="form-control" placeholder="Country Code">
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-4">
+                                                    <input type="text" class="form-control" placeholder="Area Code">
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-4">z
+                                                    <input type="text" class="form-control" placeholder="Phone Number">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="form-group">
+                                            <label>Email Address</label>
+                                            <h6 class="m-a0 font-14">info@example.com</h6>
+                                            <a href="frontOffice/#">Change Email Address</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="site-button" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="site-button">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal End -->
+        </div>
+        <!-- inner page banner END -->
+        <!-- contact area -->
+        <div class="content-block">
+            <!-- Browse Jobs -->
+            <div class="section-full browse-job content-inner-2">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 m-b30">
+                            <div class="sticky-top bg-white">
+                                <div class="candidate-info onepage">
+
+                                    <ul>
+                                        <li><a class="scroll-bar nav-link" href="#resume_headline_bx">
+                                                <span>Resume Headline</span>
+                                            </a></li>
+                                        <li><a class="scroll-bar nav-link" href="#key_skills_bx">
+                                                <span>Key Skills</span>
+                                            </a></li>
+                                        <li><a class="scroll-bar nav-link" href="#education_bx">
+                                                <span>Education</span>
+                                            </a></li>
+
+                                        <li><a class="scroll-bar nav-link" href="#profile_summary_bx">
+                                                <span>Certification</span>
+                                            </a></li>
+
+                                        <li><a class="scroll-bar nav-link" href="#attach_resume_bx">
+                                                <span>Attach Resume</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-9 col-lg-8 col-md-8 col-sm-12">
+                            <div id="resume_headline_bx" class="job-bx bg-white m-b30">
+                                <div class="d-flex">
+                                    <h5 class="m-b15">Resume Headline</h5>
+                                    <a href="" data-toggle="modal" data-target="#resumeheadline"
+                                       class="site-button add-btn button-sm"><i class="fa fa-pencil m-r5"></i> Edit</a>
+                                </div>
+                                <p id="ResumeHeadlineText"
+                                   class="m-b0">{{ candidateresume.resumeHeadline ? candidateresume.resumeHeadline :'Example: Freelance Senior PHP Developer at various agencies' }}</p>
+
+                                {% for image in candidateresume.certification %}
+                                    <h5 class="m-b15">{{ image.label }}</h5>
+                                    <img width="100" height="100" alt="imge"
+                                         src="{{ asset('uploads/') }}{{ image.imageName }}"/>
+                                {% endfor %}
+
+                                <div class="modal fade modal-bx-info editor" id="resumeheadline" tabindex="-1"
+                                     role="dialog" aria-labelledby="ResumeheadlineModalLongTitle" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="ResumeheadlineModalLongTitle">Resume
+                                                    Headline</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            {{ form_start(form) }}
+                                            <div class="modal-body">
+                                                <p>It is the first thing recruiters notice in your profile. Write
+                                                    concisely what makes you unique and right person for the job you are
+                                                    looking for.</p>
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12">
+                                                        <div class="form-group">
+                                                            {{ form_row(form.ResumeHeadline,{'attr': {'class':'form-control'}}) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p>Recruiters want to see what you are good at. Add your skills here</p>
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12">
+                                                        <div class="form-group">
+
+                                                            {{ form_row(form.Skills,{'attr': {'class':'form-control'}}) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p>Recruiters want to see where you worked. Add your experience here</p>
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12">
+                                                        <div class="form-group">
+                                                            {{ form_row(form.Experience,{'attr': {'class':'form-control'}}) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12">
+                                                        <div class="form-group">
+                                                            {{ form_row(form.Experience,{'attr': {'class':'form-control'}}) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {{ form_widget(form.save) }}
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal End -->
+                            </div>
+                            <div id="key_skills_bx" class="job-bx bg-white m-b30">
+                                <div class="d-flex">
+                                    <h5 class="m-b15">Skills</h5>
+                                </div>
+                                <p id="Skills"
+                                   class="m-b0">{{ candidateresume.skills ? candidateresume.skills :'Example: css,bootstrap,php' }}</p>
+
+                            </div>
+
+                            <div id="employment_bx" class="job-bx bg-white m-b30 ">
+                                <div class="d-flex">
+                                    <h5 class="m-b15">Experience</h5>
+                                </div>
+                                <h6 class="font-14 m-b0">{{ app.user.professionaltitle }}</h6>
+                                <p class="m-b0"> {{ candidateresume.experience ? candidateresume.experience :'Example: css,bootstrap,php' }}</p>
+
+
+                            </div>
+
+                            <div id="education_bx" class="job-bx bg-white m-b30">
+                                <div class="d-flex">
+                                    <h5 class="m-b15">Education</h5>
+                                </div>
+                                <p>Mention your employment details including your current and previous company work
+                                    experience</p>
+
+                                {{ form_end(form) }}
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="clearfix m-b20">
+                                            <label class="m-b0">London - 12th</label>
+                                            <span class="clearfix font-13">2017</span>
+                                        </div>
+                                        <div class="clearfix m-b20">
+                                            <label class="m-b0">London - 10th</label>
+                                            <span class="clearfix font-13">2015</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="attach_resume_bx" class="job-bx bg-white m-b30">
+                                    <h5 class="m-b10">Attach Resume</h5>
+                                    <p>Resume is the most important document recruiters look for. Recruiters generally
+                                        do
+                                        not look at profiles without resumes.</p>
+                                    <div class="attach-resume">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12">
+                                                <div class="form-group">
+                                                    <div class="custom-file">
+                                                        <p class="m-auto align-self-center">
+                                                            <i class="fa fa-upload"></i>
+                                                            Upload Resume File size is 3 MB
+                                                        </p>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <p class="text-center">
+                                        If you do not have a resume document, you may write your brief professional
+                                        profile
+                                        <a class="site-button-link" href="#">here</a>.
+                                    </p>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Browse Jobs END -->
+            </div>
+            <div class="modal fade lead-form-modal" id="car-details" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="modal-body row m-a0 clearfix">
+                            <div class="col-lg-6 col-md-6 overlay-primary-dark d-flex p-a0"
+                                 style="background-image: url({{ asset('') }}frontOffice/images/background/bg3.jpg);  background-position:center; background-size:cover;">
+                                <div class="form-info text-white align-self-center">
+                                    <h3 class="m-b15">Login To You Now</h3>
+                                    <p class="m-b15">Lorem Ipsum is simply dummy text of the printing and typesetting
+                                        industry has been the industry.</p>
+                                    <ul class="list-inline m-a0">
+                                        <li><a href="#" class="m-r10 text-white"><i
+                                                        class="fa fa-facebook"></i></a></li>
+                                        <li><a href="#" class="m-r10 text-white"><i
+                                                        class="fa fa-google-plus"></i></a></li>
+                                        <li><a href="#" class="m-r10 text-white"><i
+                                                        class="fa fa-linkedin"></i></a></li>
+                                        <li><a href="#" class="m-r10 text-white"><i
+                                                        class="fa fa-instagram"></i></a></li>
+                                        <li><a href="#" class="m-r10 text-white"><i
+                                                        class="fa fa-twitter"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 p-a0">
+                                <div class="lead-form browse-job text-left">
+                                    <form>
+                                        <h3 class="m-t0">Personal Details</h3>
+                                        <div class="form-group">
+                                            <input type="text" value="" class="form-control"
+                                                   placeholder="E-Mail Address"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" value="" class="form-control"
+                                                   placeholder="Password"/>
+                                        </div>
+                                        <div class="clearfix">
+                                            <button type="button" class="btn-primary site-button btn-block">Submit
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+                integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous">
+        </script>
+
+    </div>
+{% endblock %}
