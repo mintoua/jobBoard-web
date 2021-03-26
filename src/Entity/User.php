@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Ryaan
@@ -9,9 +10,12 @@
 namespace App\Entity;
 
 use App\Validator\Constraints\ComplexPassword;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use InvalidArgumentException;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -74,7 +78,7 @@ class User implements AdvancedUserInterface, \Serializable
     private $token;
     /**
      * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     private $dateOfBirth;
     /**
@@ -181,6 +185,23 @@ class User implements AdvancedUserInterface, \Serializable
         $this->imageName = $imageName;
 
         return $this;
+    }
+
+
+    /**
+     * @ORM\OneToMany(targetEntity=OffreEmploi::class, mappedBy="idRecruteur")
+     */
+    private $offreEmplois;
+
+    /**
+     * @ORM\OneToMany(targetEntity=DemandeRecrutement::class, mappedBy="candidat")
+     */
+    private $applies;
+
+    public function __construct()
+    {
+        $this->offreEmplois = new ArrayCollection();
+        $this->applies = new ArrayCollection();
     }
 
     /**
@@ -352,6 +373,7 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
 
+
     /**
      * @return mixed
      */
@@ -458,7 +480,7 @@ class User implements AdvancedUserInterface, \Serializable
     /** @see \Serializable::unserialize() */
     public function unserialize($serialized)
     {
-        list (
+        list(
             $this->id,
             $this->email,
             $this->firstName,
@@ -468,7 +490,7 @@ class User implements AdvancedUserInterface, \Serializable
             $this->password,
             $this->isActive,
 
-            ) = unserialize($serialized);
+        ) = unserialize($serialized);
     }
 
     /**
@@ -678,6 +700,73 @@ class User implements AdvancedUserInterface, \Serializable
     {
         $this->twitterlink = $twitterlink;
     }
+
+
+    public function getActivatedAt(): ?\DateTimeInterface
+    {
+        return $this->activatedAt;
+    }
+
+    /**
+     * @return Collection|OffreEmploi[]
+     */
+    public function getOffreEmplois(): Collection
+    {
+        return $this->offreEmplois;
+    }
+
+    public function addOffreEmploi(OffreEmploi $offreEmploi): self
+    {
+        if (!$this->offreEmplois->contains($offreEmploi)) {
+            $this->offreEmplois[] = $offreEmploi;
+            $offreEmploi->setIdRecruteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffreEmploi(OffreEmploi $offreEmploi): self
+    {
+        if ($this->offreEmplois->removeElement($offreEmploi)) {
+            // set the owning side to null (unless already changed)
+            if ($offreEmploi->getIdRecruteur() === $this) {
+                $offreEmploi->setIdRecruteur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DemandeRecrutement[]
+     */
+    public function getApplies(): Collection
+    {
+        return $this->applies;
+    }
+
+    public function addApply(DemandeRecrutement $apply): self
+    {
+        if (!$this->applies->contains($apply)) {
+            $this->applies[] = $apply;
+            $apply->setCandidat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApply(DemandeRecrutement $apply): self
+    {
+        if ($this->applies->removeElement($apply)) {
+            // set the owning side to null (unless already changed)
+            if ($apply->getCandidat() === $this) {
+                $apply->setCandidat(null);
+            }
+        }
+
+        return $this;
+    }
+
 
 
 }
