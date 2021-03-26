@@ -172,7 +172,6 @@ class UserController extends AbstractController
             $user = $form->getData();
             $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
             $user->setToken(null);
-
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
@@ -180,7 +179,6 @@ class UserController extends AbstractController
             $this->addFlash('success', 'user.update.success');
 
         }
-
         return $this->render('user/security/editpassword.html.twig', ['form' => $form->createView()]);
     }
 
