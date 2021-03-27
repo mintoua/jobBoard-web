@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{% block title %}Ajouter Formation{% endblock %}
+
+{% block body %}
+
+    <main class="container">
+        <h1>Ajouter Formation</h1><br>
+        <div class="row">
+
+            <section class="col-20">
+    {{ form_start(form) }}
+
+    {{ form_widget(form) }}
+
+
+    <button type="submit" class="btn-primary">Créer</button>
+
+    {{ form_end(form) }}
+
+            </section>
+        </div>
+    </main>
+
+{% endblock %}
+

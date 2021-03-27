@@ -13,6 +13,8 @@
     <meta name="format-detection" content="telephone=no">
 
     <!-- FAVICONS ICON -->
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
     <link rel="icon" href="{{ asset('frontOffice/images/favicon.ico') }}" type="image/x-icon"/>
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontOffice/images/favicon.png') }}"/>
     <title>{% block title %}JobBoard {% endblock %}</title>
@@ -203,11 +205,20 @@
                                             <li><a href="blog-details.html" class="dez-page">Blog Details</a></li>
                                         </ul>
                                     </li>
+                                    <li>
+                                        <a href="#">Formation <i class="fa fa-chevron-down"></i></a>
+                                        <ul class="sub-menu">
+                                    <li><a href="/formation" class="dez-page">Liste des formations</a></li>
+                                            <li><a href="/category" class="dez-page">Liste des categories</a></li>
+
                                 </ul>
+                                    </li>
+                                    </li>
+
                             </div>
                         </div>
                     </div>
-<<<<<<< HEAD
+
                   </div>
                   <div class="header-nav navbar-collapse collapse justify-content-start"
                     id="navbarNavDropdown">
@@ -537,8 +548,7 @@
                       </li>
                     </ul>
                   </div>
-=======
->>>>>>> rayen
+
                 </div>
                 <!-- main header END -->
             </header>
@@ -635,6 +645,7 @@
 
     <script src="{{ asset('frontOffice/js/app.js') }}"></script>
     <script src="{{ asset('frontOffice/js/combining.js') }}"></script><!-- COMBINING JS  -->
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 
 {% endblock %}
 </html>

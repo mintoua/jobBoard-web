@@ -1,0 +1,28 @@
+
+
+
+{% block content %}
+<h1>Listes des formations</h1>
+                                    <table id="formation" class="table table-condensed">
+                                        <thead>
+                                        <tr>
+                                            <th>Formations</th>
+                                            <th>Formations</th>
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for formation in formation %}
+                                            <tr>
+                                                <td>{{ formation.formateur }}</td>
+                                                <td>{{ formation.category.titre }}</td>
+
+
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                                    {% endblock %}
+
+
