@@ -57,6 +57,10 @@ class User implements AdvancedUserInterface, \Serializable
      * @ORM\Column(type="array")
      */
     private $roles;
+    /**
+     * @ORM\Column(type="string", length=20, nullable=true)
+     */
+    private $professionaltitle;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -108,9 +112,80 @@ class User implements AdvancedUserInterface, \Serializable
     private $activatedAt;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $phone;
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $imageName;
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $companyname;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $contactemail;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $website;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $foundeddate;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $category;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $country;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $contactphone;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $companyadress;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $facebooklink;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $twitterlink;
+
+
+    public function getImageName()
+    {
+        return $this->imageName;
+    }
+
+    public function setImageName(string $imageName)
+    {
+        $this->imageName = $imageName;
+
+        return $this;
+    }
 
 
     /**
@@ -135,6 +210,22 @@ class User implements AdvancedUserInterface, \Serializable
     public function getFirstName()
     {
         return $this->firstName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProfessionaltitle()
+    {
+        return $this->professionaltitle;
+    }
+
+    /**
+     * @param mixed $professionaltitle
+     */
+    public function setProfessionaltitle($professionaltitle)
+    {
+        $this->professionaltitle = $professionaltitle;
     }
 
     /**
@@ -306,12 +397,13 @@ class User implements AdvancedUserInterface, \Serializable
     {
         $this->activatedAt = $activatedAt;
     }
-    public function getRoles()
+
+    public function getRoles(): array
     {
         return $this->roles;
     }
 
-    public function setRoles(array $roles)
+    public function setRoles(array $roles): User
     {
         if (!in_array('ROLE_USER', $roles)) {
             $roles[] = 'ROLE_USER';
@@ -401,29 +493,214 @@ class User implements AdvancedUserInterface, \Serializable
         ) = unserialize($serialized);
     }
 
-    public function getLng(): ?float
+    /**
+     * @return float
+     */
+    public function getLng()
     {
         return $this->lng;
     }
 
-    public function setLng(?float $lng): self
+    /**
+     * @param float $lng
+     */
+    public function setLng(float $lng)
     {
         $this->lng = $lng;
-
-        return $this;
     }
 
-    public function getLat(): ?float
+    /**
+     * @return float
+     */
+    public function getLat()
     {
         return $this->lat;
     }
 
-    public function setLat(?float $lat): self
+    /**
+     * @param float $lat
+     */
+    public function setLat(float $lat)
     {
         $this->lat = $lat;
-
-        return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCompanyname()
+    {
+        return $this->companyname;
+    }
+
+    /**
+     * @param mixed $companyname
+     */
+    public function setCompanyname($companyname)
+    {
+        $this->companyname = $companyname;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContactemail()
+    {
+        return $this->contactemail;
+    }
+
+    /**
+     * @param mixed $contactemail
+     */
+    public function setContactemail($contactemail)
+    {
+        $this->contactemail = $contactemail;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWebsite()
+    {
+        return $this->website;
+    }
+
+    /**
+     * @param mixed $website
+     */
+    public function setWebsite($website)
+    {
+        $this->website = $website;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFoundeddate()
+    {
+        return $this->foundeddate;
+    }
+
+    /**
+     * @param mixed $foundeddate
+     */
+    public function setFoundeddate($foundeddate)
+    {
+        $this->foundeddate = $foundeddate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param mixed $category
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param mixed $country
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContactphone()
+    {
+        return $this->contactphone;
+    }
+
+    /**
+     * @param mixed $contactphone
+     */
+    public function setContactphone($contactphone)
+    {
+        $this->contactphone = $contactphone;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompanyadress()
+    {
+        return $this->companyadress;
+    }
+
+    /**
+     * @param mixed $companyadress
+     */
+    public function setCompanyadress($companyadress)
+    {
+        $this->companyadress = $companyadress;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFacebooklink()
+    {
+        return $this->facebooklink;
+    }
+
+    /**
+     * @param mixed $facebooklink
+     */
+    public function setFacebooklink($facebooklink)
+    {
+        $this->facebooklink = $facebooklink;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTwitterlink()
+    {
+        return $this->twitterlink;
+    }
+
+    /**
+     * @param mixed $twitterlink
+     */
+    public function setTwitterlink($twitterlink)
+    {
+        $this->twitterlink = $twitterlink;
+    }
+
 
     public function getActivatedAt(): ?\DateTimeInterface
     {

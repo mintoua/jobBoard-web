@@ -46,6 +46,7 @@ class Mailer
      */
     public function sendActivationEmailMessage(User $user)
     {
+        //generate url with token and sendto mail
         $url = $this->router->generate('user_activate', ['token' => $user->getToken()], UrlGeneratorInterface::ABSOLUTE_URL);
 
         $context = [
@@ -82,7 +83,7 @@ class Mailer
      * @throws \Throwable
      * @return bool
      */
-    protected function sendMessage($templateName, $context, $fromEmail, $toEmail)
+    protected function sendMessage($templateName, $context, $fromEmail, $toEmail): bool
     {
         $context = $this->twig->mergeGlobals($context);
         $template = $this->twig->load($templateName);

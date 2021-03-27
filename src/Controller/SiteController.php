@@ -36,7 +36,7 @@ class SiteController extends AbstractController
      * @Route("/entreprise/homepage", name="entrepriseHomePage")
      * @return Response
      */
-    function entreprisepage()
+    function candidatepage()
     {
         return $this->render('index.html.twig');
     }
