@@ -63,7 +63,9 @@ class OffreEmploiRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('u')
             ->select('count(u)')
-            ->where('u.titre LIKE :t and u.location LIKE :l and u.categorie LIKE :s and u.date_expiration > CURRENT_DATE()')
+            ->innerJoin('u.categorie','c')
+            ->where('c.nom LIKE :s')
+            ->andWhere('u.titre LIKE :t and u.location LIKE :l and u.date_expiration > CURRENT_DATE()')
             ->setParameter(':t', '%' . $title . '%')
             ->setParameter(':l', '%' . $location . '%')
             ->setParameter(':s', '%' . $secteur . '%')
@@ -75,7 +77,9 @@ class OffreEmploiRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('u')
             ->select('u')
-            ->where('u.titre LIKE :t and u.location LIKE :l and u.categorie LIKE :s and u.date_expiration > CURRENT_DATE()')
+            ->innerJoin('u.categorie','c')
+            ->where('c.nom LIKE :s')
+            ->andWhere('u.titre LIKE :t and u.location LIKE :l and u.date_expiration > CURRENT_DATE()')
             ->setParameter(':t', '%' . $title . '%')
             ->setParameter(':l', '%' . $location . '%')
             ->setParameter(':s', '%' . $secteur . '%')
