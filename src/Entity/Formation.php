@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\FormationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=FormationRepository::class)
@@ -15,7 +16,7 @@ class Formation
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+   public $id;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -34,11 +35,16 @@ class Formation
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\GreaterThanOrEqual("today")
      */
    public $date_debut;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\Expression (
+     *     "this.getDateDebut() < this.getDateFin()",
+     *     message="la date fin ne doit pas inferieur à la date debut"
+     * )
      */
     public $date_fin;
 
@@ -60,7 +66,7 @@ class Formation
     /**
      * @ORM\Column(type="float")
      */
-    private $prix;
+   public $prix;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="formation")

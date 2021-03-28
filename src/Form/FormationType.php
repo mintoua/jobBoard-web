@@ -6,6 +6,8 @@ use App\Entity\Category;
 use App\Entity\Formation;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -26,8 +28,8 @@ class FormationType extends AbstractType
             ->add('date_debut')
             ->add('date_fin')
             ->add('adresse',null,['attr' => ['placeholder' => 'adresse','style' => 'width: 380px']])
-            ->add('mail',null,['attr' => ['placeholder' => 'exemple@gmail.com','style' => 'width: 380px']])
-            ->add('tel', null, ['attr' => ['placeholder' => 'numero telphone ********','style' => 'width: 380px']])
+            ->add('mail',EmailType::class,['attr' => ['placeholder' => 'exemple@gmail.com','style' => 'width: 380px']])
+            ->add('tel', TelType::class, ['attr' => ['placeholder' => 'numero telphone ********','style' => 'width: 380px']])
             ->add('prix',null,['attr' => ['placeholder' => 'prix','style' => 'width: 380px']])
             ->add('category',EntityType::class,['class' => Category::class,
                 'choice_label' => 'titre',

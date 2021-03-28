@@ -65,6 +65,7 @@
 
                         <div class="row align-items-center m-b50">
                             <div class="col-md-12 col-lg-6 m-b20" align="center">
+                                {% for formation in formation %}
                                 <h2 class="m-b5" style="color: blue">{{ formation.nom }}</h2>
                                 <br>
                                 <br>
@@ -77,13 +78,16 @@
                                 <h5 class="m-b5" > Telephone: {{ formation.tel }}</h5>
 
                             </div>
+
                             <div class="col-md-12 col-lg-6">
                                 <img src="https://lh3.googleusercontent.com/proxy/mmQkJqMPph0qc68E4DJ3cM3DRZN72mbnGQugjIC-fm_xJWW_Ny7_i2PtPdAsjVgQXNzXk6XRVVziq8hHQB_nI2ultK24ESBjjWgi55terDd4SIy-dzY"  width="1200" height="900" alt=""/>
                             </div>
-
+                            {% endfor %}
                         </div>
                     </div>
-
+                    </div>
+                </div>
+            </div>
                     </div>
                 </div>
 

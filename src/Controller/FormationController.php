@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+
 class FormationController extends AbstractController
 {
     /**
@@ -54,6 +55,46 @@ class FormationController extends AbstractController
 
 
 
+
+
+
+    /**
+     * @Route("/formationfree", name="formation_free")
+     */
+    public function indexxx(Request $request, PaginatorInterface $paginator){
+        $categorySearch = new CategorySearch();
+        $form = $this->createForm(CategorySearchType::class,$categorySearch);
+        $form->handleRequest($request);
+
+        $donnees = $this->getDoctrine()->getRepository(Formation::class)->findBy([],['id' => 'desc']);
+        $formation= $paginator->paginate(
+            $donnees, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            3 // Nombre de résultats par page
+        );
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $category = $categorySearch->getCategory();
+
+            if ($category!="")
+                $formation= $category->getFormation();
+            else
+
+                $donnees = $this->getDoctrine()->getRepository(Formation::class)->findBy([],['id' => 'desc']);
+            $formation= $paginator->paginate(
+                $donnees, // Requête contenant les données à paginer (ici nos articles)
+                $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+                3 // Nombre de résultats par page
+            );
+        }
+
+        return $this->render('formation/formationfree.html.twig',[ 'form' =>$form->createView(), 'formation' => $formation]);
+
+
+    }
+
+
+
     /**
      * @Route("/formation/new", name="new_formation")
      * Method({"GET", "POST"})
@@ -71,40 +112,31 @@ class FormationController extends AbstractController
         }
         return $this->render('formation/new.html.twig',['form' => $form->createView()]);
     }
+
     /**
      * @Route("/pdf", name="formation_pdf")
      */
-    public function pdf()
+    public function pdfformation()
     {
-        // Configure Dompdf according to your needs
+
+
+
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
-
-        // Instantiate Dompdf with our options
         $dompdf = new Dompdf($pdfOptions);
-
-        $formation= $this->getDoctrine()->getRepository(formation::class)->findAll();
-
-
-
-        // Retrieve the HTML generated in our twig file
-        $html = $this->renderView('formation/pdf.html.twig', ['formation' => $formation, ]);
-
-        // Load HTML to Dompdf
+        $formation = $this->getDoctrine()->getManager()->getRepository(Formation::class)->findAll();
+        $html = $this->renderView('formation/pdf.html.twig', [
+            'list' => $formation,
+            ]);
         $dompdf->loadHtml($html);
-
-        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
         $dompdf->setPaper('A4', 'portrait');
-
-        // Render the HTML as PDF
         $dompdf->render();
+        return new Response ($dompdf->stream());
 
-        // Output the generated PDF to Browser (force download)
-        $dompdf->stream("mypdf.pdf", [
-            "Attachment" => true
-        ]);
+
 
     }
+
 
 
     /**
@@ -215,7 +247,7 @@ class FormationController extends AbstractController
         $form = $this->createForm(CategoryType::class,$category);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
-            $formation = $form->getData();
+            $category = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($category);
             $entityManager->flush();

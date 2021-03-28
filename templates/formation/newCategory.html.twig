@@ -2,7 +2,16 @@
 
 {% block title %}Ajouter Category{% endblock %}
 
-{% block body %}
+{% block content %}
+    <main class="container">
+
+    <div class="row" >
+    <div class="col-md-8">
+    <div class="card" align="center">
+    <div class="card-header card-header primary">
+        <h1 style="background-color: blue" align="center">Ajouter Catégorie</h1><br></div>
+
+    <div class="card-body">
 
 
 
@@ -10,6 +19,9 @@
     {{ form_widget(form) }}
     <button type="submit" class="btn btn-primary">Créer</button>
     {{ form_end(form) }}
-
+    </div>
+    </div>
+    </div>
+    </main>
 
 {% endblock %}
