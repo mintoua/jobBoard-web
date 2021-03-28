@@ -1,9 +1,7 @@
 
 {% block stylesheets %}
     <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/css/plugins.min.css') }}">
-    <link rel="stylesheet" type="text/css"
-          href="{{ asset('frontOffice/plugins/fontawesome/css/font-awesome.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/plugins/themify/themify-icons.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">    <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/plugins/themify/themify-icons.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/css/style.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/css/templete.min.css') }}">
     <link class="skin" rel="stylesheet" type="text/css" href="{{ asset('frontOffice/css/skin/skin-1.min.css') }}">
@@ -40,6 +38,9 @@
                                 {{ form_row(form._username) }}
                                 {{ form_row(form._password) }}
                                 {{ form_row(form.remember_me) }}
+                                <div class="text-center bottom">
+                                    <a data-toggle="tab" href="{{ path('user_request_password_reset') }}" class="forget-pass m-l5"><i class="fa fa-unlock-alt"></i> Forgot Password</a>
+                                </div>
                                 <button type="submit" class="site-button pull-right">{{ 'user.login'|trans }}</button>
                                 <br>
 
@@ -50,12 +51,9 @@
                                 </div>
                             </div>
 
-
                         </div>
-                        <div class="bottom-footer clearfix m-t10 m-b20 row text-center">
-                            <div class="col-lg-12 text-center">
-								<span> © Copyright 2020  by <i class="fa fa-heart m-lr5 text-red heart"></i>
-                            </span></div>
+
+
                         </div>
                     </div>
                 </div>

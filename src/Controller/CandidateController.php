@@ -6,6 +6,7 @@ use App\Entity\CandidateResume;
 use App\Entity\Certification;
 use App\Form\CandidateResumeType;
 use App\Form\CertificationType;
+use App\Repository\CandidateResumeRepository;
 use App\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -29,7 +30,7 @@ class CandidateController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $em = $this->getDoctrine()->getManager();
         $loggedUser = $this->getUser();
-        $candidateresume = $em->getRepository(CandidateResume::class)->findOneByUser($loggedUser);
+        $candidateresume = $em->getRepository(CandidateResume::class)->findOneByUserId($loggedUser);
         !$candidateresume && $candidateresume = new CandidateResume();
         $form = $this->createForm(CandidateResumeType::class, $candidateresume);
         $form->handleRequest($request);
@@ -69,5 +70,19 @@ class CandidateController extends AbstractController
             'formImage' => $formImage->createView(),
             'candidateresume' => $candidateresume]);
 
+    }
+
+    /**
+     * @Route("/certificates", name="certificates")
+     */
+    public function showCertif(): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $loggedUser = $this->getUser();
+        $certificates = $em->getRepository(CandidateResume::class)->findOneByUser($loggedUser);
+
+        return $this->render('candidate/candidateCertif.html.twig', [
+            'certif' => $certificates,
+        ]);
     }
 }

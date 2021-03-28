@@ -9,9 +9,7 @@
 namespace App\Controller;
 
 
-use App\Entity\PasswordUpdate;
 use App\Entity\User;
-use App\Form\EditpasswordType;
 use App\Form\Security\LoginType;
 use App\Form\User\RegistrationType;
 use App\Form\User\RequestResetPasswordType;
@@ -25,6 +23,7 @@ use App\Service\TokenGenerator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -76,9 +75,9 @@ class UserController extends AbstractController
                 /**
                  * @var UploadedFile $certificationFile
                  */
-                $certificationFile = $form->get('imageName')->getData();
-                if ($certificationFile) {
-                    $newFilename = $fileUploader->upload($certificationFile);
+                $profileimage = $form->get('imageName')->getData();
+                if ($profileimage) {
+                    $newFilename = $fileUploader->upload($profileimage);
                     $user->setImageName($newFilename);
                 }
                 $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
@@ -104,12 +103,6 @@ class UserController extends AbstractController
         }
 
 
-        $formLogin = $this->createForm(LoginType::class);
-        //login errorss
-        // get the login error if there is one
-        $formLogin->handleRequest($request);
-
-
         // last username entered by the user
         $error = $authenticationUtils->getLastAuthenticationError();
 
@@ -117,8 +110,6 @@ class UserController extends AbstractController
         return $this->render('user/security/register.html.twig', [
             'form' => $form->createView(),
             'error' => $error,
-            'formlogin' => $formLogin->createView(),
-
             'captchakey' => $captchaValidator->getKey()
         ]);
     }
@@ -131,7 +122,7 @@ class UserController extends AbstractController
      * @param LoginFormAuthenticator $loginFormAuthenticator
      * @return Response
      */
-    public function activate(Request $request, User $user, GuardAuthenticatorHandler $authenticatorHandler, LoginFormAuthenticator $loginFormAuthenticator)
+    public function activate(Request $request, User $user, GuardAuthenticatorHandler $authenticatorHandler, LoginFormAuthenticator $loginFormAuthenticator): Response
     {
         $user->setIsActive(true);
         $user->setToken(null);
@@ -175,7 +166,6 @@ class UserController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-
             $this->addFlash('success', 'user.update.success');
 
         }
@@ -201,13 +191,9 @@ class UserController extends AbstractController
 
         $form = $this->createForm(RequestResetPasswordType::class);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-
             try {
-
                 $repository = $this->getDoctrine()->getRepository(User::class);
-
                 /** @var User $user */
                 $user = $repository->findOneBy(['email' => $form->get('_username')->getData(), 'isActive' => true]);
                 if (!$user) {
@@ -222,9 +208,7 @@ class UserController extends AbstractController
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
                 $em->flush();
-
                 $mailer->sendResetPasswordEmailMessage($user);
-
                 $this->addFlash('success', 'user.request-password-link');
                 return $this->redirect($this->generateUrl('homepage'));
             } catch (ValidatorException $exception) {
@@ -262,13 +246,10 @@ class UserController extends AbstractController
             $user = $form->getData();
             $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
             $user->setToken(null);
-
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-
             $this->addFlash('success', 'user.update.success');
-
             // automatic login
             return $authenticatorHandler->authenticateUserAndHandleSuccess(
                 $user,
@@ -293,7 +274,6 @@ class UserController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository(User::class)->find($this->getUser());
-
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

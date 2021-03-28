@@ -163,6 +163,10 @@ class User implements AdvancedUserInterface, \Serializable
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $companyadress;
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $adresse;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -185,6 +189,22 @@ class User implements AdvancedUserInterface, \Serializable
         $this->imageName = $imageName;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdresse()
+    {
+        return $this->adresse;
+    }
+
+    /**
+     * @param mixed $adresse
+     */
+    public function setAdresse($adresse): void
+    {
+        $this->adresse = $adresse;
     }
 
 

@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -31,7 +32,7 @@ class RegistrationType extends AbstractType
         $builder
             ->add('firstName')
             ->add('lastName')
-            ->add('dateOfBirth',BirthdayType::class)
+            ->add('dateOfBirth', BirthdayType::class)
             ->add('phone', NumberType::class)
             ->add('email')
             ->add('password', RepeatedType::class, [
@@ -53,6 +54,7 @@ class RegistrationType extends AbstractType
                         'mimeTypesMessage' => 'Please upload a valid photo',
                     ])
                 ],
+        ])->add('adresse', TextType::class, ['attr' => ['id' => 'searchTextField','autocomplete'=>'on']
             ]);
         parent::buildForm($builder, $options);
     }

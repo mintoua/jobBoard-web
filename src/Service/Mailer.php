@@ -79,9 +79,9 @@ class Mailer
      * @param $context array
      * @param $fromEmail string
      * @param $toEmail string
-     * @throws \Exception
-     * @throws \Throwable
      * @return bool
+     * @throws \Throwable
+     * @throws \Exception
      */
     protected function sendMessage($templateName, $context, $fromEmail, $toEmail): bool
     {
