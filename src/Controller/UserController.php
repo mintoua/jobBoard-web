@@ -39,7 +39,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class UserController extends AbstractController
 {
-    const configMail = false;
+    const configMail = true;
 
     /**
      * @Route("/register", name="register")
@@ -73,7 +73,7 @@ class UserController extends AbstractController
                     throw new ValidatorException('captcha.wrong');
                 }
                 /**
-                 * @var UploadedFile $certificationFile
+                 * @var UploadedFile $profileimage
                  */
                 $profileimage = $form->get('imageName')->getData();
                 if ($profileimage) {
