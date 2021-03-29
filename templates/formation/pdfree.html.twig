@@ -1,0 +1,45 @@
+
+
+
+{% block content %}
+    <h1>Liste des formations gratuites</h1>
+    <br>
+    <table class="table table-condensed" cellspacing=14 border=2 BORDERCOLOR=#6666FF width=80% align=center bgcolor=#ffffff>
+        <thead>
+
+
+        <tr>
+            <th>Formations</th>
+            <th>Catégorie</th>
+            <th>Date debut</th>
+            <th>Date fin</th>
+            <th>Telephone</th>
+            <th>Email</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for c in list %}
+            {% if c.prix==0 %}
+
+                <tr>
+                    <td>{{ c.formateur }}</td>
+                    <td>{{ c.category.titre }}</td>
+                    <td>{{ c.date_debut|date('d-m-Y') }}</td>
+                    <td>{{ c.date_fin|date('d-m-Y') }}</td>
+                    <td>{{ c.tel }}</td>
+                    <td>{{ c.mail }}</td>
+
+
+                </tr>
+
+
+            {% endif %}
+        {% endfor %}
+
+
+        </tbody>
+    </table>
+
+{% endblock %}
+
+
