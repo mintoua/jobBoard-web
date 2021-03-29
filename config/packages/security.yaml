@@ -1,0 +1,50 @@
+security:
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+
+    providers:
+        db_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: ~
+
+# we use guard instead to automatically login the user after activation or password reset
+#            form_login:
+#                login_path: security_login
+#                check_path: security_login
+#                username_parameter: login[_username]
+#                password_parameter: login[_password]
+#                remember_me: true
+
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
+
+            remember_me:
+                secret:   '%kernel.secret%'
+                remember_me_parameter: login[remember_me]
+                lifetime: 604800 # 1 week in seconds
+                path: /
+
+            logout:
+                path: /logout
+    role_hierarchy:
+        # un membre avec le ROLE_ADMIN aura également le ROLE_USER
+        ROLE_ADMIN: ROLE_ADMIN
+        ROLE_ENTREPRISE: ROLE_COMPANY
+        ROLE_USER: ROLE_USER
+        # Le ROLE_SUPER_ADMIN avec le ROLE_ALLOWED_TO_SWITCH qui permet de s'authentifier en se faisant passer pour n'importe quel membre. Particulièrement utile pour débugger son code.
+        ROLE_SUPER_ADMIN: [ ROLE_COMPANY, ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]
+
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }
+#        - { path: ^/company, roles: ROLE_COMPANY }

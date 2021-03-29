@@ -1,0 +1,106 @@
+{% extends 'baseback.html.twig' %}
+
+{% block contentHeader %}
+           <div class="breadcrumb-holder">
+        <div class="container-fluid">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('back_end') }}">Home</a></li>
+            <li class="breadcrumb-item active"><a href="{{ path('back_end') }}">Store Management</a></li>
+            <li class="breadcrumb-item active"><a href="{{ path('product_list') }}">Products</a></li>
+          </ul>
+        </div>
+      </div>
+{% endblock %}
+
+{% block stylesheet %}
+
+      <link rel="stylesheet" type="text/css" href=" {{ asset('frontOffice/shop/css/bootstrap.min.css') }} ">{% endblock %}
+
+
+
+{%  block content %}
+    
+    <a href="{{ path('new_product') }}" class="btn btn-primary nav-link">New Product</a>
+    <input type="text" id="search" class="form-control" placeholder="Search..."> 
+    {% if products %}
+        <table id="t" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description </th>
+                    <th>Réference </th>
+                    <th>Quantité </th>
+                    <th>Prix </th>
+                    <th>Thumbnail </th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="all">
+                {% for product in products %}
+                <tr>
+                    <td> {{ product.id }}</td>
+                    <td> {{ product.name }}</td>
+                    <td> {{ product.description }}</td>
+                    <td> {{ product.ref }}</td>
+                    <td> {{ product.quantity }}</td>
+                    <td> {{ product.price }} DT</td>
+                    <td> {{ product.image }}</td>
+                    <td>
+                        <a href="{{ path('updateProduct', {'id': product.id}) }}" class="btn btn-light">Edit</a>
+                        <a href="{{ path('deleteProduct', {'id': product.id}) }}" class="btn btn-danger btn-sm" > Delete </a>
+
+                    </td>
+
+
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tbody id="search">
+            </tbody>
+        </table>
+
+    {% else %}
+        <p>No Products</p>
+    {% endif %}
+{% endblock %}
+{% block jsProducts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> 
+</script>
+<script>
+    $(document).ready(function(){
+
+        $("#search").keyup(function(e){
+            /* value va prendre la valeur inserer dans le champs*/
+            var value= $(this).val();
+            /* Ajax est lance lors du remplissage id=search pour faire la recherche*/
+            $.ajax({
+            /*l'url un string contenant l'@ où la req est envoyée */
+                url : "{{ path('seachProduct') }}",
+            /* method utilisée pour tranferé les données get*/
+                type : 'GET',
+            /*searchValue contient la chaine entrée par le user*/
+                data : {
+                        'searchValue' : value
+                },
+            /*la fct vide le contenu de l'ancien pour recevoir le nouveau*/
+                success : function(retour){
+                    if(retour){
+                        $('#t tbody#search').empty();
+                        $.each(JSON.parse(retour), function(i, obj){
+                            $('#t tbody#all').hide();
+                            $('#t tbody#search').append('<tr> <td> '+obj.id+' </td><td> '+obj.name+'</td><td> '+obj.description+'</td><td> '+obj.ref+'</td><td> '+obj.quantity+'</td><td> '+obj.price+'</td><td> '+obj.image+'</td><td> <a href="{{ path('updateProduct', {'id': 'obj.id'}) }}" class="btn btn-light"> Edit </a> </td><td> <a href="{{ path('deleteProduct', {'id': 'obj.id'}) }}" class="btn btn-danger btn-sm" > Delete </a> </td> <tr>');
+                            
+                        }); 
+                    }else{
+                        $('#t tbody#all').show();
+                        $('#t tbody#search').empty();
+                        $('#t tbody#search').fadeIn('fast');
+                    }
+                },
+            });
+            return false;
+        });
+    });
+</script>
+{% endblock %}
