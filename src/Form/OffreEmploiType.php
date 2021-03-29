@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\OffreEmploi;
-use App\Entity\Categorie;
+use App\Entity\Category;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,11 +25,7 @@ class OffreEmploiType extends AbstractType
                 'categorie',
                 EntityType::class,
                 [
-                    'class' => categorie::class,
-                    'choice_label' => 'nom',
-                    'query_builder' => function (EntityRepository $repo) {
-                        return $repo->createQueryBuilder('c');
-                    }
+                    'class' => Category::class
                 ]
             )
             ->add('maxSalary')

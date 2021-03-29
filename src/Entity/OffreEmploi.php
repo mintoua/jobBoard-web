@@ -148,7 +148,7 @@ class OffreEmploi
     private $applies;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="offreemplois")
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="offreemplois")
      * @ORM\JoinColumn(nullable=false)
      */
     private $categorie;
@@ -338,12 +338,12 @@ class OffreEmploi
         return $this;
     }
 
-    public function getCategorie(): ?Categorie
+    public function getCategorie(): ?Category
     {
         return $this->categorie;
     }
 
-    public function setCategorie(?Categorie $categorie): self
+    public function setCategorie(?Category $categorie): self
     {
         $this->categorie = $categorie;
 

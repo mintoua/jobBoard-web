@@ -34,9 +34,24 @@ class Category
      */
     public $formation;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $couleur;
+
+    /**
+     * @ORM\OneToMany(targetEntity=OffreEmploi::class, mappedBy="categorie", orphanRemoval=true)
+     */
+    private $offreemplois;
+
+    public function toString(){
+        return $this->titre;
+    }
+
     public function __construct()
     {
         $this->formation = new ArrayCollection();
+        $this->categorie = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -92,6 +107,48 @@ class Category
             // set the owning side to null (unless already changed)
             if ($formation->getCategory() === $this) {
                 $formation->setCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCouleur(): ?string
+    {
+        return $this->couleur;
+    }
+
+    public function setCouleur(?string $couleur): self
+    {
+        $this->couleur = $couleur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OffreEmploi[]
+     */
+    public function getOffreemplois(): Collection
+    {
+        return $this->offreemplois;
+    }
+
+    public function addOffreemplois(OffreEmploi $offreemplois): self
+    {
+        if (!$this->offreemplois->contains($offreemplois)) {
+            $this->offreemplois[] = $offreemplois;
+            $offreemplois->setCategorie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffreemplois(OffreEmploi $offreemplois): self
+    {
+        if ($this->offreemplois->removeElement($offreemplois)) {
+            // set the owning side to null (unless already changed)
+            if ($offreemplois->getCategorie() === $this) {
+                $offreemplois->setCategorie(null);
             }
         }
 
