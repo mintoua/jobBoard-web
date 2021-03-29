@@ -132,10 +132,9 @@
                   <h5 style="background-color: yellow">Gratuite</h5>
                 {% endif %}
                 <a href="/formation/{{ formation.id }}" class="btn btn-primary mb-2"  >PLUS</a>
-                {% if is_granted('ROLE_COMPANY')%}
-                <a href="/formation/edit/{{ formation.id }}" class="btn btn-warning mb-2" >Edit</a>
-                <a  href="/formation/delete/{{ formation.id }}"  onclick="fireSweetAlert()" class="btn btn-warning mb-2">Supprimer</a>
-                {% endif %}
+                <a href="{{ path('edit_formation',{'id' : formation.id})}}" class="btn btn-warning mb-2" >Edit</a>
+                <a  href="{{ path('delete_formation',{'id' : formation.id})}}"  onclick="fireSweetAlert()" class="btn btn-warning mb-2">Supprimer</a>
+                
             </div>
         </div>
 

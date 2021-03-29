@@ -27,7 +27,7 @@ class Category
     /**
      * @ORM\Column(type="string", length=255)
      */
-   public $descriptionc;
+    public $descriptionc;
 
     /**
      * @ORM\OneToMany(targetEntity=Formation::class, mappedBy="category")
@@ -44,14 +44,17 @@ class Category
      */
     private $offreemplois;
 
-    public function toString(){
-        return $this->titre;
+
+    public function __toString()
+    {
+        return (string) $this->getTitre();
     }
 
     public function __construct()
     {
         $this->formation = new ArrayCollection();
         $this->categorie = new ArrayCollection();
+        $this->offreemplois = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -149,6 +152,28 @@ class Category
             // set the owning side to null (unless already changed)
             if ($offreemplois->getCategorie() === $this) {
                 $offreemplois->setCategorie(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addOffreemploi(OffreEmploi $offreemploi): self
+    {
+        if (!$this->offreemplois->contains($offreemploi)) {
+            $this->offreemplois[] = $offreemploi;
+            $offreemploi->setCategorie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffreemploi(OffreEmploi $offreemploi): self
+    {
+        if ($this->offreemplois->removeElement($offreemploi)) {
+            // set the owning side to null (unless already changed)
+            if ($offreemploi->getCategorie() === $this) {
+                $offreemploi->setCategorie(null);
             }
         }
 
