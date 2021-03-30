@@ -104,6 +104,7 @@
 									</tr>
 								</thead>
 								<tbody>
+									{% set i = 0 %}
 									{% for c in list %}
 										<tr>
 											<td class="feature">
@@ -130,8 +131,9 @@
 												</ul>
 											</td>
 											<td class="application text-primary">
-												(1) Applications
+												{{count[i]}} Applications
 											</td>
+											{% set i = i+1 %}
 											{% if date(c.getDateExpiration()) > date() %}
 												<td class="expired success">
 													Active
