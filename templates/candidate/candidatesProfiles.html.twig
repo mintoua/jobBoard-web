@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Candidates List</h4>
+                    <div class="count">
+                        {{ candidates_list.getTotalItemCount }}
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>Candidate first name</th>
+                                <th>Candidate last name</th>
+                                <th>Candidate date of birth</th>
+                                <th>Candidate professional title</th>
+                                <th>Candidate adress</th>
+                                <th>Candidate phone</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for candidate in candidates_list %}
+                                <tr>
+                                    <td>{{ candidate.firstName }}</td>
+                                    <th scope="row">{{ candidate.lastName }}</th>
+                                    <td>{{ candidate.dateOfBirth|date }}</td>
+                                    <td>{{ candidate.professionalTitle }}</td>
+                                    <td>{{ candidate.adresse }}</td>
+                                    <td>{{ candidate.phone }}</td>
+                                    <td><img src="{{ asset('uploads/') }}{{ app.user.imageName }}"
+                                             style="width: 50px;height: 50px" alt="image"></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ml-5 justify-content-center">
+        {{ knp_pagination_render(candidates_list) }}
+    </div>
+{% endblock %}

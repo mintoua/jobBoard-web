@@ -1,0 +1,170 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    <!-- Content -->
+    <div class="page-content bg-white">
+        <!-- contact area -->
+        <div class="content-block">
+            <!-- Browse Jobs -->
+            <div class="section-full bg-white p-t50 p-b20">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-4 m-b30">
+                            <div class="sticky-top">
+                                <div class="candidate-info company-info">
+                                    <div class="candidate-detail text-center">
+                                        {{ form_start(form) }}
+                                        <div class="canditate-des">
+                                            <a href="#">
+                                                <img style="width: 150px;height: 150px" alt=""
+                                                     src="{{ asset('uploads/') }}{{ company.companyImageName }}">
+                                            </a>
+                                            <div class="upload-link" title="update" data-toggle="tooltip"
+                                                 data-placement="right">
+                                                {{ form_widget(form.companyImageName) }}
+
+                                            </div>
+                                        </div>
+
+                                        <div class="candidate-title">
+                                            <h4 class="m-b5"><a href="#"></a></h4>
+                                        </div>
+                                    </div>
+                                    <ul>
+                                        <li><a href="company-profile.html" class="active">
+                                                <i class="fa fa-user-o" aria-hidden="true"></i>
+                                                <span>Company Profile</span></a></li>
+                                        <li><a href="company-post-jobs.html">
+                                                <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                                <span>Post A Job</span></a></li>
+                                        <li><a href="company-transactions.html">
+                                                <i class="fa fa-random" aria-hidden="true"></i>
+                                                <span>Transactions</span></a></li>
+                                        <li><a href="company-manage-job.html">
+                                                <i class="fa fa-briefcase" aria-hidden="true"></i>
+                                                <span>Manage jobs</span></a></li>
+                                        <li><a href="company-resume.html">
+                                                <i class="fa fa-id-card-o" aria-hidden="true"></i>
+                                                <span>Resume</span></a></li>
+                                        <li><a href="jobs-change-password.html">
+                                                <i class="fa fa-key" aria-hidden="true"></i>
+                                                <span>Change Password</span></a></li>
+                                        <li><a href="{{ path('security_logout') }}">
+                                                <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                                <span>Log Out</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-9 col-lg-8 m-b30">
+                            <div class="job-bx submit-resume">
+                                <div class="job-bx-title clearfix">
+                                    <h5 class="font-weight-700 pull-left text-uppercase">Company Profile</h5>
+                                    <a href="company-profile.html"
+                                       class="site-button right-arrow button-sm float-right">Back</a>
+                                </div>
+
+                                <div class="row m-b30">
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>Company Name</label>
+                                            {{ form_widget(form.companyName) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>Contact Email</label>
+                                            {{ form_widget(form.contactEmail) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>Website</label>
+                                            {{ form_widget(form.website) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>Founded Date </label>
+                                            {{ form_widget(form.foundedDate) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>Category</label>
+                                            {{ form_widget(form.category) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>Country</label>
+                                            {{ form_widget(form.country) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="form-group">
+                                            <label>Description</label>
+                                            {{ form_widget(form.description) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Contact Information -->
+                                <div class="job-bx-title clearfix">
+                                    <h5 class="font-weight-700 pull-left text-uppercase">Contact Information</h5>
+                                </div>
+                                <div class="row m-b30">
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>Phone</label>
+                                            {{ form_widget(form.contactPhone) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>Address</label>
+                                            {{ form_widget(form.companyAdress) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Social Link -->
+                                <div class="job-bx-title clearfix">
+                                    <h5 class="font-weight-700 pull-left text-uppercase">Social link</h5>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>Facebook</label>
+                                            {{ form_widget(form.facebookLink) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>Twitter</label>
+                                            {{ form_widget(form.twitterLink) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                {{ form_widget(form.submit) }}
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+            <!-- Browse Jobs END -->
+        </div>
+    </div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5WEs73ZKe8-8YdYVDH8qAhIE38O_njO4&sensor=false&amp;libraries=places"
+            type="text/javascript"></script>
+
+    <script type="text/javascript">
+        function initialize() {
+            var input = document.getElementById('companyprofile_companyAdress');
+            var autocomplete = new google.maps.places.Autocomplete(input);
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+    <!-- Content END-->
+{% endblock %}

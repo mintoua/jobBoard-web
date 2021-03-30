@@ -1,6 +1,6 @@
 .idea
 public/.htaccess
-
+/public/uploads/
 ###> symfony/framework-bundle ###
 /var/
 /vendor/

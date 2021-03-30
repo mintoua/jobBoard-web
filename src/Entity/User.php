@@ -57,6 +57,10 @@ class User implements AdvancedUserInterface, \Serializable
      * @ORM\Column(type="array")
      */
     private $roles;
+    /**
+     * @ORM\Column(type="string", length=20, nullable=true)
+     */
+    private $professionalTitle;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -74,22 +78,10 @@ class User implements AdvancedUserInterface, \Serializable
     private $token;
     /**
      * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
      */
     private $dateOfBirth;
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="lng", type="float", nullable=true)
-     */
-    private $lng;
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="lat", type="float", nullable=true)
-     */
-    private $lat;
     /**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
@@ -108,9 +100,48 @@ class User implements AdvancedUserInterface, \Serializable
     private $activatedAt;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $phone;
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $imageName;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $adresse;
+
+
+
+    public function getImageName()
+    {
+        return $this->imageName;
+    }
+
+    public function setImageName(string $imageName)
+    {
+        $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdresse()
+    {
+        return $this->adresse;
+    }
+
+    /**
+     * @param mixed $adresse
+     */
+    public function setAdresse($adresse)
+    {
+        $this->adresse = $adresse;
+    }
 
 
     /**
@@ -136,6 +167,23 @@ class User implements AdvancedUserInterface, \Serializable
     {
         return $this->firstName;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getProfessionalTitle()
+    {
+        return $this->professionalTitle;
+    }
+
+    /**
+     * @param mixed $professionalTitle
+     */
+    public function setProfessionalTitle($professionalTitle)
+    {
+        $this->professionalTitle = $professionalTitle;
+    }
+
 
     /**
      * @param mixed $firstName
@@ -306,12 +354,13 @@ class User implements AdvancedUserInterface, \Serializable
     {
         $this->activatedAt = $activatedAt;
     }
-    public function getRoles()
+
+    public function getRoles(): array
     {
         return $this->roles;
     }
 
-    public function setRoles(array $roles)
+    public function setRoles(array $roles): User
     {
         if (!in_array('ROLE_USER', $roles)) {
             $roles[] = 'ROLE_USER';
@@ -399,30 +448,6 @@ class User implements AdvancedUserInterface, \Serializable
             $this->isActive,
 
         ) = unserialize($serialized);
-    }
-
-    public function getLng(): ?float
-    {
-        return $this->lng;
-    }
-
-    public function setLng(?float $lng): self
-    {
-        $this->lng = $lng;
-
-        return $this;
-    }
-
-    public function getLat(): ?float
-    {
-        return $this->lat;
-    }
-
-    public function setLat(?float $lat): self
-    {
-        $this->lat = $lat;
-
-        return $this;
     }
 
     public function getActivatedAt(): ?\DateTimeInterface
