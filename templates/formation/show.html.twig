@@ -1,0 +1,248 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="keywords" content="" />
+        <meta name="author" content="" />
+        <meta name="robots" content="" />
+        <meta name="description" content="JobBoard - HTML Template" />
+        <meta property="og:title" content="JobBoard - HTML Template" />
+        <meta property="og:description" content="JobBoard - HTML Template" />
+        <meta property="og:image" content="social-image.png" />
+        <meta name="format-detection" content="telephone=no">
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <!-- FAVICONS ICON -->
+        <link rel="icon" href="images/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png" />
+
+        <!-- PAGE TITLE HERE -->
+        <title>JobBoard - HTML Template</title>
+
+        <!-- MOBILE SPECIFIC -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--[if lt IE 9]>
+        <script src="js/html5shiv.min.js"></script>
+        <script src="js/respond.min.js"></script>
+        <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+        <![endif]-->
+
+        <!-- STYLESHEETS -->
+        <link rel="stylesheet" type="text/css" href="css/plugins.min.css">
+        <link rel="stylesheet" type="text/css" href="plugins/fontawesome/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="plugins/themify/themify-icons.css">
+        <link rel="stylesheet" type="text/css" href="css/style.min.css">
+        <link rel="stylesheet" type="text/css" href="css/templete.min.css">
+        <link class="skin" rel="stylesheet" type="text/css" href="css/skin/skin-1.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&amp;family=Montserrat:wght@100;200;300;400;500;600;700;800;900&amp;family=Open+Sans:wght@300;400;600;700;800&amp;family=Roboto:wght@100&amp;family=Rubik:wght@300;400;500;700;900&amp;display=swap" rel="stylesheet">
+
+    </head>
+
+
+
+    <!-- inner page banner END -->
+            <div class="content-block">
+
+
+                        <!-- inner page banner -->
+                        <div class="dez-bnr-inr overlay-black-middle" style="background-image:url(https://www.managementdelaformation.fr/wp-content/uploads/2018/05/RHEXIS_R%C3%A9forme_Action_de_Formation.jpg);">
+                            <div class="container">
+                                <div class="dez-bnr-inr-entry">
+                                </div>
+                            </div>
+                                    <h1 class="text-white">Apropos de nos formation</h1>
+                                    <!-- Breadcrumb row -->
+
+                                    <!-- Breadcrumb row END -->
+
+
+                <div class="row align-items-center m-b50">
+
+                    <div class="section-full content-inner overlay-white-middle">
+
+                    </div>
+
+                </div>
+                        </div>
+            </div>
+                        <div class="row align-items-center m-b50">
+                            <div class="col-md-12 col-lg-6 m-b20" align="center">
+
+                                <h2 class="m-b5" style="color: blue">{{ formation.nom }}</h2>
+                                <br>
+                                <br>
+                                <h4 class="fw4">Date debut: {{ formation.date_debut|date('d-m-Y') }}</h4>
+                               <h4 class="fw4">Date fin: {{ formation.date_fin|date('d-m-Y') }}</h4>
+                                <h5 class="m-b5" > Prix: {{ formation.prix }}DT</h5>
+                                <p class="m-b15">{{ formation.description }}</p>
+                                <h5 class="m-b5" >Contact:<br>Adresse: {{ formation.adresse }}</h5>
+                                <h5 class="m-b5" >Mail: {{ formation.mail }}</h5>
+                                <h5 class="m-b5" > Telephone: {{ formation.tel }}</h5>
+
+
+                        </div>
+                            <div class="col-md-12 col-lg-6">
+                                <img src="{{ asset('frontOffice/') }}images/formateur.jpg"
+                                     class="logo"
+                                     alt="" />
+                                <img src="https://lh3.googleusercontent.com/proxy/pLsawU4nlyG5EMh1bVtDBlZgInhasE1c8BNp5Kk10vGypIB2TDtCsd8OWRAOBpkpiphircTG_C_U5hVs-dKReZRWkWVwS1Q_O94CKd-bnniT-FsZ7kFaBYyi9MIiLz3H60_JfB2xnPLz-YY_vLmn_DdTOPX_EX0g1xVbCL9dhe3eSbdYlujneQ" alt=""/>
+                            </div>
+            </div>
+    <div class="section-full content-inner-2 call-to-action overlay-black-dark text-white text-center bg-img-fix" style="background-image: url(https://lh3.googleusercontent.com/proxy/pLsawU4nlyG5EMh1bVtDBlZgInhasE1c8BNp5Kk10vGypIB2TDtCsd8OWRAOBpkpiphircTG_C_U5hVs-dKReZRWkWVwS1Q_O94CKd-bnniT-FsZ7kFaBYyi9MIiLz3H60_JfB2xnPLz-YY_vLmn_DdTOPX_EX0g1xVbCL9dhe3eSbdYlujneQ)">
+
+
+    </div>
+                    </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+                <!-- Why Chose Us -->
+                <!-- Call To Action -->
+
+                      </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Our Latest Blog -->
+            </div>
+            <!-- contact area END -->
+        </div>
+        <!-- Content END-->
+        <!-- Modal Box -->
+        <div class="modal fade lead-form-modal" id="car-details" tabindex="-1" role="dialog" >
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="modal-body row m-a0 clearfix">
+                        <div class="col-lg-6 col-md-6 overlay-primary-dark d-flex p-a0" style="background-image: url(images/background/bg3.jpg);  background-position:center; background-size:cover;">
+                            <div class="form-info text-white align-self-center">
+                                <h3 class="m-b15">Login To You Now</h3>
+                                <p class="m-b15">Lorem Ipsum is simply dummy text of the printing and typesetting industry has been the industry.</p>
+                                <ul class="list-inline m-a0">
+                                    <li><a href="#" class="m-r10 text-white"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="#" class="m-r10 text-white"><i class="fa fa-google-plus"></i></a></li>
+                                    <li><a href="#" class="m-r10 text-white"><i class="fa fa-linkedin"></i></a></li>
+                                    <li><a href="#" class="m-r10 text-white"><i class="fa fa-instagram"></i></a></li>
+                                    <li><a href="#" class="m-r10 text-white"><i class="fa fa-twitter"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 p-a0">
+                            <div class="lead-form browse-job text-left">
+                                <form>
+                                    <h3 class="m-t0">Personal Details</h3>
+                                    <div class="form-group">
+                                        <input value="" class="form-control" placeholder="Name"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input value="" class="form-control" placeholder="Mobile Number"/>
+                                    </div>
+                                    <div class="clearfix">
+                                        <button type="button" class="btn-primary site-button btn-block">Submit </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Box End -->
+        <!-- Footer -->
+        <footer class="site-footer">
+            <div class="footer-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-5 col-lg-4 col-md-12 col-sm-12">
+                            <div class="widget">
+                                <img src="images/logo-white.png" width="180" class="m-b15" alt=""/>
+                                <p class="text-capitalize m-b20">Lorem Ipsum is simply dummy text of the printing and typesetting industry has been the industry's standard dummy text ever since the.</p>
+                                <div class="subscribe-form m-b20">
+                                    <form class="dzSubscribe" action="https://job-board.dexignzone.com/xhtml/script/mailchamp.php" method="post">
+                                        <div class="dzSubscribeMsg"></div>
+                                        <div class="input-group">
+                                            <input name="dzEmail" required="required"  class="form-control" placeholder="Your Email Address" type="email">
+                                            <span class="input-group-btn">
+											<button name="submit" value="Submit" type="submit" class="site-button radius-xl">Subscribe </button>
+										</span>
+                                        </div>
+                                    </form>
+                                </div>
+                                <ul class="list-inline m-a0">
+                                    <li><a href="javascript:void(0);" class="site-button white facebook circle "><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="javascript:void(0);" class="site-button white google-plus circle "><i class="fa fa-google-plus"></i></a></li>
+                                    <li><a href="javascript:void(0);" class="site-button white linkedin circle "><i class="fa fa-linkedin"></i></a></li>
+                                    <li><a href="javascript:void(0);" class="site-button white instagram circle "><i class="fa fa-instagram"></i></a></li>
+                                    <li><a href="javascript:void(0);" class="site-button white twitter circle "><i class="fa fa-twitter"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-xl-5 col-lg-5 col-md-8 col-sm-8 col-12">
+                            <div class="widget border-0">
+                                <h5 class="m-b30 text-white">Frequently Asked Questions</h5>
+                                <ul class="list-2 list-line">
+                                    <li><a href="javascript:void(0);">Privacy & Seurty</a></li>
+                                    <li><a href="javascript:void(0);">Terms of Serice</a></li>
+                                    <li><a href="javascript:void(0);">Communications</a></li>
+                                    <li><a href="javascript:void(0);">Referral Terms</a></li>
+                                    <li><a href="javascript:void(0);">Lending Licnses</a></li>
+                                    <li><a href="javascript:void(0);">Support</a></li>
+                                    <li><a href="javascript:void(0);">How It Works</a></li>
+                                    <li><a href="javascript:void(0);">For Employers</a></li>
+                                    <li><a href="javascript:void(0);">Underwriting</a></li>
+                                    <li><a href="javascript:void(0);">Contact Us</a></li>
+                                    <li><a href="javascript:void(0);">Lending Licnses</a></li>
+                                    <li><a href="javascript:void(0);">Support</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-12">
+                            <div class="widget border-0">
+                                <h5 class="m-b30 text-white">Find Jobs</h5>
+                                <ul class="list-2 w10 list-line">
+                                    <li><a href="javascript:void(0);">US Jobs</a></li>
+                                    <li><a href="javascript:void(0);">Canada Jobs</a></li>
+                                    <li><a href="javascript:void(0);">UK Jobs</a></li>
+                                    <li><a href="javascript:void(0);">Emplois en Fnce</a></li>
+                                    <li><a href="javascript:void(0);">Jobs in Deuts</a></li>
+                                    <li><a href="javascript:void(0);">Vacatures China</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- footer bottom part -->
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+						<span> © Copyright 2020  by <i class="fa fa-heart m-lr5 text-red heart"></i>
+						<a href="javascript:void(0);">DexignZone </a> All rights reserved.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Footer END -->
+        <button class="scroltop fa fa-chevron-up" ></button>
+    </div>
+    <!-- JAVASCRIPT FILES ========================================= -->
+    <script src="js/combining.js"></script><!-- COMBINING JS  -->
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    </body>
+
+    <!-- Mirrored from job-board.dexignzone.com/xhtml/about-us.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 16 Feb 2021 18:07:57 GMT -->
+
+
+
+
+{% endblock %}
