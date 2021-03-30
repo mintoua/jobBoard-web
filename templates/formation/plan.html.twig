@@ -12,7 +12,7 @@
             border: none;
             color: white;
             padding: 12px 12px;
-            font-size: 10px;
+            font-size: 13px;
             cursor: pointer;
         }
 
@@ -21,6 +21,7 @@
 {% block body %}
     <h1 style="color: blue" align="center">Calendrier de nos formations</h1>
     <a href="{{path('formation')}}" class="btn "  >home</a>
+    <a  href="{{ path('recherche')}}" class="btn" >Chercher </a>
     <div id="calendrier" >
 
     </div>
