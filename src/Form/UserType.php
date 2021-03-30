@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -23,7 +22,7 @@ class UserType extends AbstractType
             ->add('dateOfBirth', DateType::class, ['attr' => ['class' => 'js-datepicker'],
             ])
             ->add('phone')
-             ->add('adresse', TextType::class, ['attr' => ['id' => 'searchTextField','autocomplete'=>'on']
+            ->add('adresse', TextType::class, ['attr' => ['id' => 'searchTextField','autocomplete'=>'on']
     ])
             ->add('professionaltitle')
             ->add('imageName', FileType::class, ['attr' => ['class' => 'custom-file-input'],

@@ -60,7 +60,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @ORM\Column(type="string", length=20, nullable=true)
      */
-    private $professionaltitle;
+    private $professionalTitle;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -78,22 +78,10 @@ class User implements AdvancedUserInterface, \Serializable
     private $token;
     /**
      * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
      */
     private $dateOfBirth;
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="lng", type="float", nullable=true)
-     */
-    private $lng;
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="lat", type="float", nullable=true)
-     */
-    private $lat;
     /**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
@@ -119,64 +107,12 @@ class User implements AdvancedUserInterface, \Serializable
      * @ORM\Column(type="string", nullable=true)
      */
     private $imageName;
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $companyname;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $contactemail;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $website;
-
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    private $foundeddate;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $category;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $country;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $description;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $contactphone;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $companyadress;
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $adresse;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $facebooklink;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $twitterlink;
 
 
     public function getImageName()
@@ -202,7 +138,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @param mixed $adresse
      */
-    public function setAdresse($adresse): void
+    public function setAdresse($adresse)
     {
         $this->adresse = $adresse;
     }
@@ -235,18 +171,19 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @return mixed
      */
-    public function getProfessionaltitle()
+    public function getProfessionalTitle()
     {
-        return $this->professionaltitle;
+        return $this->professionalTitle;
     }
 
     /**
-     * @param mixed $professionaltitle
+     * @param mixed $professionalTitle
      */
-    public function setProfessionaltitle($professionaltitle)
+    public function setProfessionalTitle($professionalTitle)
     {
-        $this->professionaltitle = $professionaltitle;
+        $this->professionalTitle = $professionalTitle;
     }
+
 
     /**
      * @param mixed $firstName
@@ -512,215 +449,6 @@ class User implements AdvancedUserInterface, \Serializable
 
         ) = unserialize($serialized);
     }
-
-    /**
-     * @return float
-     */
-    public function getLng()
-    {
-        return $this->lng;
-    }
-
-    /**
-     * @param float $lng
-     */
-    public function setLng(float $lng)
-    {
-        $this->lng = $lng;
-    }
-
-    /**
-     * @return float
-     */
-    public function getLat()
-    {
-        return $this->lat;
-    }
-
-    /**
-     * @param float $lat
-     */
-    public function setLat(float $lat)
-    {
-        $this->lat = $lat;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCompanyname()
-    {
-        return $this->companyname;
-    }
-
-    /**
-     * @param mixed $companyname
-     */
-    public function setCompanyname($companyname)
-    {
-        $this->companyname = $companyname;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getContactemail()
-    {
-        return $this->contactemail;
-    }
-
-    /**
-     * @param mixed $contactemail
-     */
-    public function setContactemail($contactemail)
-    {
-        $this->contactemail = $contactemail;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWebsite()
-    {
-        return $this->website;
-    }
-
-    /**
-     * @param mixed $website
-     */
-    public function setWebsite($website)
-    {
-        $this->website = $website;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFoundeddate()
-    {
-        return $this->foundeddate;
-    }
-
-    /**
-     * @param mixed $foundeddate
-     */
-    public function setFoundeddate($foundeddate)
-    {
-        $this->foundeddate = $foundeddate;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCategory()
-    {
-        return $this->category;
-    }
-
-    /**
-     * @param mixed $category
-     */
-    public function setCategory($category)
-    {
-        $this->category = $category;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCountry()
-    {
-        return $this->country;
-    }
-
-    /**
-     * @param mixed $country
-     */
-    public function setCountry($country)
-    {
-        $this->country = $country;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * @param mixed $description
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getContactphone()
-    {
-        return $this->contactphone;
-    }
-
-    /**
-     * @param mixed $contactphone
-     */
-    public function setContactphone($contactphone)
-    {
-        $this->contactphone = $contactphone;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCompanyadress()
-    {
-        return $this->companyadress;
-    }
-
-    /**
-     * @param mixed $companyadress
-     */
-    public function setCompanyadress($companyadress)
-    {
-        $this->companyadress = $companyadress;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFacebooklink()
-    {
-        return $this->facebooklink;
-    }
-
-    /**
-     * @param mixed $facebooklink
-     */
-    public function setFacebooklink($facebooklink)
-    {
-        $this->facebooklink = $facebooklink;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTwitterlink()
-    {
-        return $this->twitterlink;
-    }
-
-    /**
-     * @param mixed $twitterlink
-     */
-    public function setTwitterlink($twitterlink)
-    {
-        $this->twitterlink = $twitterlink;
-    }
-
 
     public function getActivatedAt(): ?\DateTimeInterface
     {

@@ -148,24 +148,21 @@
 
                                     <ul>
                                         <li><a class="scroll-bar nav-link" href="#resume_headline_bx">
-                                                <span>Resume Headline</span>
+                                                <span>Course</span>
                                             </a></li>
                                         <li><a class="scroll-bar nav-link" href="#key_skills_bx">
-                                                <span>Skills</span>
+                                                <span>Institute</span>
                                             </a></li>
 
                                         <li><a class="scroll-bar nav-link" href="#experience">
-                                                <span>Experience</span>
+                                                <span>Date From</span>
+                                            </a></li>
+                                        <li><a class="scroll-bar nav-link" href="#dateTo">
+                                                <span>Date To</span>
                                             </a></li>
 
-                                        {% if candidateresume.ResumeHeadline %}
-                                            <li><a class="scroll-bar nav-link" href="{{path('resume_resumeEducation',{id:candidateresume.id})}}">
-                                                    <span>add education</span>
-                                                </a></li>
 
-                                        {% endif %}
 
-                                        
 
                                     </ul>
                                 </div>
@@ -176,55 +173,68 @@
                                 {{ form_start(form) }}
 
                                 <div class="d-flex">
-                                    <h5 class="m-b15">Resume Headline</h5>
+                                    <h5 class="m-b15">Course</h5>
 
                                 </div>
                                 <div class="row pb-3">
                                     <div class="col-7">
-                                        {{ form_widget(form.ResumeHeadline,{'attr': {'class':'form-control'}}) }}
+                                        {{ form_widget(form.course,{'attr': {'class':'form-control'}}) }}
 
                                     </div>
                                 </div>
 
                                 <p id="ResumeHeadlineText"
-                                   class="m-b0">{{ candidateresume.resumeHeadline ? candidateresume.resumeHeadline :'Example: Freelance Senior PHP Developer at various agencies' }}</p>
+                                   class="m-b0">{{ education.course ? education.course :'Example: Computer Science' }}</p>
 
                             </div>
                             <div id="key_skills_bx" class="job-bx bg-white m-b30">
                                 <div class="d-flex">
-                                    <h5 class="m-b15">Skills</h5>
+                                    <h5 class="m-b15">Institute</h5>
                                 </div>
                                 <div class="row pb-3">
                                     <div class="col-7">
-                                        {{ form_widget(form.Skills,{'attr': {'class':'form-control'}}) }}
+                                        {{ form_widget(form.institute,{'attr': {'class':'form-control'}}) }}
 
                                     </div>
                                 </div>
 
                                 <p id="Skills"
-                                   class="m-b0">{{ candidateresume.skills ? candidateresume.skills :'Example: css,bootstrap,php' }}</p>
+                                   class="m-b0">{{ education.institute ? education.institute :'Example: Studied at Harvard' }}</p>
 
                             </div>
 
                             <div id="experience" class="job-bx bg-white m-b30 ">
                                 <div class="d-flex">
-                                    <h5 class="m-b15">Experience</h5>
+                                    <h5 class="m-b15">Date From</h5>
                                 </div>
                                 <div class="row pb-3">
                                     <div class="col-7">
-                                        {{ form_widget(form.Experience,{'attr': {'class':'form-control'}}) }}
+                                        {{ form_widget(form.dateFrom,{'attr': {'class':'form-control'}}) }}
 
                                     </div>
                                 </div>
-                                <h6 class="font-14 m-b0">{{ app.user.professionaltitle }}</h6>
-                                <p class="m-b0"> {{ candidateresume.experience ? candidateresume.experience :'Example: css,bootstrap,php' }}</p>
+                                <p class="m-b0"> {{ education.dateFrom ? education.dateFrom|date :'Example: 11 May 2005' }}</p>
+
+
+                            </div>
+                            <div id="dateTo" class="job-bx bg-white m-b30 ">
+                                <div class="d-flex">
+                                    <h5 class="m-b15">Date To</h5>
+                                </div>
+                                <div class="row pb-3">
+                                    <div class="col-7">
+                                        {{ form_widget(form.dateTo,{'attr': {'class':'form-control'}}) }}
+
+                                    </div>
+                                </div>
+                                <p class="m-b0"> {{ education.dateTo ? education.dateTo|date :'11 May 2010' }}</p>
 
 
                             </div>
 
                             <div class="row d-flex justify-content-center">
 
-                                    {{ form_widget(form.save) }}
+                                {{ form_widget(form.save) }}
 
 
                             </div>
@@ -242,6 +252,44 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
+                        <div class="modal-body row m-a0 clearfix">
+                            <div class="col-lg-6 col-md-6 overlay-primary-dark d-flex p-a0"
+                                 style="background-image: url(frontOffice/images/background/bg3.jpg);  background-position:center; background-size:cover;">
+                                <div class="form-info text-white align-self-center">
+                                    <h3 class="m-b15">Login To You Now</h3>
+                                    <p class="m-b15">Lorem Ipsum is simply dummy text of the printing and typesetting
+                                        industry has been the industry.</p>
+                                    <ul class="list-inline m-a0">
+                                        <li><a href="#" class="m-r10 text-white"><i
+                                                        class="fa fa-facebook"></i></a></li>
+                                        <li><a href="#" class="m-r10 text-white"><i
+                                                        class="fa fa-google-plus"></i></a></li>
+                                        <li><a href="#" class="m-r10 text-white"><i
+                                                        class="fa fa-linkedin"></i></a></li>
+                                        <li><a href="#" class="m-r10 text-white"><i
+                                                        class="fa fa-instagram"></i></a></li>
+                                        <li><a href="#" class="m-r10 text-white"><i
+                                                        class="fa fa-twitter"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 p-a0">
+                                <div class="lead-form browse-job text-left">
+                                    <form>
+                                        <h3 class="m-t0">Personal Details</h3>
+                                        <div class="form-group">
+                                            <input type="text" value="" class="form-control" placeholder="E-Mail Address"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" value="" class="form-control" placeholder="Password"/>
+                                        </div>
+                                        <div class="clearfix">
+                                            <button type="button" class="btn-primary site-button btn-block">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

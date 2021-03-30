@@ -22,7 +22,8 @@
 
     {% block stylesheets %}
         <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/css/plugins.min.css') }}">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">        <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/plugins/themify/themify-icons.css') }}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/plugins/themify/themify-icons.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/css/style.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/css/templete.min.css') }}">
         <link class="skin" rel="stylesheet" type="text/css" href="{{ asset('frontOffice/css/skin/skin-1.min.css') }}">
@@ -48,7 +49,7 @@
                             <!-- website logo -->
                             <div class="logo-header mostion">
                                 <a href="{{ path('homepage') }}"><img src="{{ asset('frontOffice/') }}images/logo.png "
-                                                            class="logo" alt="" ></a>
+                                                                      class="logo" alt=""></a>
                             </div>
                             <!-- nav toggle button -->
                             <button class="navbar-toggler collapsed navicon justify-content-end" type="button"
@@ -67,6 +68,7 @@
                                                     class="fa fa-user"></i> {{ app.user.username }}</a>
                                         <a href="{{ path('security_logout') }}" class="site-button"><i
                                                     class="fa fa-user"></i> Logout</a>
+
                                     {% else %}
                                         <a href="{{ path('security_login') }}" class="site-button"><i
                                                     class="fa fa-user"></i>Login </a>
@@ -127,10 +129,12 @@
                                     <li>
                                         <a href="#">For Candidates <i class="fa fa-chevron-down"></i></a>
                                         <ul class="sub-menu">
-                                            <li><a href="{{ path('user_candidateprofile') }}" class="dez-page">My Profile<span
-                                                            class="new-page">New</span></a></li>
-                                            <li><a href="{{ path('resume_candidateresume') }}" class="dez-page">My Resume <span
-                                                            class="new-page">New</span></a></li>
+                                            <li><a href="{{ path('user_candidateprofile') }}" class="dez-page">My
+                                                    Profile</a></li>
+                                            <li><a href="{{ path('resume_candidateresume') }}" class="dez-page">My
+                                                    Resume </a></li>
+                                            <li><a href="{{ path('user_candidates_list') }}" class="dez-page">Candidates
+                                                    Profiles </a></li>
                                             <li><a href="jobs-applied-job.html" class="dez-page">Applied Job <span
                                                             class="new-page">New</span></a></li>
                                             <li><a href="jobs-alerts.html" class="dez-page">Jobs Alerts <span
@@ -140,24 +144,20 @@
                                             <li><a href="jobs-cv-manager.html" class="dez-page">CV Manager <span
                                                             class="new-page">New</span></a></li>
                                             <li><a href="jobs-change-password.html" class="dez-page">Change Password
-                                                    <span class="new-page">New</span></a></li>
+                                                </a></li>
                                         </ul>
                                     </li>
                                     <li>
                                         <a href="#">For Employers <i class="fa fa-chevron-down"></i></a>
                                         <ul class="sub-menu">
-                                            <li><a href="{{ path('company_companyprofile') }}" class="dez-page">Company Profile
-                                                    <span class="new-page">New</span></a></li>
-                                            <li><a href="company-resume.html" class="dez-page">Employer Resume <span
-                                                            class="new-page">New</span></a></li>
-                                            <li><a href="company-post-jobs.html" class="dez-page">Post A Jobs <span
-                                                            class="new-page">New</span></a></li>
-                                            <li><a href="company-manage-job.html" class="dez-page">Manage jobs <span
-                                                            class="new-page">New</span></a></li>
+                                            <li><a href="{{ path('company_companyprofile') }}" class="dez-page">Company
+                                                    Profile
+                                                </a></li>
+                                            <li><a href="{{ path('company_companies_list') }}" class="dez-page">Browse Companies </a></li>
+                                            <li><a href="company-post-jobs.html" class="dez-page">Post A Jobs </a></li>
+                                            <li><a href="company-manage-job.html" class="dez-page">Manage jobs </a></li>
                                             <li><a href="company-transactions.html" class="dez-page">Transactions
                                                     <span class="new-page">New</span></a></li>
-                                            <li><a href="browse-candidates.html" class="dez-page">Browse
-                                                    Candidates</a></li>
                                         </ul>
                                     </li>
                                     <li>
@@ -269,26 +269,7 @@
                                     <img src="{{ asset('frontOffice/') }}images/logo-white.png" width="180"
                                          class="m-b15"
                                          alt=""/>
-                                    <p class="text-capitalize m-b20">Lorem Ipsum is simply dummy text of the printing
-                                        and
-                                        typesetting industry has been the industry's standard dummy text ever since
-                                        the.</p>
-                                    <div class="subscribe-form m-b20">
-                                        <form class="dzSubscribe"
-                                              action="https://job-board.dexignzone.com/xhtml/script/mailchamp.php"
-                                              method="post">
-                                            <div class="dzSubscribeMsg"></div>
-                                            <div class="input-group">
-                                                <input name="dzEmail" required="required" class="form-control"
-                                                       placeholder="Your Email Address" type="email">
-                                                <span class="input-group-btn">
-											<button name="submit" value="Submit" type="submit"
-                                                    class="site-button radius-xl">Subscribe</button>
-										</span>
-                                            </div>
-                                        </form>Resume Headline
 
-                                    </div>
                                     <ul class="list-inline m-a0">
                                         <li><a href="#" class="site-button white facebook circle "><i
                                                         class="fa fa-facebook"></i></a></li>

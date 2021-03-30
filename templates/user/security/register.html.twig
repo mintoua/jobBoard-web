@@ -14,9 +14,9 @@
 
     <div class="browse-job login-style3">
         <div class="bg-img-fix"
-             style="background-image:url({{ asset('frontOffice/') }}images/background/bg6.jpg); height: 100vh;">
+             style="background-image:url({{ asset('frontOffice/') }}images/background/bg6.jpg);">
             <div class="row">
-                <div class="col-xl-4 col-lg-5 col-md-6 col-sm-12 bg-white z-index2 relative p-a0 content-scroll skew-section left-bottom">
+                <div class="bg-white z-index2 relative content-scroll col-6">
                     <div class="login-form style-2">
                         <div class="logo-header text-center p-tab30">
                             <a href="/"><img src="{{ asset('frontOffice/') }}images/logo.png" alt=""/></a>
@@ -49,32 +49,64 @@
                                     <div class="dez-separator bg-primary style-liner"></div>
                                 </div>
                                 <p>Enter your personal details below: </p>
-                                <div class="form-group">
-                                    {{ form_row(form.firstName) }}
-                                </div>
-                                <div class="form-group">
-                                    {{ form_row(form.lastName) }}
-                                </div>
-                                <div class="form-group">
-                                    {{ form_row(form.email) }}
-                                </div>
-                                <div class="form-group">
-                                    {{ form_row(form.password) }}
-                                </div>
-                                <div class="form-group">
-
-                                    {{ form_row(form.adresse) }}
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            {{ form_row(form.firstName) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            {{ form_row(form.lastName) }}
+                                        </div>
+                                    </div>
 
                                 </div>
-                                <div class="form-group">
-                                    {{ form_row(form.dateOfBirth) }}
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            {{ form_row(form.email) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            {{ form_row(form.imageName) }}
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    {{ form_row(form.phone) }}
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+
+                                            {{ form_row(form.adresse) }}
+
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            {{ form_row(form.dateOfBirth) }}
+                                        </div>
+                                    </div>
+
                                 </div>
-                                <div class="form-group">
-                                    {{ form_row(form.imageName) }}
+                                <div class="row">
+
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            {{ form_row(form.password) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+
+                                        <div class="form-group">
+                                            {{ form_row(form.phone) }}
+                                        </div>
+                                    </div>
+
                                 </div>
+
+
                                 <div class="g-recaptcha" data-sitekey="6Lc5CVgaAAAAAJL8V2UR9DCU3k8yUT0PNgSkmJbm"></div>
                                 <br>
                                 <div class="m-b30">
@@ -128,7 +160,7 @@
             jQuery('.winHeight').css('height', $(window).height());
         });
     </script>
-    #}
+
 
 {% endblock %}
 

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\CandidateResume;
+use App\Entity\Company;
 use App\Entity\User;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,7 +34,7 @@ class AdminController extends AbstractController
      * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function showUsersAction(Request $request, PaginatorInterface $paginator)
+    public function showUsers(Request $request, PaginatorInterface $paginator)
     {
 
         $users = $this->getDoctrine()
@@ -49,12 +50,36 @@ class AdminController extends AbstractController
         ]);
     }
 
-        /**
-         * @Route("/resumes", name="resumes_list")
-         */
+    /**
+     * @Route("/companies", name="companies_list")
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @return Response
+     */
+    public function ShowCompanies(Request $request, PaginatorInterface $paginator)
+    {
 
-    public function ShowCandidatesResume(Request $request, PaginatorInterface $paginator){
-        $resumes= $this->getDoctrine()->getRepository(CandidateResume::class)->findAll();
+        $companies = $this->getDoctrine()
+            ->getRepository(Company::class)
+            ->findAll();
+        $pagination = $paginator->paginate(
+            $companies, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            4 /*limit per page*/
+        );
+        return $this->render('admin/companies.html.twig', [
+            'companies_list' => $pagination,
+        ]);
+    }
+
+
+    /**
+     * @Route("/resumes", name="resumes_list")
+     */
+
+    public function ShowCandidatesResume(Request $request, PaginatorInterface $paginator)
+    {
+        $resumes = $this->getDoctrine()->getRepository(CandidateResume::class)->findAll();
         $pagination = $paginator->paginate($resumes, $request->query->getInt('page', 1), 4);
         return $this->render('admin/candidatesresume.html.twig', [
             'candidates_resumes' => $pagination,
@@ -68,17 +93,32 @@ class AdminController extends AbstractController
      */
 
 
-    public function deleteResume($id){
-        $em= $this->getDoctrine()->getManager();
-        $resume= $em->getRepository(CandidateResume::class)->find($id);
+    public function deleteResume($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $resume = $em->getRepository(CandidateResume::class)->find($id);
         $em->remove($resume);
         $em->flush();
         return $this->redirectToRoute('admin_resumes_list');
 
-
-
     }
 
+    /**
+     * @param $id
+     * @return RedirectResponse
+     * @Route("/deletecompany/{id}", name="delete_company")
+     */
+
+
+    public function deleteCompany($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $company = $em->getRepository(Company::class)->find($id);
+        $em->remove($company);
+        $em->flush();
+        return $this->redirectToRoute('admin_companies_list');
+
+    }
 
 
     /**
@@ -87,7 +127,7 @@ class AdminController extends AbstractController
      * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function byRoleAction(Request $request, PaginatorInterface $paginator, $role)
+    public function TribyRole(Request $request, PaginatorInterface $paginator, $role)
     {
         $em = $this->getDoctrine()->getManager();
         $qb = $em->createQueryBuilder();
@@ -106,7 +146,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/users/changeStatus/{id}", name="users_isActive")
      */
-    public function userChangeIsActiveAction(int $id)
+    public function userChangeIsActive(int $id)
     {
         $em = $this->getDoctrine()->getManager();
         $users = $this->getDoctrine()
@@ -117,5 +157,22 @@ class AdminController extends AbstractController
         $em->flush();
         $this->addFlash('success', 'User Status changed successfully');
         return $this->redirect($this->generateUrl('admin_users_list'));
+    }
+
+    /**
+     * @Route("/companies/changeStatus/{id}", name="companies_status")
+     */
+    public function companyStatus(int $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $companies = $this->getDoctrine()->getRepository(Company::class)->find($id);
+        $companies->getStatus() ? $companies->setStatus(0) : $companies->setStatus(1);
+        $companyowner= $companies->getUserId();
+        $companyowner->setRoles(['ROLE_COMPANY']);
+        $em->persist($companyowner);
+        $em->persist($companies);
+        $em->flush();
+        $this->addFlash('success', 'Company status changed successfully');
+        return $this->redirect($this->generateUrl('admin_companies_list'));
     }
 }

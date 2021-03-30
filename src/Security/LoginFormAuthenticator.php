@@ -25,6 +25,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
     use TargetPathTrait;
@@ -46,7 +47,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      * @param Request $request
      * @return bool
      */
-   
+
     public function supports(Request $request)
     {
         return $request->getPathInfo() == '/login' && $request->isMethod('POST');
@@ -111,25 +112,25 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      * @param Request $request
      * @param TokenInterface $token
      * @param string $providerKey
-     * @return Response
+     * @return RedirectResponse
      */
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): RedirectResponse
     {
-        $targetPath = $this->getTargetPath($request->getSession(), $providerKey);
-
-        if (!$targetPath) {
-            $targetPath = $this->getDefaultSuccessRedirectUrl();
-        }
-
-        return new RedirectResponse($targetPath);
+        $roles = $token->getUser()->getRoles();
+        $hasAccess = in_array('ROLE_ADMIN', $roles);
+        if ($hasAccess)
+            $redirection = new RedirectResponse($this->router->generate('admin_index'));
+        else
+            $redirection = new RedirectResponse($this->router->generate('homepage'));
+        return $redirection;
     }
+
 
     /**
      * @return string
      */
     protected function getDefaultSuccessRedirectUrl()
     {
-
         return $this->router->generate('homepage');
     }
 

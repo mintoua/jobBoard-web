@@ -3,10 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\CandidateResume;
-use App\Entity\Certification;
+use App\Entity\Education;
 use App\Form\CandidateResumeType;
-use App\Form\CertificationType;
-use App\Repository\CandidateResumeRepository;
+use App\Form\EducationType;
 use App\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -25,12 +24,14 @@ class CandidateController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function addresume(Request $request, FileUploader $fileUploader): Response
+    public function addEditResume(Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $em = $this->getDoctrine()->getManager();
         $loggedUser = $this->getUser();
         $candidateresume = $em->getRepository(CandidateResume::class)->findOneByUserId($loggedUser);
+        $education = $em->getRepository(Education::class)->findOneByResume($candidateresume);
+
         !$candidateresume && $candidateresume = new CandidateResume();
         $form = $this->createForm(CandidateResumeType::class, $candidateresume);
         $form->handleRequest($request);
@@ -38,37 +39,49 @@ class CandidateController extends AbstractController
             $candidateresume = $form->getData();
             $em = $this->getDoctrine()->getManager();
             $candidateresume->setUserId($loggedUser);
-            $em->persist($candidateresume);
-            $em->flush();
-        }
-        $formImage = $this->createFormBuilder($candidateresume)
-            ->add('Certification', FileType::class, [
-                'label' => false,
-                'multiple' => true,
-                'mapped' => false,
-                'required' => false
-            ])->getForm();
-        $formImage->handleRequest($request);
-        if ($formImage->isSubmitted() && $formImage->isValid()) {
-            $certificationFiles = $formImage->get('Certification')->getData();
-            foreach ($certificationFiles as $certificationFile) {
-                /** @var UploadedFile $certificationFile */
-                $newFilename = $fileUploader->upload($certificationFile);
-                $certification = new Certification();
-                $certification->setImageName($newFilename);
-                $candidateresume->addCertification($certification);
-            }
             !$candidateresume->getUserId() && $candidateresume->setUserId($loggedUser);
             $em->persist($candidateresume);
             $em->flush();
 
-            return $this->redirectToRoute('candidateresume');
+            return $this->redirectToRoute('resume_candidateresume');
 
         }
         return $this->render('candidate/candidateresume.html.twig', [
             'form' => $form->createView(),
-            'formImage' => $formImage->createView(),
-            'candidateresume' => $candidateresume]);
+            'candidateresume' => $candidateresume,
+            'education'=>$education ]);
+
+
+    }
+
+    /**
+     * @Route("/resumeEducation/{id}", name="resumeEducation")
+     * @param Request $request
+     * @param integer $id
+     * @return Response
+     */
+    public function addEditEducation(Request $request,$id): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $em = $this->getDoctrine()->getManager();
+        $loggedUser = $this->getUser();
+        $resume = $em->getRepository(CandidateResume::class)->find($id);
+        $education = $em->getRepository(Education::class)->findOneByResume($resume);
+        !$education && $education = new Education();
+        $form = $this->createForm(EducationType::class, $education);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $education = $form->getData();
+            $em = $this->getDoctrine()->getManager();
+            $education->setResume($resume);
+            $em->persist($education);
+            $em->flush();
+            return $this->redirectToRoute('resume_resumeEducation',array('id'=>$id));
+
+        }
+        return $this->render('candidate/resumeEducation.html.twig', [
+            'form' => $form->createView(),
+            'education' => $education]);
 
     }
 
@@ -79,10 +92,11 @@ class CandidateController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $loggedUser = $this->getUser();
-        $certificates = $em->getRepository(CandidateResume::class)->findOneByUser($loggedUser);
+        $certificates = $em->getRepository(CandidateResume::class)->findOneByUserId($loggedUser);
 
         return $this->render('candidate/candidateCertif.html.twig', [
             'certif' => $certificates,
         ]);
     }
+
 }

@@ -1,0 +1,110 @@
+{% extends 'layoutAdmin.html.twig' %}
+
+{% block title %}<title>Home JobBoard</title>{% endblock %}
+
+{% block content %}
+    <div class="breadcrumb-holder">
+        <div class="container-fluid">
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('admin_index') }}">Home</a></li>
+                <li class="breadcrumb-item active">Users</li>
+            </ul>
+
+        </div>
+    </div>
+    <section>
+        <div class="container-fluid">
+            <!-- Page Header-->
+            <header>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Companies list</h4>
+                            <div class="count">
+                                {{ companies_list.getTotalItemCount }}
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                    <tr>
+
+                                        <th>Company id</th>
+                                        <th>Company Owner</th>
+                                        <th>Company Name</th>
+                                        <th>Company email</th>
+                                        <th>Company phone number</th>
+                                        <th>Company website</th>
+                                        <th>Company founded date</th>
+                                        <th>Company Category</th>
+                                        <th>Company facebook link</th>
+                                        <th>Company twitter link</th>
+                                        <th>Company Image</th>
+                                        <th>Status</th>
+                                        <th>Delete Company</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for companies in companies_list %}
+                                        <tr>
+                                            <th scope="row">{{ companies.id }}</th>
+                                            <td>{{ companies.userId.username }}</td>
+                                            <td>{{ companies.companyName }}</td>
+                                            <td>{{ companies.contactEmail }}</td>
+                                            <td>{{ companies.contactPhone }}</td>
+                                            <td>{{ companies.website }}</td>
+                                            <td>{{ companies.foundedDate|date }}</td>
+
+                                            <td>{{ companies.category }}</td>
+                                            <td>{{ companies.facebookLink }}</td>
+                                            <td>{{ companies.twitterLink }}</td>
+
+                                            <td><img src="{{ asset('uploads/') }}{{ companies.companyImageName }}"
+                                                     style="width: 20px;height: 20px" alt="image"></td>
+                                            <td>
+                                                <a class="mr-3 btn {{ companies.status  ? 'btn-primary':'btn-danger' }}"
+                                                   href="{{ path('admin_companies_status',{id:companies.id}) }}">{{ companies.status ? 'Active':'Disable' }}</a>
+                                            </td>
+                                            <td>
+                                                <a href="{{ path('admin_delete_company',{id:companies.id}) }}">Delete
+                                                    Company</a>
+                                            </td>
+
+
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                    {# display navigation #}
+
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ml-5 justify-content-center">
+                {{ knp_pagination_render(companies_list) }}
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <p>Your company &copy; 2017-2020</p>
+                </div>
+                <div class="col-sm-6 text-right">
+                    <p>Design by <a href="https://bootstrapious.com/p/bootstrap-4-dashboard" class="external">Bootstrapious</a>
+                    </p>
+                    <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions and it helps me to run Bootstrapious. Thank you for understanding :)-->
+                </div>
+            </div>
+        </div>
+    </footer>
+
+{% endblock %}

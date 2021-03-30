@@ -26,13 +26,13 @@ class Education
      * @ORM\Column(type="datetime")
      * @var \DateTime
      */
-    private $datefrom;
+    private $dateFrom;
 
     /**
      * @ORM\Column(type="datetime")
      * @var \DateTime
      */
-    private $dateto;
+    private $dateTo;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -62,29 +62,39 @@ class Education
         return $this;
     }
 
-    public function getDatefrom(): ?\DateTimeInterface
+    /**
+     * @return \DateTime
+     */
+    public function getDateFrom()
     {
-        return $this->datefrom;
+        return $this->dateFrom;
     }
 
-    public function setDatefrom(\DateTimeInterface $datefrom)
+    /**
+     * @param \DateTime $dateFrom
+     */
+    public function setDateFrom($dateFrom)
     {
-        $this->datefrom = $datefrom;
-
-        return $this;
+        $this->dateFrom = $dateFrom;
     }
 
-    public function getDateto(): ?\DateTimeInterface
+    /**
+     * @return \DateTime
+     */
+    public function getDateTo()
     {
-        return $this->dateto;
+        return $this->dateTo;
     }
 
-    public function setDateto(\DateTimeInterface $dateto)
+    /**
+     * @param \DateTime $dateTo
+     */
+    public function setDateTo($dateTo)
     {
-        $this->dateto = $dateto;
-
-        return $this;
+        $this->dateTo = $dateTo;
     }
+
+
 
     public function getInstitute()
     {

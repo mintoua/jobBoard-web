@@ -10,7 +10,6 @@ namespace App\Controller;
 
 
 use App\Entity\User;
-use App\Form\Security\LoginType;
 use App\Form\User\RegistrationType;
 use App\Form\User\RequestResetPasswordType;
 use App\Form\User\ResetPasswordType;
@@ -33,7 +32,7 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Validator\Exception\ValidatorException;
 use Symfony\Contracts\Translation\TranslatorInterface;
-
+use Knp\Component\Pager\PaginatorInterface;
 /**
  * @Route("/user", name="user_")
  */
@@ -64,7 +63,6 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var User $user */
             $user = $form->getData();
 
             try {
@@ -159,7 +157,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var User $user */
+
             $user = $form->getData();
             $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
             $user->setToken(null);
@@ -234,7 +232,7 @@ class UserController extends AbstractController
     public function resetPassword(Request $request, User $user, GuardAuthenticatorHandler $authenticatorHandler,
                                   LoginFormAuthenticator $loginFormAuthenticator, UserPasswordEncoderInterface $encoder)
     {
-        if ($this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirect($this->generateUrl('homepage'));
         }
 
@@ -269,16 +267,16 @@ class UserController extends AbstractController
      * @param FileUploader $fileUploader
      * @return RedirectResponse|Response
      */
-    public function editinfo(Request $request, FileUploader $fileUploader)
+    public function editUserInfo(Request $request, FileUploader $fileUploader)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository(User::class)->find($this->getUser());
+        $user = $this->getUser();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             /**
-             * @var UploadedFile $certificationFile
+             * @var UploadedFile $image
              */
             $image = $form->get('imageName')->getData();
             if ($image) {
@@ -296,6 +294,19 @@ class UserController extends AbstractController
 
 
     }
+    /**
+     * @Route("/candidates", name="candidates_list")
+     */
+
+    public function ShowCandidates(Request $request, PaginatorInterface $paginator)
+    {
+        $candidate = $this->getDoctrine()->getRepository(User::class)->findAll();
+        $pagination = $paginator->paginate($candidate, $request->query->getInt('page', 1), 5);
+        return $this->render('candidate/candidatesProfiles.html.twig', [
+            'candidates_list' => $pagination,
+        ]);
+    }
+
 
 
 }

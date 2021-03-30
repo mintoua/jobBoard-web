@@ -20,31 +20,13 @@ class CandidateResumeType extends AbstractType
             ->add('ResumeHeadline', TextareaType::class)
             ->add('Skills', TextType::class)
             ->add('Experience', TextType::class)
-            ->add('Education', CollectionType::class, [
-                'entry_type' => EducationType::class,
-                'entry_options' => [
-                    'label' => true
-                ],
-                'by_reference' => true,
-                // this allows the creation of new forms and the prototype too
-                'allow_add' => true,
-                // self explanatory, this one allows the form to be removed
-                'allow_delete' => false
-            ])
+
             ->add('save', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-success'
                 ]
             ])
 
-
-
-            ->add('Certification', FileType::class,[
-                'label' => false,
-                'multiple' => true,
-                'mapped' => false,
-                'required' => false
-            ])
             ->add('save', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-success'  ]

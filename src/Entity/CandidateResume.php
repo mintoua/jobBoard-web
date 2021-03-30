@@ -35,11 +35,7 @@ class CandidateResume
     private $experience;
 
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Certification", mappedBy="resume",cascade={"persist"})
-     *
-     */
-    private $certification;
+
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumns({
@@ -114,13 +110,7 @@ class CandidateResume
 
 
 
-    /**
-     * @param mixed $certification
-     */
-    public function setCertification($certification)
-    {
-        $this->certification = $certification;
-    }
+
 
     /**
      * @return mixed
@@ -138,35 +128,11 @@ class CandidateResume
         $this->userId = $userId;
     }
 
-    /**
-     * @return Collection|Certification[]
-     */
-    public function getCertification()
-    {
-        return $this->certification;
-    }
 
-    public function addCertification(Certification $certification)
-    {
-        if (!$this->certification->contains($certification)) {
-            $this->certification[] = $certification;
-            $certification->setResumeId($this);
-        }
 
-        return $this;
-    }
 
-    public function removeImage(Certification $certification)
-    {
-        if ($this->images->contains($certification)) {
-            $this->images->removeElement($certification);
-            // set the owning side to null (unless already changed)
-            if ($certification->setResumeId() === $this) {
-                $certification->setResumeId(null);
-            }
-        }
-        return $this;
-    }
+
+
 
     /**
      * @return Collection|Education[]

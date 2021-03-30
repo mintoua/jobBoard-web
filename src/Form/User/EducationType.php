@@ -17,13 +17,14 @@ class EducationType extends AbstractType
     {
         $builder
             ->add('course', TextareaType::class)
-            ->add('datefrom', DateType::class, [
+            ->add('dateFrom', DateType::class, [
         'widget' => 'single_text'
         ])
-            ->add('dateto',DateType::class, [
+            ->add('dateTo',DateType::class, [
                 'widget' => 'single_text'
             ])
             ->add('institute', TextareaType::class)
+            ->add('save', SubmitType::class)
 
 
         ;
