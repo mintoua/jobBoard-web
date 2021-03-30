@@ -8,6 +8,8 @@
     <link rel="stylesheet" type="text/css" href="css/templete.min.css">
     <link rel="stylesheet" href="sweetalert2.min.css">
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.css" integrity="sha256-uq9PNlMzB+1h01Ij9cx7zeE2OR2pLAfRw3uUUOOPKdA=" crossorigin="anonymous">
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <style>
 
@@ -53,10 +55,12 @@
         </div>
             <div style="text-align:right">
                 <input id="Aujourdhui"  type="date" name="date" style="background-color:powderblue" value="" readonly >
-            </div>
 
-
+                <a  href="{{ path('planification')}}" class="btn" >Calendrier </a>
         </div>
+    </div>
+</div>
+</div>
 
 
 
@@ -169,7 +173,9 @@
 </div>
 </div>
 </body>
-{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.js" integrity="sha256-ekrJn2FeZaiUFq99QswpQCUTME/HxaDfX7R8INzKJGE=" crossorigin="anonymous"></script>
+
+    {% block javascripts %}
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
     <script>

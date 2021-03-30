@@ -8,6 +8,7 @@ use App\Entity\Formation;
 use App\Form\CategoryType;
 use App\Form\CategorySearchType;
 use App\Form\FormationType;
+use App\Repository\FormationRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -297,5 +298,35 @@ class FormationController extends AbstractController
     }
 
 
+    /**
+     * @Route("/planification", name="planification")
+     */
+    public function indexplan(FormationRepository $calendar)
+    {
+        $events = $calendar->findAll();
+
+
+        Source: https://prograide.com/pregunta/59280/afficher-plus-de-texte-en-plein-calendrier
+        $rdvs = [];
+
+        foreach($events as $event){
+            $rdvs[] = [
+                'id' => $event->getId(),
+                'start' => $event->getDateDebut()->format('Y-m-d'),
+                'end' => $event->getDateFin()->format('Y-m-d'),
+                'title' => $event->getNom(),
+                'description' => $event->getDescription(),
+
+
+            ];
+        }
+
+
+        $data = json_encode($rdvs);
+
+        return $this->render('formation/plan.html.twig', compact('data'));
+    }
+
 
 }
+

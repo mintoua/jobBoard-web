@@ -8,6 +8,8 @@
     <link rel="shortcut icon"
       type="image/x-icon"
       href="{{ asset('frontOffice/') }}images/favicon.png" />
+
+
     <title>
       {% block title %}
         JobHub
@@ -16,7 +18,7 @@
 
     <script src="{{ asset('frontOffice/') }}js/html5shiv.min.js"></script>
     <script src="{{ asset('frontOffice/') }}js/respond.min.js"></script>
-
+    <script src='fullcalendar-scheduler/main.js'></script>
     {% block stylesheets %}
       <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}css/plugins.min.css" />
       <link rel="stylesheet" type="text/css" href="{{ asset( 'frontOffice' ) }}/plugins/fontawesome/css/font-awesome.min.css" />
@@ -30,6 +32,7 @@
       <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/owl.carousel.min.css') }} ">
       <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/style.css') }} ">
       <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/responsive.css') }} ">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.css" integrity="sha256-uq9PNlMzB+1h01Ij9cx7zeE2OR2pLAfRw3uUUOOPKdA=" crossorigin="anonymous">
 
     {% endblock %}
     </head>
@@ -558,7 +561,10 @@
       </div>
     </body>
     <script src="{{ asset('frontOffice/') }}js/combining.js"></script>
-    {% block javascripts %}{% endblock %}
+    {% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.js" integrity="sha256-ekrJn2FeZaiUFq99QswpQCUTME/HxaDfX7R8INzKJGE=" crossorigin="anonymous"></script>
+
+  {% endblock %}
   {% endblock %}
     {% block jsOrder %}
     {% endblock %}
