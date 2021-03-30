@@ -65,13 +65,13 @@
                         <td>{{ category.titre }}</td>
                         <td>{{ category.descriptionc }}</td>
 
-                        {% if is_granted('ROLE_COMPANY')%}
+
                         <td>
 
-                            <a href="/formation/editcat/{{ category.id }}" class="btn btn-warning mb-2" >Modifier</a>
-                            <a href="/formation/deletecategory/{{ category.id }}" class="btn btn-danger mb-2" onclick="fireSweetAlert()">Supprimer</a>
+                            <a href="{{ path('edit_category',{'id' : formation.id})}}" class="btn btn-warning mb-2" >Modifier</a>
+                            <a href="{{ path('delete_category',{'id' : formation.id})}}" class="btn btn-danger mb-2" onclick="fireSweetAlert()">Supprimer</a>
                         </td>
-                        {% endif %}
+
                     </tr>
                 {% endfor %}
                 </tbody>

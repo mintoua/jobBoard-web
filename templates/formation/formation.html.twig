@@ -82,7 +82,6 @@
 
 <div style="text-align:right">
 
-
     <a  href="{{ path('formation_pdf')}}" class="btn">PDF  </a>
 
     <a  href="{{ path('category')}}"  class="btn">Liste Catégorie </a>
@@ -131,7 +130,7 @@
                 {% else %}
                   <h5 style="background-color: yellow">Gratuite</h5>
                 {% endif %}
-                <a href="/formation/{{ formation.id }}" class="btn btn-primary mb-2"  >PLUS</a>
+                <a href="{{ path('formation_show',{'id' : formation.id})}}" class="btn btn-primary mb-2"  >PLUS</a>
                 <a href="{{ path('edit_formation',{'id' : formation.id})}}" class="btn btn-warning mb-2" >Edit</a>
                 <a  href="{{ path('delete_formation',{'id' : formation.id})}}"  onclick="fireSweetAlert()" class="btn btn-warning mb-2">Supprimer</a>
                 
