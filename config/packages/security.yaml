@@ -36,15 +36,13 @@ security:
                 path: /
 
             logout:
-                path: security_logout
+                path: /logout
     role_hierarchy:
         # un membre avec le ROLE_ADMIN aura également le ROLE_USER
         ROLE_ADMIN: ROLE_ADMIN
-        ROLE_ENTREPRISE: ROLE_ENTREPRISE
+        ROLE_ENTREPRISE: ROLE_COMPANY
         ROLE_USER: ROLE_USER
-        # Le ROLE_SUPER_ADMIN avec le ROLE_ALLOWED_TO_SWITCH qui permet de s'authentifier en se faisant passer pour n'importe quel membre. Particulièrement utile pour débugger son code.
-        ROLE_SUPER_ADMIN: [ ROLE_ENTREPRISE, ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]
 
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/entreprise, roles: ROLE_ENTREPRISE }
+

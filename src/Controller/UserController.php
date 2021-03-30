@@ -10,18 +10,20 @@ namespace App\Controller;
 
 
 use App\Entity\User;
-use App\Form\Security\LoginType;
-use App\Form\User\EditType;
 use App\Form\User\RegistrationType;
 use App\Form\User\RequestResetPasswordType;
 use App\Form\User\ResetPasswordType;
+use App\Form\UserType;
 use App\Security\LoginFormAuthenticator;
 use App\Service\CaptchaValidator;
+use App\Service\FileUploader;
 use App\Service\Mailer;
 use App\Service\TokenGenerator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,28 +32,29 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Validator\Exception\ValidatorException;
 use Symfony\Contracts\Translation\TranslatorInterface;
-
+use Knp\Component\Pager\PaginatorInterface;
 /**
  * @Route("/user", name="user_")
  */
 class UserController extends AbstractController
 {
-    const DOUBLE_OPT_IN = false;
+    const configMail = true;
 
     /**
      * @Route("/register", name="register")
+     * @param FileUploader $fileUploader
      * @param Request $request
      * @param TokenGenerator $tokenGenerator
      * @param UserPasswordEncoderInterface $encoder
      * @param Mailer $mailer
+     * @param AuthenticationUtils $authenticationUtils
      * @param CaptchaValidator $captchaValidator
      * @param TranslatorInterface $translator
-     * @param AuthenticationUtils $authenticationUtils
-     * @throws \Throwable
      * @return Response
+     * @throws \Throwable
      */
-    public function register(Request $request, TokenGenerator $tokenGenerator, UserPasswordEncoderInterface $encoder,
-                             Mailer $mailer,AuthenticationUtils $authenticationUtils, CaptchaValidator $captchaValidator, TranslatorInterface $translator)
+    public function register(FileUploader $fileUploader, Request $request, TokenGenerator $tokenGenerator, UserPasswordEncoderInterface $encoder,
+                             Mailer $mailer, AuthenticationUtils $authenticationUtils, CaptchaValidator $captchaValidator, TranslatorInterface $translator)
     {
         if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirect($this->generateUrl('homepage'));
@@ -60,7 +63,6 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var User $user */
             $user = $form->getData();
 
             try {
@@ -68,18 +70,24 @@ class UserController extends AbstractController
                     $form->addError(new FormError($translator->trans('captcha.wrong')));
                     throw new ValidatorException('captcha.wrong');
                 }
-
+                /**
+                 * @var UploadedFile $profileimage
+                 */
+                $profileimage = $form->get('imageName')->getData();
+                if ($profileimage) {
+                    $newFilename = $fileUploader->upload($profileimage);
+                    $user->setImageName($newFilename);
+                }
                 $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
                 $token = $tokenGenerator->generateToken();
                 $user->setToken($token);
                 $user->setRoles(array("ROLE_USER"));
                 $user->setIsActive(false);
-
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
                 $em->flush();
 
-                if (self::DOUBLE_OPT_IN) {
+                if (self::configMail) {
                     $mailer->sendActivationEmailMessage($user);
                     $this->addFlash('success', 'user.activation-link');
                     return $this->redirect($this->generateUrl('homepage'));
@@ -91,25 +99,15 @@ class UserController extends AbstractController
 
             }
         }
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        $formLogin = $this->createForm(LoginType::class, [
-            '_username' => $lastUsername,
-        ]);
-        //login errorss
-        // get the login error if there is one
-        $formLogin->handleRequest($request);
 
 
         // last username entered by the user
         $error = $authenticationUtils->getLastAuthenticationError();
 
 
-        return $this->render('user/register.html.twig', [
+        return $this->render('user/security/register.html.twig', [
             'form' => $form->createView(),
-            'error'         => $error,
-            'formlogin' => $formLogin->createView(),
-
+            'error' => $error,
             'captchakey' => $captchaValidator->getKey()
         ]);
     }
@@ -122,7 +120,7 @@ class UserController extends AbstractController
      * @param LoginFormAuthenticator $loginFormAuthenticator
      * @return Response
      */
-    public function activate(Request $request, User $user, GuardAuthenticatorHandler $authenticatorHandler, LoginFormAuthenticator $loginFormAuthenticator)
+    public function activate(Request $request, User $user, GuardAuthenticatorHandler $authenticatorHandler, LoginFormAuthenticator $loginFormAuthenticator): Response
     {
         $user->setIsActive(true);
         $user->setToken(null);
@@ -144,39 +142,32 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/edit", name="edit")
-     * @Security("has_role('ROLE_USER')")
+     * @Route("/editpassword", name="editpassword")
      * @param $request Request
      * @param UserPasswordEncoderInterface $encoder
      * @return Response
      */
-    public function edit(Request $request, UserPasswordEncoderInterface $encoder)
+    public function updatePassword(Request $request, UserPasswordEncoderInterface $encoder)
     {
-        $origPwd = $this->getUser()->getPassword();
-        $form = $this->createForm(EditType::class, $this->getUser());
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirect($this->generateUrl('security_login'));
+        }
+         $user = $this->getUser();
+        $form = $this->createForm(ResetPasswordType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            /** @var User $user */
+        if ($form->isSubmitted() && $form->isValid()) {
+
             $user = $form->getData();
-            $pwd = $user->getPassword() ? $encoder->encodePassword($user, $user->getPassword()) : $origPwd;
-            $user->setPassword($pwd);
+            $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
+            $user->setToken(null);
             $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+            $this->addFlash('success', 'user.update.success');
 
-            if ($form->isValid()) {
-                $em->persist($user);
-                $em->flush();
-                $this->addFlash('success', 'user.update.success');
-
-                return $this->redirect($this->generateUrl('homepage'));
-            }
-
-            $em->refresh($user);
         }
-
-        return $this->render('user/edit.html.twig', [
-            'form' => $form->createView()
-        ]);
+        return $this->render('user/security/editpassword.html.twig', ['form' => $form->createView()]);
     }
 
     /**
@@ -186,8 +177,8 @@ class UserController extends AbstractController
      * @param Mailer $mailer
      * @param CaptchaValidator $captchaValidator
      * @param TranslatorInterface $translator
-     * @throws \Throwable
      * @return Response
+     * @throws \Throwable
      */
     public function requestPasswordReset(Request $request, TokenGenerator $tokenGenerator, Mailer $mailer,
                                          CaptchaValidator $captchaValidator, TranslatorInterface $translator)
@@ -198,23 +189,15 @@ class UserController extends AbstractController
 
         $form = $this->createForm(RequestResetPasswordType::class);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-
             try {
-                if (!$captchaValidator->validateCaptcha($request->get('g-recaptcha-response'))) {
-                    $form->addError(new FormError($translator->trans('captcha.wrong')));
-                    throw new ValidatorException('captcha.wrong');
-                }
                 $repository = $this->getDoctrine()->getRepository(User::class);
-
                 /** @var User $user */
                 $user = $repository->findOneBy(['email' => $form->get('_username')->getData(), 'isActive' => true]);
                 if (!$user) {
                     $this->addFlash('warning', 'user.not-found');
-                    return $this->render('user/request-password-reset.html.twig', [
+                    return $this->render('user/security/request-password-reset.html.twig', [
                         'form' => $form->createView(),
-                        'captchakey' => $captchaValidator->getKey()
                     ]);
                 }
 
@@ -223,9 +206,7 @@ class UserController extends AbstractController
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
                 $em->flush();
-
                 $mailer->sendResetPasswordEmailMessage($user);
-
                 $this->addFlash('success', 'user.request-password-link');
                 return $this->redirect($this->generateUrl('homepage'));
             } catch (ValidatorException $exception) {
@@ -233,7 +214,7 @@ class UserController extends AbstractController
             }
         }
 
-        return $this->render('user/request-password-reset.html.twig', [
+        return $this->render('user/security/request-password-reset.html.twig', [
             'form' => $form->createView(),
             'captchakey' => $captchaValidator->getKey()
         ]);
@@ -251,7 +232,7 @@ class UserController extends AbstractController
     public function resetPassword(Request $request, User $user, GuardAuthenticatorHandler $authenticatorHandler,
                                   LoginFormAuthenticator $loginFormAuthenticator, UserPasswordEncoderInterface $encoder)
     {
-        if ($this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirect($this->generateUrl('homepage'));
         }
 
@@ -263,13 +244,10 @@ class UserController extends AbstractController
             $user = $form->getData();
             $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
             $user->setToken(null);
-
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-
             $this->addFlash('success', 'user.update.success');
-
             // automatic login
             return $authenticatorHandler->authenticateUserAndHandleSuccess(
                 $user,
@@ -279,7 +257,56 @@ class UserController extends AbstractController
             );
         }
 
-        return $this->render('user/password-reset.html.twig', ['form' => $form->createView()]);
+        return $this->render('user/security/password-reset.html.twig', ['form' => $form->createView()]);
     }
+
+    /**
+     * @Security("has_role('ROLE_USER')")
+     * @Route("/candidateprofile", name="candidateprofile")
+     * @param Request $request
+     * @param FileUploader $fileUploader
+     * @return RedirectResponse|Response
+     */
+    public function editUserInfo(Request $request, FileUploader $fileUploader)
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /**
+             * @var UploadedFile $image
+             */
+            $image = $form->get('imageName')->getData();
+            if ($image) {
+                $newFilename = $fileUploader->upload($image);
+                $user->setImageName($newFilename);
+            }
+            $em->persist($user);
+
+            $em->flush();
+            return $this->redirectToRoute('user_candidateprofile');
+        }
+        return $this->render("candidate/candidateprofile.html.twig", [
+            'form' => $form->createView()
+        ]);
+
+
+    }
+    /**
+     * @Route("/candidates", name="candidates_list")
+     */
+
+    public function ShowCandidates(Request $request, PaginatorInterface $paginator)
+    {
+        $candidate = $this->getDoctrine()->getRepository(User::class)->findAll();
+        $pagination = $paginator->paginate($candidate, $request->query->getInt('page', 1), 5);
+        return $this->render('candidate/candidatesProfiles.html.twig', [
+            'candidates_list' => $pagination,
+        ]);
+    }
+
+
 
 }

@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+
+{% block content %}
+<div class="container">
+    <div style="height: 200px; display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;"  class="row">
+        <div class="col-md-6">
+            <h5 class="font-weight-700 pull-left text-uppercase">Hi {{ app.user.firstName }}, Please wait for admin's approval</h5>
+            <a href="{{ path('homepage') }}" class="site-button right-arrow button-sm float-right">Back</a>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+

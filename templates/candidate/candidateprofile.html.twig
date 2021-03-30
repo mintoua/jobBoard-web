@@ -1,0 +1,139 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+<div class="page-content bg-white">
+    <!-- contact area -->
+    <div class="content-block">
+        <!-- Browse Jobs -->
+        <div class="section-full bg-white browse-job p-t50 p-b20">
+            <div class="container">
+                {{ form_start(form) }}
+
+                <div class="row">
+                    <div class="col-xl-3 col-lg-4 m-b30">
+                        <div class="sticky-top">
+                            <div class="candidate-info">
+                                <div class="candidate-detail text-center">
+                                    <div class="canditate-des">
+                                        <a href="#">
+                                            <img style="width: 150px;height: 150px"  alt="" src="{{ asset('uploads/') }}{{ app.user.imageName }}">
+                                        </a>
+                                        <div class="upload-link" title="update" data-toggle="tooltip" data-placement="right">
+                                            {{ form_widget(form.imageName) }}
+
+                                        </div>
+                                    </div>
+                                    <div class="candidate-title">
+                                        <div class="">
+                                            <h4 class="m-b5"><a href="#">{{ app.user.firstName }} {{ app.user.lastName }}</a></h4>
+                                            <p class="m-b0"><a href="#">{{ app.user.professionaltitle }}</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul>
+                                    <li><a href="{{ path('user_candidateprofile') }}" class="active">
+                                            <i class="fa fa-user-o" aria-hidden="true"></i>
+                                            <span>Profile</span></a></li>
+                                    <li><a href="{{ path('resume_candidateresume') }}">
+                                            <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                            <span>My Resume</span></a></li>
+                                    <li><a href="jobs-saved-jobs.html">
+                                            <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                            <span>Saved Jobs</span></a></li>
+                                    <li><a href="jobs-applied-job.html">
+                                            <i class="fa fa-briefcase" aria-hidden="true"></i>
+                                            <span>Applied Jobs</span></a></li>
+                                    <li><a href="jobs-alerts.html">
+                                            <i class="fa fa-bell-o" aria-hidden="true"></i>
+                                            <span>Job Alerts</span></a></li>
+                                    <li><a href="jobs-cv-manager.html">
+                                            <i class="fa fa-id-card-o" aria-hidden="true"></i>
+                                            <span>CV Manager</span></a></li>
+                                    <li><a href="{{ path('user_editpassword') }}">
+                                            <i class="fa fa-key" aria-hidden="true"></i>
+                                            <span>Change Password</span></a></li>
+                                    <li><a href="{{ path('security_logout') }}">
+                                            <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                            <span>Log Out</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-9 col-lg-8 m-b30">
+                        <div class="job-bx job-profile">
+                            <div class="job-bx-title clearfix">
+                                <h5 class="font-weight-700 pull-left text-uppercase">Basic Information</h5>
+                                <a href="{{ path('homepage') }}" class="site-button right-arrow button-sm float-right">Back</a>
+                            </div>
+                                <div class="row m-b30">
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>Your first name:</label>
+                                            {{ form_widget(form.firstName) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>Your last name:</label>
+                                            {{ form_widget(form.lastName) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>Professional title:</label>
+                                            {{ form_widget(form.professionaltitle) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>Your date of birth:</label>
+                                            {{ form_widget(form.dateOfBirth) }}
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="job-bx-title clearfix">
+                                    <h5 class="font-weight-700 pull-left text-uppercase">Contact Information</h5>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>Phone:</label>
+                                            {{ form_widget(form.phone) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>Your email address:</label>
+                                            {{ form_widget(form.email) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>Your address:</label>
+                                            {{ form_widget(form.adresse) }}
+
+                                        </div>
+                                    </div>
+                                </div>
+                        <button name="submit"  type="submit" class="site-button radius-xl">Update</button>                        </div>
+                    </div>
+                {{ form_end(form) }}
+
+            </div>
+            </div>
+        </div>
+        <!-- Browse Jobs END -->
+    </div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5WEs73ZKe8-8YdYVDH8qAhIE38O_njO4&sensor=false&amp;libraries=places"
+            type="text/javascript"></script>
+
+    <script type="text/javascript">
+        function initialize() {
+            var input = document.getElementById('user_adresse');
+            var autocomplete = new google.maps.places.Autocomplete(input);
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+{% endblock %}
