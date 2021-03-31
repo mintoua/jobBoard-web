@@ -33,6 +33,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Validator\Exception\ValidatorException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Validator\Constraints\File;
 /**
  * @Route("/user", name="user_")
  */
@@ -261,7 +262,6 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Security("has_role('ROLE_USER')")
      * @Route("/candidateprofile", name="candidateprofile")
      * @param Request $request
      * @param FileUploader $fileUploader
@@ -269,7 +269,8 @@ class UserController extends AbstractController
      */
     public function editUserInfo(Request $request, FileUploader $fileUploader)
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $this->redirectToRoute('security_login');}
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $form = $this->createForm(UserType::class, $user);
@@ -307,6 +308,43 @@ class UserController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/findCandidates", name="candidates_filter")
+     * @param Request $request
+     * @return Response
+     */
+
+    public function findCandidate(Request $request, PaginatorInterface $paginator){
+        $firstName = $request->get('firstName');
+        $lastName = $request->get('lastName');
+        $professionalTitle = $request->get('professionalTitle');
+        $adresse = $request->get('adresse');
+
+        $filtredUsers = $this->findUser($firstName,$lastName,$professionalTitle,$adresse);
+
+        $pagination = $paginator->paginate(
+            $filtredUsers, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            4 /*limit per page*/
+        );
+
+        return $this->render('candidate/candidatesProfiles.html.twig', [
+            'candidates_list' => $pagination,
+        ]);
+
+
+    }
+    public function findUser($firstName, $lastName, $prof, $adresse)
+    {
+        $req = $this->getDoctrine()->getManager();
+        return $req->createQuery(" select v from App:User v where v.firstName like :fn and v.lastName like :ln and v.adresse like :a and v.professionalTitle like :p")
+
+            ->setParameter('fn', $firstName ? '%'.$firstName.'%' : '%%')
+            ->setParameter('ln', $lastName ? '%'.$lastName.'%' : '%%')
+            ->setParameter('a', $adresse ? '%'.$adresse.'%' : '%%')
+            ->setParameter('p', $prof ? '%'.$prof.'%' : '%%')
+            ->getResult();
+    }
 
 
 }

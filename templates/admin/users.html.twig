@@ -71,11 +71,8 @@
                                                      style="width: 20px;height: 20px" alt="image"></td>
                                             <td>{{ users.dateOfBirth|date }}</td>
                                             <td>
-                                                <a class="mr-3 btn {{ users.isActive  ? 'btn-primary':'btn-danger' }}"
-                                                   href="{{ path('admin_users_isActive',{id:users.id}) }}">{{ users.isActive ? 'Active':'Disabled' }}</a>
-                                            </td>
-                                            <td>
-                                                <button class="mr-3 btn btn-primary" type="button">Todo</button>
+                                                <a class="mr-3 btn {{ users.isActive  ? 'btn-danger':'btn-primary' }}"
+                                                   href="{{ path('admin_users_isActive',{id:users.id}) }}">{{ users.isActive ? 'Disable':'Activate' }}</a>
                                             </td>
 
                                         </tr>

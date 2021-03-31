@@ -96,6 +96,11 @@ class Company
     private $status;
 
     /**
+     * @ORM\Column(name="stars", type="float")
+     */
+    private $stars=0;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -333,6 +338,22 @@ class Company
     public function setStatus($status)
     {
         $this->status = $status;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStars(): int
+    {
+        return $this->stars;
+    }
+
+    /**
+     * @param int $stars
+     */
+    public function setStars(int $stars): void
+    {
+        $this->stars = $stars;
     }
 
 
