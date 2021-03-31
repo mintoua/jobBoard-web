@@ -16,24 +16,21 @@
       {% endblock %}
     </title>
 
-    <script src="{{ asset('frontOffice/') }}js/html5shiv.min.js"></script>
-    <script src="{{ asset('frontOffice/') }}js/respond.min.js"></script>
-    <script src='fullcalendar-scheduler/main.js'></script>
-    {% block stylesheets %}
-      <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}css/plugins.min.css" />
-      <link rel="stylesheet" type="text/css" href="{{ asset( 'frontOffice' ) }}/plugins/fontawesome/css/font-awesome.min.css" />
-      <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}plugins/themify/themify-icons.css" />
-      <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}css/style.min.css" />
-      <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}css/templete.min.css" />
-      <link class="skin" rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}css/skin/skin-1.min.css" />
-      <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&amp;family=Montserrat:wght@100;200;300;400;500;600;700;800;900&amp;family=Open+Sans:wght@300;400;600;700;800&amp;family=Roboto:wght@100&amp;family=Rubik:wght@300;400;500;700;900&amp;display=swap" rel="stylesheet" />  
-      <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/font-awesome.min.css') }} ">
-      <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,400i,700,800|Varela+Round" rel="stylesheet">
-      <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/owl.carousel.min.css') }} ">
-      <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/style.css') }} ">
-      <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/responsive.css') }} ">
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.css" integrity="sha256-uq9PNlMzB+1h01Ij9cx7zeE2OR2pLAfRw3uUUOOPKdA=" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}css/plugins.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{ asset( 'frontOffice' ) }}/plugins/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}plugins/themify/themify-icons.css" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}css/style.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}css/templete.min.css" />
+    <link class="skin" rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}css/skin/skin-1.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&amp;family=Montserrat:wght@100;200;300;400;500;600;700;800;900&amp;family=Open+Sans:wght@300;400;600;700;800&amp;family=Roboto:wght@100&amp;family=Rubik:wght@300;400;500;700;900&amp;display=swap" rel="stylesheet" />  
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/font-awesome.min.css') }} ">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,400i,700,800|Varela+Round" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/owl.carousel.min.css') }} ">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/style.css') }} ">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/responsive.css') }} ">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.css" integrity="sha256-uq9PNlMzB+1h01Ij9cx7zeE2OR2pLAfRw3uUUOOPKdA=" crossorigin="anonymous">
 
+    {% block stylesheets %}
     {% endblock %}
     </head>
 
@@ -322,6 +319,21 @@
                           </li>
 
                           <li>
+
+                            <a href="#" class="dez-page">event <i class="fa fa-angle-right"></i></a>
+                            <ul class="sub-menu">
+
+                              <li><a href="{{path('ListEvent')}}" class="dez-page">Liste des evenements <span
+                                          class="new-page">New</span></a></li>
+                              <li><a href="{{path('ajout_event')}}" class="dez-page">ajouter des evenements<br><span
+                                          class="new-page">New</span></a></li>
+
+
+                            </ul>
+                            </a>
+                          </li>
+
+                          <li>
                             <a href="#" class="dez-page">
                               Portfolio <i class="fa fa-angle-right"></i>
                             </a>
@@ -586,4 +598,7 @@
     <script src="{{ asset('frontOffice/') }}shop/js/isotope.min.js"></script>
     <script src="{{ asset('frontOffice/') }}shop/js/custom.js"></script>
     <script src="{{ asset('frontOffice/') }}js/combining.js"></script>
+    <script src="{{ asset('frontOffice/') }}js/html5shiv.min.js"></script>
+    <script src="{{ asset('frontOffice/') }}js/respond.min.js"></script>
+    <script src='fullcalendar-scheduler/main.js'></script>
 </html>
