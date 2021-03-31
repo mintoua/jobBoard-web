@@ -112,10 +112,17 @@ class OffreEmploiController extends AbstractController
         $r = $this->getDoctrine()->getRepository(OffreEmploi::class);
         $donnes = $r->findBy([], ['date_debut' => 'DESC']);
 
+        $count = [];
+
+        // On "démonte" les données pour les séparer tel qu'attendu par ChartJS
+        foreach ($donnes as $job) {
+            $count[] = count($job->getApplies());
+        }
+
         $jobs = $pag->paginate($donnes, $request->query->getInt('page', 1), 4);
 
         return $this->render('offre_emploi/managejob.html.twig', [
-            'list' => $jobs
+            'list' => $jobs,'count'=>$count
         ]);
     }
 

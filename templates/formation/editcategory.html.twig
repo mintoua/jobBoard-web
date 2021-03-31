@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+{% block title %}Ajouter Formation{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="sweetalert2.min.css">
+    <br>
+    <br>
+    <main class="container">
+
+        <div class="row" >
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header card-header primary">
+                        <h1 style="background-color: blue" align="center">Modifier</h1><br></div>
+                    <li><a href="{{path('category')}}" class="btn btn-primary mb-2"  >home</a></li>
+                    <div class="card-body">
+
+                        {{ form_start(form) }}
+
+                        {{ form_widget(form) }}
+
+
+                        <button type="submit" class="btn-primary" onclick="fireSweetAlert()">modifier</button>
+
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+    </main>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+    <script>
+        function fireSweetAlert() {
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Ajout avec succée',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
+    </script>
+{% endblock %}
+

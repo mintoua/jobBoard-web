@@ -1,0 +1,49 @@
+{% extends 'calendar.html.twig' %}
+
+{% block title %}Planification des Formations{% endblock %}
+{% block stylesheets %}
+    <style>
+        #calendrier{
+            width: 80%;
+            margin: auto;
+        }
+        .btn {
+            background-color: DodgerBlue;
+            border: none;
+            color: white;
+            padding: 12px 12px;
+            font-size: 10px;
+            cursor: pointer;
+        }
+
+    </style>
+{% endblock %}
+{% block body %}
+    <h1 style="color: blue" align="center">Calendrier de nos formations</h1>
+    <a href="{{path('formation')}}" class="btn "  >home</a>
+    <div id="calendrier" >
+
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        window.onload = () => {
+            let calendarElt = document.querySelector("#calendrier")
+            let calendar = new FullCalendar.Calendar(calendarElt, {
+                initialView:'dayGridMonth',
+                locale:'tn',
+                timeZone:'Africa/Tunisia',
+                headerToolbar:{
+                    start:'prev,next today',
+                    center:'title',
+                    end:'dayGridMonth, timeGridWeek'
+
+                },
+                events:  {{ data|raw }}
+
+            })
+            calendar.render()
+        }
+
+    </script>
+{% endblock %}
