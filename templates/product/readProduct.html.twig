@@ -10,14 +10,11 @@
           </ul>
         </div>
       </div>
+      
 {% endblock %}
-
-{% block stylesheet %}
-
-      <link rel="stylesheet" type="text/css" href=" {{ asset('frontOffice/shop/css/bootstrap.min.css') }} ">{% endblock %}
-
-
-
+    {% block SS %}
+    <link rel="stylesheet" href="/css/bootstrap.min.css"  media="screen" />
+    {% endblock %}
 {%  block content %}
     
     <a href="{{ path('new_product') }}" class="btn btn-primary nav-link">New Product</a>
@@ -48,7 +45,7 @@
                     <td> {{ product.image }}</td>
                     <td>
                         <a href="{{ path('updateProduct', {'id': product.id}) }}" class="btn btn-light">Edit</a>
-                        <a href="{{ path('deleteProduct', {'id': product.id}) }}" class="btn btn-danger btn-sm" > Delete </a>
+                        <a class="confirmModalLink" href="{{ path('deleteProduct', {'id': product.id}) }}" class="btn btn-danger btn-sm" > Delete </a>
 
                     </td>
 
@@ -59,12 +56,27 @@
             <tbody id="search">
             </tbody>
         </table>
+        <div class="modal hide fade" id="confirmModal">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  <h3>Confirmation de la suppression</h3>
+    </div>
+    <div class="modal-body">
+        <center> <p><h6>Etes-vous sûr de vouloir supprimer cet élément ?</p></h6> </center>
+    </div>
+    <div class="modal-footer">
+      <a href="{{ path('product_list') }}" class="btn" id="confirmModalNo">Non</a>
+  <a href="#" class="btn btn-primary" id="confirmModalYes">Oui</a>
+    </div>
+</div>
 
     {% else %}
         <p>No Products</p>
     {% endif %}
 {% endblock %}
 {% block jsProducts %}
+<script src="/js/jquery-1.9.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> 
 </script>
 <script>
@@ -102,5 +114,22 @@
             return false;
         });
     });
+$(document).ready(function () {
+    var theHREF;
+
+    $(".confirmModalLink").click(function(e) {
+        e.preventDefault();
+        theHREF = $(this).attr("href");
+        $("#confirmModal").modal("show");
+    });
+
+    $("#confirmModalNo").click(function(e) {
+        $("#confirmModal").modal("hide");
+    });
+
+    $("#confirmModalYes").click(function(e) {
+        window.location.href = theHREF;
+    });
+});
 </script>
 {% endblock %}
