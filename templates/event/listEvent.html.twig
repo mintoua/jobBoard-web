@@ -1,0 +1,123 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+
+    <div class="page-content bg-white">
+        <!-- inner page banner -->
+        <div class="dez-bnr-inr overlay-black-middle" style="background-image:url(frontOffice/images/banner/bnr1.jpg);">
+            <div class="container">
+                <div class="dez-bnr-inr-entry">
+                    <h1 class="text-white">Event List</h1>
+                    <!-- Breadcrumb row -->
+                    <div class="breadcrumb-row">
+                        <ul class="list-inline">
+                            <li><a href="#">Home</a></li>
+                            <li>Event List</li>
+                        </ul>
+                    </div>
+                    <!-- Breadcrumb row END -->
+                </div>
+            </div>
+        </div>
+        <!-- inner page banner END -->
+        <div class="content-area">
+            <div class="container">
+                <!-- blog grid -->
+                <div class="row">
+                <div class="col-lg-4 col-md-5 ">
+                    <aside  class="side-bar">
+                        <div class="widget">
+                            <h6 class="widget-title style-1">Search</h6>
+                            <div class="search-bx style-1">
+                                <form role="search" method="post" action="{{ url('ListEvent') }}">
+                                    <div class="input-group">
+                                        <input name="search-input" class="form-control" placeholder="Enter your keywords..." type="text">
+                                        <span class="input-group-btn">
+												<button type="submit" class="fa fa-search text-primary"></button>
+                                            </span>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+                <div class="col-lg-4 col-md-5 ">
+                    <aside  class="side-bar">
+                        <div class="widget">
+                            <h6 class="widget-title style-1">Order By</h6>
+
+                                <form role="Order" method="post" action="{{ url('TriPar') }}">
+                                    <div class="input-group">
+                                        <select name="search-tri">
+                                            <option value="date">Date</option>
+                                            <option value="prix">Price</option>
+                                            <option value="nbrePlace">Ticket Number</option>
+                                        </select>
+                                        <span class="input-group-btn">
+												<button type="submit" class="site-button-secondry"><span class="fw6">Sort</span></button>
+                                            </span>
+                                    </div>
+                                </form>
+
+
+
+                        </div>
+                    </aside>
+                </div>
+                </div>
+                <div class="dez-blog-grid-3 row" id="masonry" >
+                    {% for e in listEvent %}
+                    <div class="post card-container col-lg-4 col-md-6 col-sm-6">
+
+                        <div class="blog-post blog-grid blog-style-1">
+                            <div class="dez-post-media dez-img-effect radius-sm"> <a href="blog-details.html"><img src="{{ asset('Uploads/Image/' ~ e.image) }}"
+                                                                                                                   style="height:270px;width:330px;" alt=""></a> </div>
+                            <div class="dez-info">
+                                <div class="dez-post-meta">
+                                    <ul class="d-flex align-items-center">
+                                        <li class="post-date"><i class="fa fa-calendar"></i>{{ e.date|date('d-M-Y') }}</li>
+                                        <li class="post-comment"><i class="fa fa-dollar"></i><a href="#">{{ e.prix }}</a> </li>
+                                        <li class="post-comment"><i class="fa fa-ticket"></i><a href="#">{{ e.nbrePlace }} Tickets</a> </li>
+
+                                    </ul>
+                                </div>
+                                <div class="dez-post-title">
+                                    <h5 class="post-title font-20"><a href="blog-details.html">{{ e.nom }}</a></h5>
+                                </div>
+                                <div class="dez-post-text">
+                                    <p>{{ e.description}}</p>
+                                </div>
+                                <div class="dez-post-readmore blog-share">
+                                    <a href="{{ url('afficherDetailComment',{'id':e.id}) }}" title="READ MORE" rel="bookmark" class="site-button"><span class="fw6">More</span></a>
+
+                                    <a href="{{ url('modifier_event',{'id':e.id}) }}" title="Update Event" rel="bookmark" class="site-button-secondry"><span class="fw6">Update</span></a>
+
+                                    <a href="{{ url('supprimer_event',{'id':e.id}) }}" title="Update Event" rel="bookmark" class="site-button"><span class="fw6">Delete</span></a>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                    {% endfor %}
+
+                </div>
+                <div class="nk-pagination nk-pagination-center">
+                    {{ knp_pagination_render(listEvent) }}
+
+                </div>
+
+        </div>
+    </div>
+
+
+    <!-- Our Job END -->
+    <!-- Call To Action -->
+
+    <!-- Call To Action END -->
+    <!-- Our Latest Blog -->
+
+{% endblock %}
