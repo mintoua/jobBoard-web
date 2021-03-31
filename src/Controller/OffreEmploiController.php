@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\OffreEmploi;
-use App\Entity\Categorie;
+use App\Entity\Category;
 use App\Entity\User;
 use App\Entity\DemandeRecrutement;
 use App\Form\OffreEmploiType;
@@ -235,7 +235,7 @@ class OffreEmploiController extends AbstractController
     public function details()
     {
         $r = $this->getDoctrine()->getManager();
-        $categs = $r->getRepository(Categorie::class)->findAll();
+        $categs = $r->getRepository(Category::class)->findAll();
 
         $categNom = [];
         $categColor = [];
@@ -243,7 +243,7 @@ class OffreEmploiController extends AbstractController
 
         // On "démonte" les données pour les séparer tel qu'attendu par ChartJS
         foreach ($categs as $categ) {
-            $categNom[] = $categ->getNom();
+            $categNom[] = $categ->getTitre();
             $categColor[] = $categ->getCouleur();
             $categCount[] = count($categ->getOffreemplois());
         }
