@@ -149,6 +149,7 @@
                         <ul class="sub-menu">
                           <li><a href="{{ path('company_companyprofile') }}" class="dez-page">Company Profile </a></li>
                           <li><a href="{{ path('company_companies_list') }}" class="dez-page">Browse Companies </a></li>
+                          {% if is_granted('ROLE_COMPANY') %}
                           <li>
                             <a href="{{
                               path(
@@ -167,6 +168,7 @@
                               Manage jobs <span class="new-page">New</span>
                             </a>
                           </li>
+                          {% endif %}
                           <li>
                             <a href="company-transactions.html"
                               class="dez-page">
@@ -299,8 +301,10 @@
                                           class="new-page">New</span></a></li>
 
                               <li><a href="{{path('category')}}" class="dez-page">Liste des categories</a></li>
+                              {% if is_granted('ROLE_USER') %}
                               <li><a href="{{path('new_formation')}}" class="dez-page">Ajouter des formations </a></li>
                               <li><a href="{{path('new_category')}}" class="dez-page">Ajouter des catégories </a></li>
+                              {% endif %}
                             </ul>
                             </a>
                           </li>
