@@ -6,6 +6,9 @@ parameters:
     app.recaptcha_key: '%env(RECAPTCHA_KEY)%'
     app.recaptcha_secret: '%env(RECAPTCHA_SECRET)%'
     upload_directory: '%kernel.project_dir%/public/uploads/'
+    EventImage_directory: '%kernel.project_dir%/public/Uploads/Image'
+
+
 
 services:
     # default configuration for services in *this* file

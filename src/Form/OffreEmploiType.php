@@ -9,8 +9,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class OffreEmploiType extends AbstractType
 {
@@ -30,9 +32,10 @@ class OffreEmploiType extends AbstractType
             )
             ->add('maxSalary')
             ->add('minSalary')
-            ->add('location')
+            ->add('location',TextType::class, ['attr' => ['id' => 'searchTextField','autocomplete'=>'on']
+    ])
             ->add('file', FileType::class, array('data_class' => null))
-            ->add('email')
+            ->add('email',EmailType::class)
             ->add('Upload', SubmitType::class);
     }
 
