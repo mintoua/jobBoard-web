@@ -101,8 +101,7 @@
                                                     Profile</a></li>
                                             <li><a href="{{ path('resume_candidateresume') }}" class="dez-page">My
                                                     Resume </a></li>
-                                            <li><a href="{{ path('user_candidates_list') }}" class="dez-page">Candidates
-                                                    Profiles </a></li>
+                                            <li><a href="{{ path('user_candidates_list') }}" class="dez-page">Browse Candidates </a></li>
                                             <li><a href="jobs-applied-job.html" class="dez-page">Applied Job <span
                                                             class="new-page">New</span></a></li>
                                             <li><a href="jobs-alerts.html" class="dez-page">Jobs Alerts <span
@@ -111,7 +110,7 @@
                                                             class="new-page">New</span></a></li>
                                             <li><a href="jobs-cv-manager.html" class="dez-page">CV Manager <span
                                                             class="new-page">New</span></a></li>
-                                            <li><a href="jobs-change-password.html" class="dez-page">Change Password
+                                            <li><a href="{{ path('user_editpassword') }}" class="dez-page">Change Password
                                                 </a></li>
                                         </ul>
                                     </li>
@@ -306,6 +305,7 @@
                                     </a>
                                 </li>
                                 <li>
+
                                     <a href="{{
                                     path(
                                         'addjob'
