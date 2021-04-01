@@ -56,17 +56,22 @@
             <tbody id="search">
             </tbody>
         </table>
-        <div class="modal hide fade" id="confirmModal">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-  <h3>Confirmation de la suppression</h3>
-    </div>
-    <div class="modal-body">
-        <center> <p><h6>Etes-vous sûr de vouloir supprimer cet élément ?</p></h6> </center>
-    </div>
-    <div class="modal-footer">
-      <a href="{{ path('product_list') }}" class="btn" id="confirmModalNo">Non</a>
-  <a href="#" class="btn btn-primary" id="confirmModalYes">Oui</a>
+
+<div class="modal fade" id="confirmModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">x</button>
+                <h4 class="modal-title">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                Etes-vous sûr de vouloir supprimer cet élément ?
+            </div>
+            <div class="modal-footer">
+                <a href="{{ path('product_list') }}" class="btn" id="confirmModalNo">Non</a>
+                <a href="#" class="btn btn-primary" id="confirmModalYes">Oui</a>
+            </div>
+        </div>
     </div>
 </div>
 

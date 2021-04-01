@@ -149,7 +149,6 @@
                         <ul class="sub-menu">
                           <li><a href="{{ path('company_companyprofile') }}" class="dez-page">Company Profile </a></li>
                           <li><a href="{{ path('company_companies_list') }}" class="dez-page">Browse Companies </a></li>
-                          {% if is_granted('ROLE_COMPANY') %}
                           <li>
                             <a href="{{
                               path(
@@ -168,7 +167,6 @@
                               Manage jobs <span class="new-page">New</span>
                             </a>
                           </li>
-                          {% endif %}
                           <li>
                             <a href="company-transactions.html"
                               class="dez-page">
