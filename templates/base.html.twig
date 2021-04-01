@@ -119,7 +119,11 @@
                             </a>
                           </li>
                           <li>
-                            <a href="browsejob" class="dez-page">
+                            <a href="{{
+                              path(
+                                'browsejob'
+                              )
+                              }}" class="dez-page">
                               Apply To A Job<span class="new-page">New</span>
                             </a>
                           </li>
@@ -149,6 +153,7 @@
                         <ul class="sub-menu">
                           <li><a href="{{ path('company_companyprofile') }}" class="dez-page">Company Profile </a></li>
                           <li><a href="{{ path('company_companies_list') }}" class="dez-page">Browse Companies </a></li>
+                          {% if is_granted('ROLE_COMPANY') %}
                           <li>
                             <a href="{{
                               path(
@@ -167,6 +172,7 @@
                               Manage jobs <span class="new-page">New</span>
                             </a>
                           </li>
+                          {% endif %}
                           <li>
                             <a href="company-transactions.html"
                               class="dez-page">
@@ -306,9 +312,7 @@
                             </ul>
                             </a>
                           </li>
-
                           <li>
-
                             <a href="#" class="dez-page">event <i class="fa fa-angle-right"></i></a>
                             <ul class="sub-menu">
 
@@ -316,12 +320,9 @@
                                           class="new-page">New</span></a></li>
                               <li><a href="{{path('ajout_event')}}" class="dez-page">ajouter des evenements<br><span
                                           class="new-page">New</span></a></li>
-
-
                             </ul>
                             </a>
                           </li>
-
                           <li>
                             <a href="#" class="dez-page">
                               Portfolio <i class="fa fa-angle-right"></i>

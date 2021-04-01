@@ -23,7 +23,7 @@ class DemandeRecrutementController extends AbstractController
         $r = $this->getDoctrine()->getRepository(OffreEmploi::class);
         $job = $r->find($id);
         $a = $this->getDoctrine()->getRepository(User::class);
-        $user = $a->find(3);
+        $user = $a->find($this->getUser()->getId());
         $b = $this->getDoctrine()->getRepository(DemandeRecrutement::class);
 
         $apply->setOffre($job);
@@ -87,7 +87,7 @@ class DemandeRecrutementController extends AbstractController
     public function delapp($id, Request $request, PaginatorInterface $pag)
     {
         $b = $this->getDoctrine()->getRepository(DemandeRecrutement::class)->delap($id);
-        return $this->listapp(2,  $request,  $pag);
+        return $this->listapp($this->getUser()->getId(),  $request,  $pag);
     }
 
     /**

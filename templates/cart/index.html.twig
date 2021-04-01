@@ -105,9 +105,19 @@
                                                     <div class="col-md-6 col-xs-12">
                                                     </div>
                                                     <div class="col-md-6 col-xs-12 proceed-checkout text-right">
-                                                        <button id="checkout-button" class="btn btn-purple btn-effect">
+                                                    {% if is_granted('ROLE_USER') %}
+                                                    <a href="{{ path('security_login') }}">        
+                                                    <button id="checkout-button" class="btn btn-purple btn-effect">
                                                             Place Order
-                                                        </button><!--il remplacer par checkout.html.twig-->
+                                                        </button></a>
+                                                        {% else %}               
+                                                        <a href="{{ path('security_login') }}">                                             
+                                                    <button class="btn btn-purple btn-effect">
+                                                            Place Order
+                                                        </button></a>
+                                                    {% endif %}
+                                                    
+                                                        <!--il remplacer par checkout.html.twig-->
                                                     </div>
 
                                                 </div>
