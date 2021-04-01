@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use MercurySeries\FlashyBundle\FlashyNotifier;
 
 class ProductController extends AbstractController
 {
@@ -36,7 +37,7 @@ class ProductController extends AbstractController
      * @Route("/product/newProduct", name="new_product")
      */
 
-    public function createProduct(Request $request){
+    public function createProduct(Request $request,FlashyNotifier $flashy){
         $product =new Products();
 
         $form = $this->createForm(ProductType::class,$product);
@@ -52,7 +53,8 @@ class ProductController extends AbstractController
             $em= $this->getDoctrine()->getManager();
             $em->persist($product);
             $em->flush();
-
+            $this->addFlash('message','Order saved successfully!!');
+            $flashy->success('Event created!', 'http://your-awesome-link.com');
             return $this->redirectToRoute('product_list');
         }
 
@@ -75,7 +77,7 @@ class ProductController extends AbstractController
     /**
      *@Route("/product/updateProduct/{id}", name="updateProduct")
      */
-    public function updateProduct(Request $request, $id, ProductsRepository $rep){
+    public function updateProduct(Request $request, $id, ProductsRepository $rep,FlashyNotifier $flashy){
         $product = $rep->find($id);
         $form = $this->createForm(ProductType::class,$product);
         $form->add('Save',SubmitType::class,[
@@ -86,7 +88,8 @@ class ProductController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
             $em->flush();
-
+            $this->addFlash('message','Order saved successfully!!');
+            $flashy->success('Event created!', 'http://your-awesome-link.com');
             return $this->redirectToRoute('product_list');
         }
     
