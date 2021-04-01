@@ -160,11 +160,16 @@
 
                                         {% if candidateresume.ResumeHeadline %}
                                             <li><a class="scroll-bar nav-link" href="{{path('resume_resumeEducation',{id:candidateresume.id})}}">
-                                                    <span>add education</span>
+                                                    <span>Add Education</span>
                                                 </a></li>
 
                                         {% endif %}
+                                        {% if candidateresume.ResumeHeadline %}
+                                            <li><a class="scroll-bar nav-link" href="{{path('resume_delete_resume',{id:candidateresume.id})}}">
+                                                    <span>Delete this resume</span>
+                                                </a></li>
 
+                                        {% endif %}
                                         
 
                                     </ul>
@@ -216,7 +221,6 @@
 
                                     </div>
                                 </div>
-                                <h6 class="font-14 m-b0">{{ app.user.professionaltitle }}</h6>
                                 <p class="m-b0"> {{ candidateresume.experience ? candidateresume.experience :'Example: css,bootstrap,php' }}</p>
 
 
