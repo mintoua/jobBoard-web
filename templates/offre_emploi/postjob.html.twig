@@ -186,4 +186,15 @@ window.onload = function () { // Fonction d'initialisation qui s'exécute lorsqu
 initMap();
 };
 			</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5WEs73ZKe8-8YdYVDH8qAhIE38O_njO4&sensor=false&amp;libraries=places"
+            type="text/javascript"></script>
+
+<script type="text/javascript">
+        function initialize() {
+            var input = document.getElementById('offre_emploi_location');
+            var autocomplete = new google.maps.places.Autocomplete(input);
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
 		{% endblock %}

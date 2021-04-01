@@ -1,0 +1,151 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+<div class="page-content bg-white">
+    <!-- inner page banner -->
+    <div class="dez-bnr-inr overlay-black-middle" style="background-image:url({{ asset('Uploads/Image/' ~ singleEvent.image) }});">
+        <div class="container">
+            <div class="dez-bnr-inr-entry">
+                <h1 class="text-white">Event Details</h1>
+                <!-- Breadcrumb row -->
+                <div class="breadcrumb-row">
+                    <ul class="list-inline">
+                        <li><a href="#">Home</a></li>
+                        <li>Event Details</li>
+                    </ul>
+                </div>
+                <!-- Breadcrumb row END -->
+            </div>
+        </div>
+    </div>
+    <!-- inner page banner END -->
+    <div class="content-area">
+        <div class="container">
+            <div class="row">
+                <!-- Left part start -->
+                <div class="col-lg-8 col-md-7 m-b10">
+                    <!-- blog start -->
+                    <div class="blog-post blog-single blog-style-1">
+                        <div class="dez-post-meta">
+                            <ul class="d-flex align-items-center">
+                                <li class="post-date"><i class="fa fa-calendar"></i>{{ singleEvent.date|date('d-M-Y') }}</li>
+                                <li class="post-author"><i class="fa fa-dollar"></i><a href="#">{{ singleEvent.prix }} DT</a> </li>
+                                <li class="post-comment"><i class="fa fa-ticket-o"></i><a href="#">{{ singleEvent.nbrePlace }} Tickets</a> </li>
+                            </ul>
+                        </div>
+                        <div class="dez-post-title">
+                            <h4 class="post-title m-t0"><a href="blog-details.html">{{ singleEvent.nom }}</a></h4>
+                        </div>
+                        <div class="dez-post-media dez-img-effect zoom-slow m-t20"> <a href="#"><img src="{{ asset('Uploads/Image/' ~ singleEvent.image) }}"  style="height:270px;width:330px;" alt=""></a> </div>
+                        <div class="dez-post-text">
+                            <p>{{ singleEvent.description }}</p>
+                            <p>
+                            <i class="fa fa-map-marker"></i>    <a href="#">  {{singleEvent.adresse  }}</a>
+                              </p>
+                        </div>
+                        <div class="dez-divider bg-gray-dark op4"><i class="icon-dot c-square"></i></div>
+
+                    </div>
+                    <div class="clear" id="comment-list">
+                        <div class="comments-area" id="comments">
+                            <h2 class="comments-title">{{ nbr}}Comments</h2>
+                            <div class="clearfix m-b20">
+                                <!-- comment list END -->
+                                <ol class="comment-list">
+                                    {% for c in comments %}
+                                    <li class="comment">
+                                        <div class="comment-body">
+                                            <div class="comment-author vcard"> <img  class="avatar photo" src="{{ asset('frontOffice/images/testimonials/pic1.jpg') }}" alt=""> <cite class="fn"> {{ c.name }}</cite> <span class="says">says:</span> </div>
+                                            <div class="comment-meta"> <a href="javascript:void(0);"> {{ c.createdAt|date('D-M-y h:m') }}</a> </div>
+                                            <i class="fa fa-comments"></i> {{ c.email }} <br/> <br/> <br/>
+                                            <p>{{ c.message}} </p>
+                                            <div class="reply"> <a href="javascript:void(0);" class="comment-reply-link">Reply</a> </div>
+                                        </div>
+                                                <!-- list END -->
+                                            </li>
+                                    {% endfor %}
+                                        </ol>
+                                        <!-- list END -->
+                                    </li>
+
+                                </ol>
+                                <!-- comment list END -->
+                                <!-- Form -->
+                                <div class="comment-respond" id="respond">
+                                    <h4 class="comment-reply-title" id="reply-title">Leave a Reply <small> <a style="display:none;" href="javascript:void(0);" id="cancel-comment-reply-link" rel="nofollow">Cancel reply</a> </small> </h4>
+                                    <form class="comment-form" id="commentform" method="post" action="{{ url('add-comment',{'id':singleEvent.id})}}">
+                                        <p class="comment-form-author">
+                                            <label for="author">Name <span class="required">*</span></label>
+                                            <input type="text" value="Author" name="name"  placeholder="Author" id="author">
+                                        </p>
+                                        <p class="comment-form-email">
+                                            <label for="email">Email <span class="required">*</span></label>
+                                            <input type="text" value="email" placeholder="Email" name="email" id="email">
+                                        </p>
+                                        <p class="comment-form-phone">
+                                            <label for="Phone">Phone Number</label>
+                                            <input type="text"  value=""  placeholder="phone"  name="phone" id="url">
+                                        </p>
+                                        <p class="comment-form-comment">
+                                            <label for="comment">Comment</label>
+                                            <textarea rows="8" name="message" placeholder="Comment" id="comment"></textarea>
+                                        </p>
+                                        <p class="form-submit">
+                                            <input type="submit" value="Post Comment" class="submit site-button" id="submit" name="submit">
+                                        </p>
+                                    </form>
+                                </div>
+                                <!-- Form -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- blog END -->
+                </div>
+                <!-- Left part END -->
+                <!-- Side bar start -->
+                <div class="col-lg-4 col-md-5 sticky-top">
+                    <aside  class="side-bar">
+                        <div class="widget">
+                            <h6 class="widget-title style-1"></h6>
+                            <div class="search-bx style-1">
+                                <form role="search" method="post">
+                                    <div class="input-group">
+
+                                    </div>
+                                </form>
+                            </div>
+
+
+                        </div>
+                        <div class="widget recent-posts-entry">
+                            <h6 class="widget-title style-1">Recent Events</h6>
+                            {% for a in listTri %}
+                            <div class="widget-post-bx">
+                                <div class="widget-post clearfix">
+                                    <div class="dez-post-media"> <img src="{{ asset('Uploads/Image/' ~ a.image) }}" width="200" height="143" alt=""> </div>
+                                    <div class="dez-post-info">
+                                        <div class="dez-post-header">
+                                            <h6 class="post-title"><a href="blog-details.html">{{ a.nom }}</a></h6>
+                                        </div>
+                                        <div class="dez-post-meta">
+                                            <ul class="d-flex align-items-center">
+                                                <li class="post-date"><i class="fa fa-calendar">{{ a.date|date('d-M-Y') }}</i></li>
+                                                <li class="post-comment"><a href="#"><i class="fa fa-ticket"></i></a> {{ a.nbrePlace}} </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                </div>
+                            {% endfor %}
+
+                            </div>
+
+                    </aside>
+                </div>
+                <!-- Side bar END -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
