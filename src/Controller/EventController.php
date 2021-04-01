@@ -28,6 +28,9 @@ class EventController extends AbstractController
      * @Route("/ajouter", name="ajout_event")
      */
     public function ajouterEvent(Request $req){
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirect($this->generateUrl('homepage'));
+        }
         $em= $this->getDoctrine()->getManager();
         $event=new Event();
         $form=$this->createForm(EventType::class,$event);
