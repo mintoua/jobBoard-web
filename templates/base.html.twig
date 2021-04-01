@@ -112,7 +112,6 @@
                                                         Applied Jobs <span class="new-page">New</span>
                                                     </a>
                                                 </li>
-                                            {% endif %}
                                             <li>
                                                 <a href="#"
                                                    class="dez-page">
@@ -120,10 +119,11 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="browsejob" class="dez-page">
+                                                <a href="{{path('browsejob')}}" class="dez-page">
                                                     Apply To A Job<span class="new-page">New</span>
                                                 </a>
                                             </li>
+                                            {% endif %}
                                             <li>
                                                 <a href="jobs-saved-jobs.html" class="dez-page">
                                                     Saved Job <span class="new-page">New</span>
