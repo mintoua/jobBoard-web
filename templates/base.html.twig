@@ -60,7 +60,9 @@
                                         <a href="{{ path('security_logout') }}" class="site-button"> <i class="fa fa-user"></i> Logout </a>
                                     {% else %}
                                         <a href="{{ path('security_login') }}" class="site-button"> <i class="fa fa-user"></i>Login </a>
-                                        <a href="{{ path('user_register') }}" class="site-button"> <i class="fa fa-user"></i> Sign Up </a>{% endif %}
+                                        <a href="{{ path('user_register') }}" class="site-button"> <i class="fa fa-user"></i> Sign Up </a>
+                                    {% endif %}
+
                                 </div>
                             </div>
                             <div class="modal fade lead-form-modal"
@@ -313,11 +315,13 @@
 
                                                 <a href="#" class="dez-page">event <i class="fa fa-angle-right"></i></a>
                                                 <ul class="sub-menu">
-
                                                     <li><a href="{{path('ListEvent')}}" class="dez-page">Liste des evenements <span
                                                                     class="new-page">New</span></a></li>
+                                                    {% if is_granted('ROLE_USER') %}
+
                                                     <li><a href="{{path('ajout_event')}}" class="dez-page">ajouter des evenements<br><span
                                                                     class="new-page">New</span></a></li>
+                                                    {% endif %}
 
 
                                                 </ul>
