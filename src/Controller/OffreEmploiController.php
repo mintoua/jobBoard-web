@@ -76,7 +76,7 @@ class OffreEmploiController extends AbstractController
     public function treatapp($id, Request $request, PaginatorInterface $pag)
     {
         $this->getDoctrine()->getRepository(DemandeRecrutement::class)->treat($id);
-        return $this->seeapp(3,  $request,  $pag);
+        return $this->seeapp($this->getUser()->getId(),  $request,  $pag);
     }
 
     /**

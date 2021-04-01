@@ -103,6 +103,8 @@ class FormationController extends AbstractController
      * Method({"GET", "POST"})
      */
     public function new(Request $request) {
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirect($this->generateUrl('homepage'));}
         $formation = new formation();
         $form = $this->createForm(FormationType::class,$formation);
         $form->handleRequest($request);
@@ -328,6 +330,10 @@ class FormationController extends AbstractController
 
         return $this->render('formation/plan.html.twig', compact('data'));
     }
+
+
+
+    
     /**
      *@Route("/recherche",name="recherche")
      */

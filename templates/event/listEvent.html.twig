@@ -90,10 +90,12 @@
                                 </div>
                                 <div class="dez-post-readmore blog-share">
                                     <a href="{{ url('afficherDetailComment',{'id':e.id}) }}" title="READ MORE" rel="bookmark" class="site-button"><span class="fw6">More</span></a>
+                                {% if is_granted('ROLE_COMPANY') %}
 
                                     <a href="{{ url('modifier_event',{'id':e.id}) }}" title="Update Event" rel="bookmark" class="site-button-secondry"><span class="fw6">Update</span></a>
 
                                     <a href="{{ url('supprimer_event',{'id':e.id}) }}" title="Update Event" rel="bookmark" class="site-button"><span class="fw6">Delete</span></a>
+                                {%endif %}
                                 </div>
 
 

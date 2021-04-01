@@ -26,7 +26,8 @@ class CandidateController extends AbstractController
      */
     public function addEditResume(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $this->redirectToRoute('security_login');}
         $em = $this->getDoctrine()->getManager();
         $loggedUser = $this->getUser();
         $candidateresume = $em->getRepository(CandidateResume::class)->findOneByUserId($loggedUser);
@@ -50,9 +51,35 @@ class CandidateController extends AbstractController
             'form' => $form->createView(),
             'candidateresume' => $candidateresume,
             'education'=>$education ]);
+    }
+    /**
+     * @param $id
+     * @Route("/deleteresume/{id}", name="delete_resume")
+     */
 
+
+    public function deleteResume($id)
+    {
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $this->redirectToRoute('security_login');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $resume = $em->getRepository(CandidateResume::class)->find($id);
+        if ($resume->getUserId() === $this->getUser()){
+            $education = $em->getRepository(Education::class)->findOneByResume($resume);
+            if ($education){
+                $em->remove($education);
+
+            }
+            $em->remove($resume);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('resume_candidateresume');
 
     }
+
 
     /**
      * @Route("/resumeEducation/{id}", name="resumeEducation")
@@ -62,7 +89,8 @@ class CandidateController extends AbstractController
      */
     public function addEditEducation(Request $request,$id): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $this->redirectToRoute('security_login');}
         $em = $this->getDoctrine()->getManager();
         $loggedUser = $this->getUser();
         $resume = $em->getRepository(CandidateResume::class)->find($id);
@@ -85,18 +113,8 @@ class CandidateController extends AbstractController
 
     }
 
-    /**
-     * @Route("/certificates", name="certificates")
-     */
-    public function showCertif(): Response
-    {
-        $em = $this->getDoctrine()->getManager();
-        $loggedUser = $this->getUser();
-        $certificates = $em->getRepository(CandidateResume::class)->findOneByUserId($loggedUser);
 
-        return $this->render('candidate/candidateCertif.html.twig', [
-            'certif' => $certificates,
-        ]);
-    }
+
+
 
 }

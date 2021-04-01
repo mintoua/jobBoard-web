@@ -67,9 +67,11 @@
 
 
                         <td>
+                            {% if is_granted('ROLE_ADMIN') %}
 
-                            <a href="{{ path('edit_category',{'id' : formation.id})}}" class="btn btn-warning mb-2" >Modifier</a>
-                            <a href="{{ path('delete_category',{'id' : formation.id})}}" class="btn btn-danger mb-2" onclick="fireSweetAlert()">Supprimer</a>
+                            <a href="{{ path('edit_category',{'id' : category.id})}}" class="btn btn-warning mb-2" >Modifier</a>
+                            <a href="{{ path('delete_category',{'id' : category.id})}}" class="btn btn-danger mb-2" onclick="fireSweetAlert()">Supprimer</a>
+                            {% endif %}
                         </td>
 
                     </tr>

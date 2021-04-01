@@ -36,10 +36,10 @@ class AdminController extends AbstractController
      */
     public function showUsers(Request $request, PaginatorInterface $paginator)
     {
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $this->redirectToRoute('security_login');}
 
-        $users = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->findAll();
+        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
         $pagination = $paginator->paginate(
             $users, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
@@ -58,6 +58,8 @@ class AdminController extends AbstractController
      */
     public function ShowCompanies(Request $request, PaginatorInterface $paginator)
     {
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $this->redirectToRoute('security_login');}
 
         $companies = $this->getDoctrine()
             ->getRepository(Company::class)
@@ -79,6 +81,8 @@ class AdminController extends AbstractController
 
     public function ShowCandidatesResume(Request $request, PaginatorInterface $paginator)
     {
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $this->redirectToRoute('security_login');}
         $resumes = $this->getDoctrine()->getRepository(CandidateResume::class)->findAll();
         $pagination = $paginator->paginate($resumes, $request->query->getInt('page', 1), 4);
         return $this->render('admin/candidatesresume.html.twig', [
@@ -95,6 +99,8 @@ class AdminController extends AbstractController
 
     public function deleteResume($id)
     {
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $this->redirectToRoute('security_login');}
         $em = $this->getDoctrine()->getManager();
         $resume = $em->getRepository(CandidateResume::class)->find($id);
         $em->remove($resume);
@@ -112,6 +118,8 @@ class AdminController extends AbstractController
 
     public function deleteCompany($id)
     {
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $this->redirectToRoute('security_login');}
         $em = $this->getDoctrine()->getManager();
         $company = $em->getRepository(Company::class)->find($id);
         $em->remove($company);
@@ -129,6 +137,8 @@ class AdminController extends AbstractController
      */
     public function TribyRole(Request $request, PaginatorInterface $paginator, $role)
     {
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $this->redirectToRoute('security_login');}
         $em = $this->getDoctrine()->getManager();
         $qb = $em->createQueryBuilder();
         $qb->select('u')->from('App:User', 'u')->where('u.roles LIKE :roles')->setParameter('roles', '%"' . $role . '"%');
@@ -149,9 +159,7 @@ class AdminController extends AbstractController
     public function userChangeIsActive(int $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $users = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->find($id);
+        $users = $this->getDoctrine()->getRepository(User::class)->find($id);
         $users->getIsActive() ? $users->setIsActive(0) : $users->setIsActive(1);
         $em->persist($users);
         $em->flush();
@@ -168,7 +176,7 @@ class AdminController extends AbstractController
         $companies = $this->getDoctrine()->getRepository(Company::class)->find($id);
         $companies->getStatus() ? $companies->setStatus(0) : $companies->setStatus(1);
         $companyowner= $companies->getUserId();
-        $companyowner->setRoles(['ROLE_COMPANY']);
+        $companyowner->setRoles(array("ROLE_COMPANY"));
         $em->persist($companyowner);
         $em->persist($companies);
         $em->flush();

@@ -75,7 +75,7 @@ class OrderController extends AbstractController
      */
     public function add(CartService $cartService, \Swift_Mailer $mailer)
     {
-        $idUser = 1;
+        $idUser =1;
         $totalPayment = $cartService->getTotal();
         $state = false;
         $date = date('Y/m/d');

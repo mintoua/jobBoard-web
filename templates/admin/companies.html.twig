@@ -65,8 +65,8 @@
                                             <td><img src="{{ asset('uploads/') }}{{ companies.companyImageName }}"
                                                      style="width: 20px;height: 20px" alt="image"></td>
                                             <td>
-                                                <a class="mr-3 btn {{ companies.status  ? 'btn-primary':'btn-danger' }}"
-                                                   href="{{ path('admin_companies_status',{id:companies.id}) }}">{{ companies.status ? 'Active':'Disable' }}</a>
+                                                <a class="mr-3 btn {{ companies.status  ? 'btn-danger':'btn-primary' }}"
+                                                   href="{{ path('admin_companies_status',{id:companies.id}) }}">{{ companies.status ? 'Disable':'Activate' }}</a>
                                             </td>
                                             <td>
                                                 <a href="{{ path('admin_delete_company',{id:companies.id}) }}">Delete
