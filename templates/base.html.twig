@@ -54,10 +54,11 @@
                   <!-- extra nav -->
                   <div class="extra-nav">
                     <div class="extra-cell">
+                    <a href="{{ path('cart') }}"> <i class="fa fa-shopping-cart fa-1x"></i><span>{{ app.session.get('panier', []) | length }}</span></a>
                       {% if is_granted('ROLE_USER') %}
+                      <a href="{{ path('user_candidateprofile') }}" class="site-button"><i class="fa fa-user"></i> {{ app.user.username }}</a>
                         <a href="{{ path('security_logout') }}" class="site-button"> <i class="fa fa-user"></i> Logout </a>
-                      {% else %}
-                        <a href="{{ path('cart') }}"> <i class="fa fa-shopping-cart fa-1x"></i><span>{{ app.session.get('panier', []) | length }}</span></a>
+                      {% else %}                        
                         <a href="{{ path('security_login') }}" class="site-button"> <i class="fa fa-user"></i>Login </a>
                         <a href="{{ path('user_register') }}" class="site-button"> <i class="fa fa-user"></i> Sign Up </a>{% endif %}
                     </div>
@@ -94,28 +95,23 @@
                           For Candidates <i class="fa fa-chevron-down"></i>
                         </a>
                         <ul class="sub-menu">
-                          <li>
-                            <a href="jobs-profile.html" class="dez-page">
-                              My Profile<span class="new-page">New</span>
-                            </a>
-                          </li>
-                          <li>
-                            <a href="jobs-my-resume.html" class="dez-page">
-                              My Resume <span class="new-page">New</span>
-                            </a>
-                          </li>
+                          <li><a href="{{ path('user_candidateprofile') }}" class="dez-page">My Profile</a></li>
+                          <li><a href="{{ path('resume_candidateresume') }}" class="dez-page">My Resume </a></li>
+                           <li><a href="{{ path('user_candidates_list') }}" class="dez-page">Browse Candidates </a></li>
+                           {% if is_granted('ROLE_USER') %}
                           <li>
                             <a href="{{
                               path(
                                 'listapp',
                                 {
-                                  'id': 2
+                                  'id': app.user.id
                                 }
                               )
                               }}" class="dez-page">
                               Applied Jobs <span class="new-page">New</span>
                             </a>
                           </li>
+                          {% endif %}
                           <li>
                             <a href="#"
                               class="dez-page">
@@ -138,7 +134,7 @@
                             </a>
                           </li>
                           <li>
-                            <a href="jobs-change-password.html"
+                            <a href="{{ path('user_editpassword') }}"
                               class="dez-page">
                               Change Password
                               <span class="new-page">New</span>
@@ -151,17 +147,8 @@
                           For Employers <i class="fa fa-chevron-down"></i>
                         </a>
                         <ul class="sub-menu">
-                          <li>
-                            <a href="company-profile.html" class="dez-page">
-                              Company Profile
-                              <span class="new-page">New</span>
-                            </a>
-                          </li>
-                          <li>
-                            <a href="company-resume.html" class="dez-page">
-                              Employer Resume <span class="new-page">New</span>
-                            </a>
-                          </li>
+                          <li><a href="{{ path('company_companyprofile') }}" class="dez-page">Company Profile </a></li>
+                          <li><a href="{{ path('company_companies_list') }}" class="dez-page">Browse Companies </a></li>
                           <li>
                             <a href="{{
                               path(
@@ -394,43 +381,6 @@
                           <li>
                             <a href="contact.html" class="dez-page">
                               Contact Us
-                            </a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li>
-                        <a href="#">Blog <i class="fa fa-chevron-down"></i></a>
-                        <ul class="sub-menu">
-                          <li>
-                            <a href="blog-classic.html" class="dez-page">
-                              Classic
-                            </a>
-                          </li>
-                          <li>
-                            <a href="blog-classic-sidebar.html"
-                              class="dez-page">
-                              Classic Sidebar
-                            </a>
-                          </li>
-                          <li>
-                            <a href="blog-detailed-grid.html" class="dez-page">
-                              Detailed Grid
-                            </a>
-                          </li>
-                          <li>
-                            <a href="blog-detailed-grid-sidebar.html"
-                              class="dez-page">
-                              Detailed Grid Sidebar
-                            </a>
-                          </li>
-                          <li>
-                            <a href="blog-left-img.html" class="dez-page">
-                              Left Image Sidebar
-                            </a>
-                          </li>
-                          <li>
-                            <a href="blog-details.html" class="dez-page">
-                              Blog Details
                             </a>
                           </li>
                         </ul>
