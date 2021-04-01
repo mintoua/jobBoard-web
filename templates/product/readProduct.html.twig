@@ -13,6 +13,7 @@
       
 {% endblock %}
     {% block SS %}
+    <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
     <link rel="stylesheet" href="/css/bootstrap.min.css"  media="screen" />
     {% endblock %}
 {%  block content %}
@@ -84,7 +85,10 @@
 <script src="/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> 
 </script>
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
 <script>
+{{ include('@MercurySeriesFlashy/flashy.html.twig') }}
     $(document).ready(function(){
 
         $("#search").keyup(function(e){
