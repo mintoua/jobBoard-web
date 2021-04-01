@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block SS %}
+{% block stylesheet %}
 	<link rel="stylesheet" href="/css/bootstrap.min.css"  media="screen" />
 {% endblock %}
 {% block content %}
@@ -152,34 +152,34 @@
 												</a>
 												<a href="{{ path( 'modify', { 'id': c.id } ) }}" class="button" style="margin-left: 10px">modify
 												</a>
-												<a href="{{ path( 'deljob', { 'id': c.id } ) }}" class="confirmModalLink">
+												<a class="confirmModalLink" href="{{ path( 'deljob', { 'id': c.id } ) }}" >
 													<i class="ti-trash"></i>
 												</a>
 												<a href="{{ path( 'seeapp', { 'id': c.id } ) }}" class="button" style="margin-left: 10px">Applies
 												</a>
 											</td>
 										</tr>
-<div class="modal fade" id="confirmModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">x</button>
-                <h4 class="modal-title">Confirmation</h4>
-            </div>
-            <div class="modal-body">
-                Etes-vous sûr de vouloir supprimer cet élément ?
-            </div>
-            <div class="modal-footer">
-                <a href="{{ path('joblist') }}" class="btn" id="confirmModalNo">Non</a>
-                <a href="#" class="btn btn-primary" id="confirmModalYes">Oui</a>
-            </div>
-        </div>
-    </div>
-</div>
 									{% endfor %}
 									<tr></tr>
 								</tbody>
 							</table>
+							<div class="modal fade" id="confirmModal">
+							   <div class="modal-dialog">
+							       <div class="modal-content">
+							           <div class="modal-header">
+							               <button type="button" class="close" data-dismiss="modal">x</button>
+							               <h4 class="modal-title">Confirmation</h4>
+							           </div>
+							           <div class="modal-body">
+							               Etes-vous sûr de vouloir supprimer cet élément ?
+							           </div>
+							           <div class="modal-footer">
+							               <a href="{{ path('joblist') }}" class="btn" id="confirmModalNo">Non</a>
+							               <a href="#" class="btn btn-primary" id="confirmModalYes">Oui</a>
+							           </div>
+							       </div>
+							   </div>
+							</div>
 							<div class="pagination-bx m-t30 float-right">
 								{{knp_pagination_render(list)}}
 							</div>
@@ -241,7 +241,10 @@
 </div>
 
 <!-- Content END -->{% endblock %}
+{% block jsProducts %}
+{% endblock %}
 {% block javascripts %}
+
 <script src="/js/jquery-1.9.1.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script type="text/javascript">
