@@ -50,14 +50,13 @@
                     <li><a href="{{ path('admin_users_list') }}"> <i class="icon-user"></i>Users List </a></li>
                     <li><a href="{{ path('admin_resumes_list') }}"> <i class="fa fa-bar-chart"></i>Candidates Resumes </a></li>
                     <li><a href="{{ path('admin_companies_list') }}"> <i class="icon-grid"></i>Companies List </a></li>
-                    <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i
-                                    class="icon-interface-windows"></i>Example dropdown </a>
-                        <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
-                            <li><a href="#">Page</a></li>
-                            <li><a href="#">Page</a></li>
-                            <li><a href="#">Page</a></li>
-                        </ul>
-                    </li>
+              <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>Store Management</a>
+              <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
+                <li><a href="{{ path('product_list') }}">Products</a></li>
+                <li><a href="{{ path('order_list') }}">Orders</a></li>
+                <li><a href="{{ path('cart_list') }}">Product Carts</a></li>
+              </ul>
+            </li>
                     <li><a href="login.html"> <i class="icon-interface-windows"></i>Login page </a></li>
                     <li><a href="#"> <i class="icon-mail"></i>Demo
                             <div class="badge badge-warning">6 New</div>

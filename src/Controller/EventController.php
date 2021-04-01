@@ -158,6 +158,9 @@ class EventController extends AbstractController
      */
     public function supprimerEvent($id)
     {
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirect($this->generateUrl('security_login'));
+        }
         $em= $this->getDoctrine()->getManager();
         $evenement=$em->getRepository( Event::class)->find($id);
         $em->remove($evenement);
@@ -168,6 +171,9 @@ class EventController extends AbstractController
      * @Route("/modifier/{id}", name="modifier_event")
      */
     public function modifierEvent(Request $req,$id){
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirect($this->generateUrl('security_login'));
+        }
         $evenement = $this->getDoctrine()->getRepository(Event::class)->find($id);
         $form = $this->createFormBuilder ($evenement)
             ->add('nom', TextType::class,[

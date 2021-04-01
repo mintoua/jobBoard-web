@@ -330,6 +330,10 @@ class FormationController extends AbstractController
 
         return $this->render('formation/plan.html.twig', compact('data'));
     }
+
+
+
+    
     /**
      *@Route("/recherche",name="recherche")
      */
