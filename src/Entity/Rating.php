@@ -15,7 +15,7 @@ class Rating
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type="integer", nullable)
+     * @ORM\Column(type="integer")
      * @Groups("post:read")
      */
     private $id;
