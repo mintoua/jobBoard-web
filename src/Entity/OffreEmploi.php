@@ -3,10 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\OffreEmploiRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=OffreEmploiRepository::class)
@@ -17,6 +19,7 @@ class OffreEmploi
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("offers")
      */
     private $id;
 
@@ -24,11 +27,13 @@ class OffreEmploi
     /**
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=true)
+     * @Groups("offers")
      */
     private $idCandidat;
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Groups("offers")
      * @Assert\NotBlank(message="title is required."))
      * @Assert\Length(
      *      min = "6",
@@ -40,6 +45,7 @@ class OffreEmploi
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Groups("offers")
      * @Assert\NotBlank(message="poste is required."))
      * @Assert\Length(
      *      min = "6",
@@ -52,6 +58,7 @@ class OffreEmploi
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("offers")
      * @Assert\Length(
      *      min = "8",
      *      max = "50",
@@ -71,7 +78,7 @@ class OffreEmploi
      *      message = "vacancy.date.not_today"
      * )
      */
-    private $date_debut;
+    private  $date_debut;
 
     /**
      * @ORM\Column(type="date")
@@ -90,10 +97,9 @@ class OffreEmploi
      */
     private $date_expiration;
 
-
-
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups("offers")
      * * @Assert\Range(
      *      min = 100,
      *      max = 9999,
@@ -117,21 +123,25 @@ class OffreEmploi
      *     "this.getMaxSalary() <= this.getMinSalary()",
      *     message="min salary is bigger than max salary"
      * )
+     * @Groups("offers")
      */
     private $minSalary;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
+     * @Groups("offers")
      */
     private $location;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("offers")
      */
     private $file;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=false)
+     * @Groups("offers")
      * @Assert\NotBlank(message="Email is required")
      * @Assert\Email(message = "The email '{{ value }}' is not a valid email.")
      */
@@ -139,16 +149,19 @@ class OffreEmploi
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="offreEmplois")
+     * @Groups("offers")
      */
     private $idRecruteur;
 
     /**
      * @ORM\OneToMany(targetEntity=DemandeRecrutement::class, mappedBy="offre", orphanRemoval=true)
+     * @Groups("offers")
      */
     private $applies;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="offreemplois")
+     * @Groups("offers")
      * @ORM\JoinColumn(nullable=false)
      */
     private $categorie;

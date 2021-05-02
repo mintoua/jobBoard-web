@@ -7,6 +7,7 @@ use App\Entity\Category;
 use App\Entity\User;
 use App\Entity\DemandeRecrutement;
 use App\Form\OffreEmploiType;
+use App\Repository\OffreEmploiRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,7 +15,11 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class OffreEmploiController extends AbstractController
 {
@@ -122,7 +127,7 @@ class OffreEmploiController extends AbstractController
         $jobs = $pag->paginate($donnes, $request->query->getInt('page', 1), 4);
 
         return $this->render('offre_emploi/managejob.html.twig', [
-            'list' => $jobs,'count'=>$count
+            'list' => $jobs, 'count' => $count
         ]);
     }
 
@@ -267,5 +272,109 @@ class OffreEmploiController extends AbstractController
             'dates' => json_encode($dates),
             'annoncesCount' => json_encode($annoncesCount),
         ]);
+    }
+
+
+    /**
+     * @Route("/listofferjson", name="listofferjson")
+     */
+    public function listofferjson(OffreEmploiRepository $repo, SerializerInterface $ser)
+    {
+
+        $offers = $repo->findAll();
+        $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
+        //relation //circular  referance
+        $data = $serializer->normalize($offers, null, array('attributes' => array(
+            'id', 'titre', 'poste', 'description', 'date_debut',
+            'date_expiration', 'maxSalary', 'minSalary', 'location', 'file', 'email', 'categorie' => ['id'], 'applies' => ['id']
+        )));
+        //$data = $serializer->normalize($offers, 'json');
+        return new JsonResponse($data);
+    }
+
+    /**
+     * @Route("/addofferjson", name="addofferjson")
+     */
+    public function addofferjson(Request $req, SerializerInterface $ser)
+    {
+        $ser = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
+        $man = $this->getDoctrine()->getManager();
+        $content = $req->getContent();
+        $data = $ser->deserialize($content, null, array('attributes' => array(
+            'id', 'titre', 'poste', 'description', 'date_debut',
+            'date_expiration', 'maxSalary', 'minSalary', 'location', 'file', 'email', 'categorie' => ['id'], 'applies' => ['id']
+        )));
+        $data->setIdRecruteur(null);
+        $data->setIdCandidat(null);
+        $data->setDateDebut(new \DateTime('now'));
+        $data = $ser->normalize($data, null, array('attributes' => array(
+            'id', 'titre', 'poste', 'description', 'date_debut',
+            'date_expiration', 'maxSalary', 'minSalary', 'location', 'file', 'email', 'categorie' => ['id'], 'applies' => ['id']
+        )));
+        $man->persist($data);
+        $man->flush();
+        return new Response("success !");
+    }
+
+    /**
+     * @Route("/updateofferjson", name="updateofferjson")
+     */
+    public function updateofferjson(Request $req, SerializerInterface $ser)
+    {
+        $man = $this->getDoctrine()->getManager();
+        $content = $req->getContent();
+        $var = json_decode($req->getContent());
+        $job = $this->getDoctrine()->getRepository(OffreEmploi::class)->find($var->{'id'});
+        $job->setDateexpiration($var->{'date_expiration'});
+        $categ = $this->getDoctrine()->getRepository(Category::class)->find($var->{'categorie_id'});
+        $job->setCategory($categ);
+        $job->setTitle($var->{'id'});
+        $job->setTitle($var->{'id'});
+        $man->persist($job);
+        $man->flush();
+    }
+
+    /**
+     * @Route("/deleteofferjson", name="deleteofferjson")
+     */
+    public function deleteofferjson(Request $req, SerializerInterface $ser)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $content = $req->getContent();
+        $data = $ser->deserialize($content, OffreEmploi::class, 'json');
+        $job = $this->getDoctrine()->getRepository(OffreEmploi::class)->find($data->getId());
+        $em->remove($job);
+        $em->flush();
+    }
+
+    /**
+     * 
+     * @Route("/treatappjson", name="treatappjson")
+     */
+    public function treatappjson(Request $request, SerializerInterface $ser)
+    {
+        $content = $request->getContent();
+        $data = $ser->deserialize($content, DemandeRecrutement::class, 'json');
+        $this->getDoctrine()->getRepository(DemandeRecrutement::class)->treat($data->getId());
+    }
+
+    /**
+     * @Route("/seeappjson", name="seeappjson")
+     */
+    public function seeseeappjsonapp(Request $request, SerializerInterface $ser)
+    {
+        $content = $request->getContent();
+        $data = $ser->deserialize($content, OffreEmploi::class, 'json');
+        $r = $this->getDoctrine()->getRepository(User::class);
+        $app = $this->getDoctrine()->getRepository(DemandeRecrutement::class)->findBy(['offre' => $data->getId()]);
+        $off = $this->getDoctrine()->getRepository(OffreEmploi::class)->findBy(['id' => $data->getId()]);
+        $arr = array();
+        foreach ($app as $value) {
+            $user = $r->findBy(['id' => $value->getCandidat()]);
+            array_push($arr, array($app, $off, $user));
+        }
+        $json = $ser->serialize($arr, 'json', ['groups' => 'demande', 'groups' => 'offers', 'groups' => 'users']);
+        dump($json);
+        die;
     }
 }
