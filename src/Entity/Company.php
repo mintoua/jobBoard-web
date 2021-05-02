@@ -5,10 +5,17 @@ namespace App\Entity;
 use App\Repository\CompanyRepository;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=CompanyRepository::class)
+ * @ApiResource(
+ *     attributes={
+ *          "pagination_items_per_page"=10
+ *     }
+ * )
  */
+
 class Company
 {
     /**
@@ -17,10 +24,6 @@ class Company
      * @ORM\Column(type="integer")
      */
     private $id;
-
-
-
-
 
     /**
      * @ORM\Column(type="string", length=255)

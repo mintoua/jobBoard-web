@@ -12,6 +12,7 @@ namespace App\Form\User;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -32,7 +33,7 @@ class RegistrationType extends AbstractType
         $builder
             ->add('firstName')
             ->add('lastName')
-            ->add('dateOfBirth', BirthdayType::class)
+            ->add('dateOfBirth', DateType::class,['format' => 'yyyy-MM-dd  HH:mm:ss', ])
             ->add('phone', NumberType::class)
             ->add('email')
             ->add('password', RepeatedType::class, [
@@ -54,7 +55,7 @@ class RegistrationType extends AbstractType
                         'mimeTypesMessage' => 'Please upload a valid photo',
                     ])
                 ],
-        ])->add('adresse', TextType::class, ['attr' => ['id' => 'searchTextField','autocomplete'=>'on']
+            ])->add('adresse', TextType::class, ['attr' => ['id' => 'searchTextField', 'autocomplete' => 'on']
             ]);
         parent::buildForm($builder, $options);
     }
@@ -66,7 +67,9 @@ class RegistrationType extends AbstractType
     {
         $resolver->setDefaults([
                 'data_class' => User::class,
-                'validation_groups' => ['Default', 'Registration']
+                'validation_groups' => ['Default', 'Registration'],
+                'csrf_protection' => false,
+
             ]
         );
     }

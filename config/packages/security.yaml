@@ -15,9 +15,12 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: ~
-
-# we use guard instead to automatically login the user after activation or password reset
+            anonymous: lazy
+            json_login:
+                check_path:    loginApi
+                username_path: email
+                password_path: password
+                # we use guard instead to automatically login the user after activation or password reset
 #            form_login:
 #                login_path: security_login
 #                check_path: security_login
