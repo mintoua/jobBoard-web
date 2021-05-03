@@ -4,22 +4,25 @@ namespace App\Controller;
 
 use App\Entity\CandidateResume;
 use App\Entity\Education;
-use App\Form\CandidateResumeType;
-use App\Form\EducationType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
- * @Route("/resume",name="resume_")
+ * @Route("/api",name="resume_")
  */
 class CandidateApiController extends AbstractController
 {
     /**
-     * @Route("/candidateresume", name="candidateresume")
+     * @Route("/candidateresumeApi", name="candidateresumeApi")
      * @param Request $request
      * @return Response
+     * methods={"GET"}
      */
     public function addEditResume(Request $request): Response
     {
@@ -29,8 +32,17 @@ class CandidateApiController extends AbstractController
         $loggedUser = $this->getUser();
         $candidateresume = $em->getRepository(CandidateResume::class)->findOneByUserId($loggedUser);
         $education = $em->getRepository(Education::class)->findOneByResume($candidateresume);
-
         !$candidateresume && $candidateresume = new CandidateResume();
+        $candidateresume->setResumeHeadline($request->get('ResumeHeadline'));
+        $candidateresume->setExperience($request->get('experience'));
+        $candidateresume->setSkills($request->get('skills'));
+        $candidateresume->setUserId($request->get('userId'));
+        $em->persist($candidateresume);
+        $em->flush();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $data = $serializer->normalize($candidateresume);
+        return new JsonResponse($data);
+        /*
         $form = $this->createForm(CandidateResumeType::class, $candidateresume);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -38,24 +50,19 @@ class CandidateApiController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $candidateresume->setUserId($loggedUser);
             !$candidateresume->getUserId() && $candidateresume->setUserId($loggedUser);
-            $em->persist($candidateresume);
-            $em->flush();
-
             return $this->redirectToRoute('resume_candidateresume');
-
         }
         return $this->render('candidate/candidateresume.html.twig', [
             'form' => $form->createView(),
             'candidateresume' => $candidateresume,
-            'education'=>$education ]);
+            'education'=>$education ]);*/
     }
     /**
      * @param $id
-     * @Route("/deleteresume/{id}", name="delete_resume")
+     * @Route("/deleteresumeApi/{id}", name="delete_resume")
+     * methods={"GET"}
      */
-
-
-    public function deleteResume($id)
+    public function deleteResumeApi($id)
     {
         if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
             $this->redirectToRoute('security_login');
@@ -69,11 +76,13 @@ class CandidateApiController extends AbstractController
             }
             $em->remove($resume);
             $em->flush();
+      //      $serializer = new Serializer([new ObjectNormalizer()]);
+        //    $data = $serializer->normalize($resume);
+            return new JsonResponse('deleted');
         }
-        return $this->redirectToRoute('resume_candidateresume');
     }
     /**
-     * @Route("/resumeEducation/{id}", name="resumeEducation")
+     * @Route("/resumeEducationApi/{id}", name="resumeEducationApi")
      * @param Request $request
      * @param integer $id
      * @return Response
@@ -87,24 +96,15 @@ class CandidateApiController extends AbstractController
         $resume = $em->getRepository(CandidateResume::class)->find($id);
         $education = $em->getRepository(Education::class)->findOneByResume($resume);
         !$education && $education = new Education();
-        $form = $this->createForm(EducationType::class, $education);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $education = $form->getData();
-            $em = $this->getDoctrine()->getManager();
-            $education->setResume($resume);
-            $em->persist($education);
-            $em->flush();
-            return $this->redirectToRoute('resume_resumeEducation',array('id'=>$id));
-
-        }
-        return $this->render('candidate/resumeEducation.html.twig', [
-            'form' => $form->createView(),
-            'education' => $education]);
-
+        $education->setCourse($request->get('course'));
+        $education->setDateFrom($request->get('dateFrom'));
+        $education->setDateTo($request->get('dateTo'));
+        $education->setInstitute($request->get('institute'));
+        $em->persist($education);
+        $em->flush();
+        $normalizer = new ObjectNormalizer();
+        $serializer = new Serializer([new DateTimeNormalizer(), $normalizer]);
+        $data = $serializer->normalize($education);
+        return new JsonResponse($data);
     }
-
-
-
-
 }

@@ -100,8 +100,6 @@ class UserApiController extends AbstractController
 
             }
         }
-
-
         // last username entered by the user
         $error = $authenticationUtils->getLastAuthenticationError();
 
@@ -236,10 +234,8 @@ class UserApiController extends AbstractController
         if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirect($this->generateUrl('homepage'));
         }
-
         $form = $this->createForm(ResetPasswordType::class, $user);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var User $user */
             $user = $form->getData();
@@ -257,10 +253,8 @@ class UserApiController extends AbstractController
                 'main'
             );
         }
-
         return $this->render('user/security/password-reset.html.twig', ['form' => $form->createView()]);
     }
-
     /**
      * @Route("/candidateprofile", name="candidateprofile")
      * @param Request $request
@@ -292,8 +286,6 @@ class UserApiController extends AbstractController
         return $this->render("candidate/candidateprofile.html.twig", [
             'form' => $form->createView()
         ]);
-
-
     }
     /**
      * @Route("/candidates", name="candidates_list")
@@ -327,12 +319,9 @@ class UserApiController extends AbstractController
             $request->query->getInt('page', 1), /*page number*/
             4 /*limit per page*/
         );
-
         return $this->render('candidate/candidatesProfiles.html.twig', [
             'candidates_list' => $pagination,
         ]);
-
-
     }
     public function findUser($firstName, $lastName, $prof, $adresse)
     {

@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Education;
+use Doctrine\DBAL\Types\DateTimeType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -17,19 +18,16 @@ class EducationType extends AbstractType
     {
         $builder
             ->add('course', TextareaType::class)
-            ->add('dateFrom', DateType::class, [
+            ->add('dateFrom', DateTimeType::class, [
         'widget' => 'single_text'
         ])
-            ->add('dateTo',DateType::class, [
+            ->add('dateTo',DateTimeType::class, [
                 'widget' => 'single_text'
             ])
             ->add('institute', TextareaType::class)
             ->add('save', SubmitType::class)
-
-
         ;
     }
-
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

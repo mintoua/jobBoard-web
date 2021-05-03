@@ -6,7 +6,6 @@ use App\Entity\Company;
 use App\Entity\Rating;
 use App\Form\CompanyprofileType;
 use App\Service\FileUploader;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -108,20 +107,10 @@ class CompanyApiController extends AbstractController
         $name = $request->get('name');
         $country = $request->get('country');
         $adresse = $request->get('adresse');
-
         $filtredUsers = $this->findCompaniesQuery($name,$country,$adresse);
-
-        $pagination = $paginator->paginate(
-            $filtredUsers, /* query NOT result */
-            $request->query->getInt('page', 1), /*page number*/
-            4 /*limit per page*/
-        );
-
-        return $this->render('company/companiesList.html.twig', [
-            'companies_list' => $pagination,
-        ]);
-
-
+        $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
+        $data = $serializer->normalize($filtredUsers);
+        return new JsonResponse($data);
     }
     public function findCompaniesQuery($name, $country, $adresse)
     {
@@ -153,7 +142,6 @@ class CompanyApiController extends AbstractController
 
             foreach ($reviews as $rev) {
                 if ($rev->getOwner() == $user) {
-
                     $rev->setTitle(($request->get('title')));
                     $rev->setDescription(($request->get('description')));
                     $rev->setStars($request->get('stars'));
@@ -179,15 +167,9 @@ class CompanyApiController extends AbstractController
 
                     return $this->redirectToRoute("company_companies_list");
                 }
-
             }
-
-
             return $this->render('company/companiesRating.html.twig',[
                 'company'=>$company
                 ]);
     }
-
-
-
 }
