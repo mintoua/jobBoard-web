@@ -9,10 +9,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
-
 /**
  * @Route("/api",name="resume_")
  */
@@ -36,30 +32,14 @@ class CandidateApiController extends AbstractController
         $candidateresume->setResumeHeadline($request->get('ResumeHeadline'));
         $candidateresume->setExperience($request->get('experience'));
         $candidateresume->setSkills($request->get('skills'));
-        $candidateresume->setUserId($request->get('userId'));
+        $candidateresume->setUserId($loggedUser);
         $em->persist($candidateresume);
         $em->flush();
-        $serializer = new Serializer([new ObjectNormalizer()]);
-        $data = $serializer->normalize($candidateresume);
-        return new JsonResponse($data);
-        /*
-        $form = $this->createForm(CandidateResumeType::class, $candidateresume);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $candidateresume = $form->getData();
-            $em = $this->getDoctrine()->getManager();
-            $candidateresume->setUserId($loggedUser);
-            !$candidateresume->getUserId() && $candidateresume->setUserId($loggedUser);
-            return $this->redirectToRoute('resume_candidateresume');
-        }
-        return $this->render('candidate/candidateresume.html.twig', [
-            'form' => $form->createView(),
-            'candidateresume' => $candidateresume,
-            'education'=>$education ]);*/
+        return new JsonResponse('OK');
     }
     /**
      * @param $id
-     * @Route("/deleteresumeApi/{id}", name="delete_resume")
+     * @Route("/deleteresumeApi/{id}", name="deleteresumeApi")
      * methods={"GET"}
      */
     public function deleteResumeApi($id)
@@ -76,10 +56,9 @@ class CandidateApiController extends AbstractController
             }
             $em->remove($resume);
             $em->flush();
-      //      $serializer = new Serializer([new ObjectNormalizer()]);
-        //    $data = $serializer->normalize($resume);
-            return new JsonResponse('deleted');
-        }
+            return new JsonResponse('Deleted');
+    }
+        return new JsonResponse('Error');
     }
     /**
      * @Route("/resumeEducationApi/{id}", name="resumeEducationApi")
@@ -97,14 +76,12 @@ class CandidateApiController extends AbstractController
         $education = $em->getRepository(Education::class)->findOneByResume($resume);
         !$education && $education = new Education();
         $education->setCourse($request->get('course'));
-        $education->setDateFrom($request->get('dateFrom'));
-        $education->setDateTo($request->get('dateTo'));
+        $education->setDateFrom(new \DateTime($request->get('dateFrom')));
+        $education->setDateTo(new \DateTime($request->get('dateTo')));
         $education->setInstitute($request->get('institute'));
+        $education->setResume($resume);
         $em->persist($education);
         $em->flush();
-        $normalizer = new ObjectNormalizer();
-        $serializer = new Serializer([new DateTimeNormalizer(), $normalizer]);
-        $data = $serializer->normalize($education);
-        return new JsonResponse($data);
+        return new JsonResponse('EDITED');
     }
 }

@@ -23,6 +23,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,12 +31,15 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Exception\ValidatorException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Validator\Constraints\File;
 /**
- * @Route("/user", name="user_")
+ * @Route("/userApi", name="user_")
  */
 class UserApiController extends AbstractController
 {
@@ -287,18 +291,7 @@ class UserApiController extends AbstractController
             'form' => $form->createView()
         ]);
     }
-    /**
-     * @Route("/candidates", name="candidates_list")
-     */
 
-    public function ShowCandidates(Request $request, PaginatorInterface $paginator)
-    {
-        $candidate = $this->getDoctrine()->getRepository(User::class)->findAll();
-        $pagination = $paginator->paginate($candidate, $request->query->getInt('page', 1), 5);
-        return $this->render('candidate/candidatesProfiles.html.twig', [
-            'candidates_list' => $pagination,
-        ]);
-    }
 
     /**
      * @Route("/findCandidates", name="candidates_filter")

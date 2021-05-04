@@ -23,7 +23,8 @@ use Symfony\Component\Serializer\Serializer;
 class CompanyApiController extends AbstractController
 {
     /**
-     * @Route("/profile", name="companyprofile")
+     * @Route("/AddEditCompanyApi", name="companyprofile")
+     * methods={"GET"}
      */
 
     public function AddEditCompany(Request $request, FileUploader $fileUploader)
@@ -32,40 +33,68 @@ class CompanyApiController extends AbstractController
         $loggedUser = $this->getUser();
 
         if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return new JsonResponse("pending");
-        }
-
+            return new JsonResponse('Please SignIn');}
         $company = $em->getRepository(Company::class)->findOneByUserId($loggedUser);
 
         if ($company and !$company->getStatus()){
-            return new JsonResponse("pending");
+            return new JsonResponse('Pending Request');
         }
-        else{
-            !$company && $company = new Company();
-            $form=$this->createForm(CompanyprofileType::class, $company);
-            $form->handleRequest($request);
+        else{ if(!$company){
+          /*  !$company  && */ $company = new Company();
+            $company->setCompanyName($request->get('companyName'));
+            $company->setContactEmail($request->get('contactEmail'));
+            $company->setWebsite($request->get('website'));
+            $company->setFoundedDate(new \DateTime($request->get('foundedDate')));
+            $company->setCategory($request->get('category'));
+            $company->setCountry($request->get('country'));
+            $company->setDescription($request->get('description'));
+            $company->setContactPhone($request->get('contactPhone'));
+            $company->setCompanyAdress($request->get('companyAdress'));
+            $company->setFacebookLink($request->get('facebookLink'));
+            $company->setTwitterLink($request->get('twitterLink'));
+            /*
+                        /**
+                             * @var UploadedFile $companyimage
 
-            if ($form->isSubmitted() && $form->isValid()){
-                /**
-                 * @var UploadedFile $companyimage
-                 */
-                $companyimage = $form->get('companyImageName')->getData();
-                if ($companyimage) {
-                    $newFilename = $fileUploader->upload($companyimage);
-                    $company->setCompanyImageName($newFilename);
-                }
-                $company->setStatus(false);
-                !$company->getUserId() && $company->setUserId($loggedUser);
-                $em->persist($company);
-                $em->flush();
+                            $companyimage = $form->get('companyImageName')->getData();
+                            if ($companyimage) {
+                                $newFilename = $fileUploader->upload($companyimage);
+                                $company->setCompanyImageName($newFilename);
+                            }*/
+            $company->setStatus(false);
+            !$company->getUserId() && $company->setUserId($loggedUser);
+            $em->persist($company);
+            $em->flush();
+            return new JsonResponse('Company Added');
+        }else{
+            $company->setCompanyName($request->get('companyName'));
+            $company->setContactEmail($request->get('contactEmail'));
+            $company->setWebsite($request->get('website'));
+            $company->setFoundedDate(new \DateTime($request->get('foundedDate')));
+            $company->setCategory($request->get('category'));
+            $company->setCountry($request->get('country'));
+            $company->setDescription($request->get('description'));
+            $company->setContactPhone($request->get('contactPhone'));
+            $company->setCompanyAdress($request->get('companyAdress'));
+            $company->setFacebookLink($request->get('facebookLink'));
+            $company->setTwitterLink($request->get('twitterLink'));
+            /*
+                        /**
+                             * @var UploadedFile $companyimage
+
+                            $companyimage = $form->get('companyImageName')->getData();
+                            if ($companyimage) {
+                                $newFilename = $fileUploader->upload($companyimage);
+                                $company->setCompanyImageName($newFilename);
+                            }*/
+            !$company->getUserId() && $company->setUserId($loggedUser);
+            $em->persist($company);
+            $em->flush();
+            return new JsonResponse('Company Edited');
+
+        }
 
             }
-    }
-        return $this->render('company/companyprofile.html.twig', [
-        'form'=>$form->createView(),
-            'company' => $company
-
-    ]);
     }
     /**
      *

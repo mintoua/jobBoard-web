@@ -7,6 +7,7 @@ use App\Form\User\RegistrationType;
 use App\Security\LoginFormAuthenticator;
 use App\Service\TokenGenerator;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Array_;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -68,21 +69,24 @@ class SecurityApiController extends AbstractController
      */
     public function register(Request $request,TokenGenerator $tokenGenerator, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em)
     {
-    /*    if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return new JsonResponse('Already connected');
-        }*/
+        }
         $user = new User();
         $user->setFirstName($request->get('firstName'));
         $user->setLastName($request->get('lastName'));
-       // $user->setDateOfBirth($request->get('dateOfBirth'));
+        $user->setDateOfBirth(new \DateTime($request->get('dateOfBirth')));
         $user->setPhone($request->get('phone'));
         $user->setAdresse($request->get('adresse'));
         $user->setProfessionalTitle($request->get('professionalTitle'));
+        $plainpassword = $request->get('password');
+        $password1 = '';
+        $passwordEncoder->encodePassword($plainpassword, $password1);
+        $user->setPassword($password1);
         $user->setPassword($request->get('password'));
         $user->setEmail($request->get('email'));
-          //      $token = $tokenGenerator->generateToken();
-            //    $user->setToken($request->get($token));
-        // $user->setRoles($request->get('rolse',a:1:{i:0;s:9:"ROLE_USER";}));
+        $role = array("ROLE_USER");
+         $user->setRoles($request->get('roles',$role));
          $user->setIsActive($request->get('isActive',false));
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
@@ -92,7 +96,6 @@ class SecurityApiController extends AbstractController
         $data = $serializer->normalize($user);
         return new JsonResponse($data);
     }
-
     /**
      * @Route("/logout", name="logout")
      * @throws \Exception
@@ -101,6 +104,21 @@ class SecurityApiController extends AbstractController
     {
         throw new \Exception('Don\'t forget to activate logout in security.yaml');
         return $this->redirectToRoute('security_login');
+    }
+
+    /**
+     * @Route("/candidatesApi", name="candidates_list")
+     *
+     */
+
+    public function ShowCandidates()
+    {
+        $candidate = $this->getDoctrine()->getRepository(User::class)->findAll();
+        $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
+        $data = $serializer->normalize($candidate,null, array('attributes'=>array('firstName','lastName','dateOfBirth'
+        ,'phone','adresse','professionalTitle')));
+        return new JsonResponse($data);
+
     }
 
 }
