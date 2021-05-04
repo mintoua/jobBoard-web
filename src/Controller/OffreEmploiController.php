@@ -295,25 +295,29 @@ class OffreEmploiController extends AbstractController
     /**
      * @Route("/addofferjson", name="addofferjson")
      */
-    public function addofferjson(Request $req, SerializerInterface $ser)
+    public function addofferjson(Request $request, SerializerInterface $ser)
     {
-        $ser = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
-        $man = $this->getDoctrine()->getManager();
-        $content = $req->getContent();
-        $data = $ser->deserialize($content, null, array('attributes' => array(
-            'id', 'titre', 'poste', 'description', 'date_debut',
-            'date_expiration', 'maxSalary', 'minSalary', 'location', 'file', 'email', 'categorie' => ['id'], 'applies' => ['id']
-        )));
-        $data->setIdRecruteur(null);
-        $data->setIdCandidat(null);
-        $data->setDateDebut(new \DateTime('now'));
-        $data = $ser->normalize($data, null, array('attributes' => array(
-            'id', 'titre', 'poste', 'description', 'date_debut',
-            'date_expiration', 'maxSalary', 'minSalary', 'location', 'file', 'email', 'categorie' => ['id'], 'applies' => ['id']
-        )));
-        $man->persist($data);
-        $man->flush();
-        return new Response("success !");
+        $offer = new OffreEmploi();
+        $offer->setTitre($request->get('titre'));
+        $offer->setPoste($request->get('poste'));
+        $offer->setIdRecruteur(null);
+        $offer->setIdCandidat(null);
+        $offer->setDescription($request->get('description'));
+        $offer->setDateDebut($request->get('date_debut'));
+        $offer->setDateExpiration($request->get('date_expiration'));
+        $offer->setMaxSalary($request->get('maxSalary'));
+        $offer->setMinSalary($request->get('minSalary'));
+        $offer->setLocation($request->get('location'));
+        $offer->setCategorie($request->get('categorie'));
+        $offer->setFile($request->get('file'));
+        $offer->setEmail($request->get('email'));
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($offer);
+        $em->flush();
+        $normalizer = new ObjectNormalizer();
+        $serializer = new Serializer(array(new DateTimeNormalizer(), $normalizer));
+        $data = $serializer->normalize($offer);
+        return new JsonResponse($data);
     }
 
     /**
