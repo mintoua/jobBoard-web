@@ -10,6 +10,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class DemandeRecrutementController extends AbstractController
 {
@@ -96,7 +99,7 @@ class DemandeRecrutementController extends AbstractController
     public function listapp($id, Request $request, PaginatorInterface $pag)
     {
         $b = $this->getDoctrine()->getRepository(DemandeRecrutement::class);
-        $use = $this->getDoctrine()->getRepository(User::class)->find( $id);
+        $use = $this->getDoctrine()->getRepository(User::class)->find($id);
         $off = $use->getApplies();
 
         if ($off->isEmpty() || $off == null) {
@@ -127,5 +130,45 @@ class DemandeRecrutementController extends AbstractController
         return $this->render('demande_recrutement/appliedjobs.html.twig', [
             'list' => $jobs, 'nb' => $count, 'mes' => '', 'status' => $stat
         ]);
+    }
+
+    /**
+     * @Route("/applyjson", name="applyjson")
+     */
+    public function addappjson(Request $request, \Swift_Mailer $mailer)
+    {
+        $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
+        $content = $request->getContent();
+        $var = json_decode($content);
+        $apply = new DemandeRecrutement();
+
+        $r = $this->getDoctrine()->getRepository(OffreEmploi::class);
+        $job = $r->find($var->{'offer'}->{'id'});
+        $a = $this->getDoctrine()->getRepository(User::class);
+        $user = $a->find($var->{'user'}->{'id'});
+        $b = $this->getDoctrine()->getRepository(DemandeRecrutement::class);
+
+        $apply->setOffre($job);
+        $apply->setStatus(false);
+        $apply->setCandidat($user);
+        $apply->setDateDebut(new \DateTime('now'));
+        $exp = new \DateTime('now + 10 day');
+        $apply->setDateexpiration($exp);
+        if ($b->finddemande($id, $user->getId()) == null) {
+            $em = $this->getDoctrine()->getManager();
+            $user->addApply($apply);
+            $em->persist($apply);
+            $em->flush();
+            $message = (new \Swift_Message('Nouvelle demande de recrutement !'))
+                ->setFrom('jobhubwebsiteesprit@gmail.com')
+                ->setTo('oussema.makni@esprit.tn')
+                ->setBody($this->renderView('demande_recrutement/email.html.twig', ['c' => $job]), 'text/html');
+
+            $mailer->send($message);
+            $mes = "Job Applied";
+        } else {
+            $mes = "Job Application Exist";
+        }
+        return new Response($mes);
     }
 }
