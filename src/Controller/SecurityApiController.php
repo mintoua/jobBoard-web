@@ -4,13 +4,16 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\User\RegistrationType;
+use App\Form\UserType;
 use App\Security\LoginFormAuthenticator;
+use App\Service\FileUploader;
 use App\Service\TokenGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\Array_;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,6 +24,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Validator\Constraints\Json;
 use Symfony\Component\Validator\Exception\ValidatorException;
 
 /**
@@ -67,11 +71,11 @@ class SecurityApiController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      * methods={"GET"}
      */
-    public function register(Request $request,TokenGenerator $tokenGenerator, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em)
+    public function register(Request $request,TokenGenerator $tokenGenerator, UserPasswordEncoderInterface $encoder, EntityManagerInterface $em)
     {
-        if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
+       /* if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return new JsonResponse('Already connected');
-        }
+        } */
         $user = new User();
         $user->setFirstName($request->get('firstName'));
         $user->setLastName($request->get('lastName'));
@@ -79,11 +83,9 @@ class SecurityApiController extends AbstractController
         $user->setPhone($request->get('phone'));
         $user->setAdresse($request->get('adresse'));
         $user->setProfessionalTitle($request->get('professionalTitle'));
-        $plainpassword = $request->get('password');
-        $password1 = '';
-        $passwordEncoder->encodePassword($plainpassword, $password1);
-        $user->setPassword($password1);
-        $user->setPassword($request->get('password'));
+
+        $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
+
         $user->setEmail($request->get('email'));
         $role = array("ROLE_USER");
          $user->setRoles($request->get('roles',$role));
@@ -118,6 +120,44 @@ class SecurityApiController extends AbstractController
         $data = $serializer->normalize($candidate,null, array('attributes'=>array('firstName','lastName','dateOfBirth'
         ,'phone','adresse','professionalTitle')));
         return new JsonResponse($data);
+
+    }
+    /**
+     * @Route("/editProfileApi", name="candidateprofileEdit")
+     * @param Request $request
+     * @param FileUploader $fileUploader
+     * @return RedirectResponse|Response
+     */
+    public function editUserInfo(Request $request, FileUploader $fileUploader, UserPasswordEncoderInterface $encoder)
+    {
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return new JsonResponse('Please SignIn');}
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $loggedUser = $this->getDoctrine()->getRepository(User::class)->find($user);
+
+        $loggedUser->setEmail($request->get('email'));
+        $loggedUser->setFirstName($request->get('firstName'));
+        $loggedUser->setLastName($request->get('lastName'));
+        $loggedUser->setDateOfBirth(new \DateTime($request->get('dateOfBirth')));
+        $loggedUser->setPhone($request->get('phone'));
+        $loggedUser->setAdresse($request->get('adresse'));
+        $loggedUser->setProfessionalTitle($request->get('professionalTitle'));
+        $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
+
+   /*     if ($form->isSubmitted() && $form->isValid()) {
+            /**
+             * @var UploadedFile $image
+
+            $image = $form->get('imageName')->getData();
+            if ($image) {
+                $newFilename = $fileUploader->upload($image);
+                $user->setImageName($newFilename);
+            }*/
+            $em->persist($user);
+
+            $em->flush();
+            return new JsonResponse('User Edited');
 
     }
 

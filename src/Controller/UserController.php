@@ -98,12 +98,8 @@ class UserController extends AbstractController
 
             }
         }
-
-
         // last username entered by the user
         $error = $authenticationUtils->getLastAuthenticationError();
-
-
         return $this->render('user/security/register.html.twig', [
             'form' => $form->createView(),
             'error' => $error,

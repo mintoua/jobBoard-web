@@ -7,8 +7,6 @@
  */
 
 namespace App\Controller;
-
-
 use App\Entity\User;
 use App\Form\User\RegistrationType;
 use App\Form\User\RequestResetPasswordType;
@@ -31,13 +29,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Exception\ValidatorException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\Validator\Constraints\File;
 /**
  * @Route("/userApi", name="user_")
  */
@@ -158,9 +152,7 @@ class UserApiController extends AbstractController
          $user = $this->getUser();
         $form = $this->createForm(ResetPasswordType::class, $user);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-
             $user = $form->getData();
             $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
             $user->setToken(null);

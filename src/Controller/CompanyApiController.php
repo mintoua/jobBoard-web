@@ -91,7 +91,6 @@ class CompanyApiController extends AbstractController
             $em->persist($company);
             $em->flush();
             return new JsonResponse('Company Edited');
-
         }
 
             }
@@ -100,7 +99,6 @@ class CompanyApiController extends AbstractController
      *
      * @Route("/all", name="companies_list")
      */
-
     public function ShowCompanies(Request $request, PaginatorInterface $paginator)
     {
         $em = $this->getDoctrine()->getManager();
