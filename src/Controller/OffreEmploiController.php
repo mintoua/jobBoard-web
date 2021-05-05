@@ -287,7 +287,7 @@ class OffreEmploiController extends AbstractController
         //relation //circular  referance
         $data = $serializer->normalize($offers, null, array('attributes' => array(
             'id', 'titre', 'poste', 'description', 'date_debut',
-            'date_expiration', 'maxSalary', 'minSalary', 'location', 'file', 'email', 'categorie' => ['id'], 'applies' => ['id']
+            'date_expiration', 'maxSalary', 'minSalary', 'location', 'file', 'email', 'categorie' => ['id', 'titre'], 'applies' => ['id']
         )));
         //$data = $serializer->normalize($offers, 'json');
         return new JsonResponse($data);
@@ -335,7 +335,7 @@ class OffreEmploiController extends AbstractController
         $serializer = new Serializer(array(new DateTimeNormalizer(), $normalizer));
         $data = $serializer->normalize($offer, null, array('attributes' => array(
             'id', 'titre', 'poste', 'description', 'date_debut',
-            'date_expiration', 'maxSalary', 'minSalary', 'location', 'file', 'email', 'categorie' => ['id'], 'applies' => ['id']
+            'date_expiration', 'maxSalary', 'minSalary', 'location', 'file', 'email', 'categorie' => ['id', 'titre'], 'applies' => ['id']
         )));
         return new JsonResponse($data);
         /*
@@ -393,7 +393,7 @@ class OffreEmploiController extends AbstractController
         $serializer = new Serializer(array(new DateTimeNormalizer(), $normalizer));
         $data = $serializer->normalize($offer, null, array('attributes' => array(
             'id', 'titre', 'poste', 'description', 'date_debut',
-            'date_expiration', 'maxSalary', 'minSalary', 'location', 'file', 'email', 'categorie' => ['id'], 'applies' => ['id']
+            'date_expiration', 'maxSalary', 'minSalary', 'location', 'file', 'email', 'categorie' => ['id', 'titre'], 'applies' => ['id']
         )));
         return new Response("updated");
     }
@@ -431,7 +431,7 @@ class OffreEmploiController extends AbstractController
         $var = json_decode($content);
         $app = $this->getDoctrine()->getRepository(DemandeRecrutement::class)->findBy(['offre' => $var->{'id'}]);
         $data = $serializer->normalize($app, null, array('attributes' => array(
-            'id', 'offre' => ['id'], 'candidat' => ['id'], 'status', 'date_debut', 'date_expiration'
+            'id', 'offre' => ['id', 'titre'], 'candidat' => ['id', 'firstName', 'lastName'], 'status', 'date_debut', 'date_expiration'
         )));
         return new JsonResponse($data);
     }

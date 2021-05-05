@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
@@ -168,5 +169,20 @@ class DemandeRecrutementController extends AbstractController
             $mes = "Job Application Exist";
         }
         return new Response($mes);
+    }
+
+    /**
+     * @Route("/listappjson", name="listappjson")
+     */
+    public function listappjson(Request $request)
+    {
+        $b = $this->getDoctrine()->getRepository(DemandeRecrutement::class);
+        $use = $this->getDoctrine()->getRepository(User::class)->find(5/*$request->query->get('userid')*/);
+        $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
+        $apps = $use->getApplies();
+        $data = $serializer->normalize($apps, null, array('attributes' => array(
+            'id', 'offre' => ['id', 'titre'], 'candidat' => ['id', 'firstName', 'lastName'], 'dateDebut', 'dateexpiration', 'status'
+        )));
+        return new JsonResponse($data);
     }
 }
