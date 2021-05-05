@@ -64,9 +64,11 @@ class ProductController extends AbstractController
      * 
      *@Route("/product_list", name="product_list")
      */
-    public function readProducts(){
+    public function readProducts(NormalizerInterface $normalizer){
         $read = $this->getDoctrine()->getRepository(Products::class);
         $products = $read->findAll();
+        
+      //  $jsonContent = $normalizer->normalize($products,'json',['groups'=>'post:read']);
 
         return $this->render('product/readProduct.html.twig',
         ['products'=>$products]);
@@ -152,5 +154,16 @@ class ProductController extends AbstractController
         $retour= json_encode($jsonContent);
         return new Response($retour);
 
+    }
+
+    /**
+     * @Route("/list_products", name="list_products")
+     */
+    public function getAllProducts(ProductsRepository $rep, NormalizerInterface $normalizer){
+        $products = $rep->findAll();
+        $jsonContent = $normalizer->normalize($products, 'json',['groups'=>'post:read']);
+        $retour = json_encode($jsonContent);
+
+        return new Response($retour);
     }
 }

@@ -4,18 +4,20 @@ namespace App\Controller;
 
 use App\Entity\Order;
 use App\Entity\ProductCart;
+use App\Service\Cart\CartService;
 use App\Repository\OrderRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\Cart\CartService;
+use App\Notifications\CreationComteNotification;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use App\Notifications\CreationComteNotification;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class OrderController extends AbstractController
 {
@@ -154,6 +156,19 @@ class OrderController extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute("order_list");
+    }
+
+    /**
+     * Undocumented function
+     *@Route("/addOrderMobile/{total}/{etat}/{date}/{idUser}", name="addOrderMobile")
+     */
+    public function addOrderMobile($total,$etat,$date,$idUser, EntityManagerInterface $em){
+       
+        $order = new Order($idUser,$total,$etat,$date);
+        $em->persist($order);
+        $em->flush();
+
+        return new Response('Order add successfully');
     }
 
 }
