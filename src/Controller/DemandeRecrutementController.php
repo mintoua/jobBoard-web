@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
@@ -138,14 +139,12 @@ class DemandeRecrutementController extends AbstractController
     public function addappjson(Request $request, \Swift_Mailer $mailer)
     {
         $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
-        $content = $request->getContent();
-        $var = json_decode($content);
         $apply = new DemandeRecrutement();
 
         $r = $this->getDoctrine()->getRepository(OffreEmploi::class);
-        $job = $r->find($var->{'offer'}->{'id'});
+        $job = $r->find($request->query->get('idoffer'));
         $a = $this->getDoctrine()->getRepository(User::class);
-        $user = $a->find($var->{'user'}->{'id'});
+        $user = $a->find($request->query->get('iduser'));
         $b = $this->getDoctrine()->getRepository(DemandeRecrutement::class);
 
         $apply->setOffre($job);
@@ -154,7 +153,7 @@ class DemandeRecrutementController extends AbstractController
         $apply->setDateDebut(new \DateTime('now'));
         $exp = new \DateTime('now + 10 day');
         $apply->setDateexpiration($exp);
-        if ($b->finddemande($id, $user->getId()) == null) {
+        if ($b->finddemande($job->getId(), $user->getId()) == null) {
             $em = $this->getDoctrine()->getManager();
             $user->addApply($apply);
             $em->persist($apply);
@@ -163,7 +162,6 @@ class DemandeRecrutementController extends AbstractController
                 ->setFrom('jobhubwebsiteesprit@gmail.com')
                 ->setTo('oussema.makni@esprit.tn')
                 ->setBody($this->renderView('demande_recrutement/email.html.twig', ['c' => $job]), 'text/html');
-
             $mailer->send($message);
             $mes = "Job Applied";
         } else {
