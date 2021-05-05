@@ -41,8 +41,6 @@ class CartController extends AbstractController
         return $this->redirectToRoute("cart");
     }
 
-
-
     /**
      * @Route("/cart/remove/{id}", name="cart_remove")
      */
@@ -94,8 +92,6 @@ class CartController extends AbstractController
         
         return new Response('Product cart add successfully');
     }
-
-    
 
 
 }
