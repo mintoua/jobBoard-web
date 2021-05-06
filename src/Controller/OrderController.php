@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class OrderController extends AbstractController
@@ -79,7 +80,7 @@ class OrderController extends AbstractController
         $idUser = 1;
         $totalPayment = $cartService->getTotal();
         $state = false;
-        $date = date('Y/m/d');
+        $date = date('Y-m-d h:i:sa');
         $order = new Order($idUser,$totalPayment,$state,$date);
  
         $em = $this->getDoctrine()->getManager();
@@ -169,6 +170,21 @@ class OrderController extends AbstractController
         $em->flush();
 
         return new Response('Order add successfully');
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param OrderRepository $rep
+     * @param NormalizerInterface $normalizer
+     * @Route("/getLastOrderMobile", name="getLastOrderMobile")
+     */
+    public function getLastOrder(OrderRepository $rep, NormalizerInterface $normalizer){
+        $order = $rep->getLastOrder();
+        $jsonContent = $normalizer->normalize($order,'json');
+        $retour = json_encode($jsonContent);
+
+        return new Response($retour);
     }
 
 }

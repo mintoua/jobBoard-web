@@ -97,4 +97,5 @@ class ProductsRepository extends ServiceEntityRepository
             ->setParameter('name', '%'.$name.'%')
             ->getQuery()->getResult();
     }
+
 }

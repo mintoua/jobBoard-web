@@ -166,4 +166,6 @@ class ProductController extends AbstractController
 
         return new Response($retour);
     }
+
+
 }

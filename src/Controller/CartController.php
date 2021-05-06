@@ -3,7 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\ProductCart;
+use App\Entity\Products;
+use App\Entity\Order;
+use App\Repository\OrderRepository;
 use App\Repository\ProductCartRepository;
+use App\Repository\ProductsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\Cart\CartService;
@@ -84,8 +88,10 @@ class CartController extends AbstractController
      * @param EntityManagerInterface $em
      * @Route("/addCartMobile/{qty}/{idOrder}/{idProduct}", name="addCartMobile")
      */
-    public function addCartMobile($idOrder,$idProduct,$qty,EntityManagerInterface $em){
-
+    public function addCartMobile($idOrder,$idProduct,$qty,EntityManagerInterface $em, OrderRepository $repOrder,ProductsRepository $reP){
+        
+        $idOrder = $repOrder->find($idOrder);
+        $idProduct = $reP->find($idProduct);
         $cart = new ProductCart($idOrder,$idProduct,$qty);
         $em->persist($cart);
         $em->flush();
