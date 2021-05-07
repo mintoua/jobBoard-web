@@ -290,6 +290,7 @@ class OffreEmploiController extends AbstractController
             'date_expiration', 'maxSalary', 'minSalary', 'location', 'file', 'email', 'categorie' => ['id', 'titre'], 'applies' => ['id']
         )));
         //$data = $serializer->normalize($offers, 'json');
+
         return new JsonResponse($data);
     }
 
@@ -433,6 +434,17 @@ class OffreEmploiController extends AbstractController
         $data = $serializer->normalize($app, null, array('attributes' => array(
             'id', 'offre' => ['id', 'titre'], 'candidat' => ['id', 'firstName', 'lastName'], 'status', 'date_debut', 'date_expiration'
         )));
+        return new JsonResponse($data);
+    }
+
+    /**
+     * @Route("/data", name="data")
+     */
+    public function data(OffreEmploiRepository $repo)
+    {
+        $data = $repo->countByDate();
+        $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
+        $data = $serializer->normalize($data, 'json');
         return new JsonResponse($data);
     }
 }
