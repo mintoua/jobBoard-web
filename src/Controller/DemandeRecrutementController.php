@@ -8,6 +8,7 @@ use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -132,6 +133,18 @@ class DemandeRecrutementController extends AbstractController
         return $this->render('demande_recrutement/appliedjobs.html.twig', [
             'list' => $jobs, 'nb' => $count, 'mes' => '', 'status' => $stat
         ]);
+    }
+
+
+    /**
+     * @Route("/deleteofferjson", name="deleteofferjson")
+     */
+    public function deleteofferjson(Request $req, EntityManagerInterface $em)
+    {
+        $job = $this->getDoctrine()->getRepository(DemandeRecrutement::class)->find($req->query->get('id'));
+        $em->remove($job);
+        $em->flush();
+        return new Response("deleted");
     }
 
     /**

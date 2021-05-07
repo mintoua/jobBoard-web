@@ -59,11 +59,18 @@ class OffreEmploiRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    public function fiind()
+    {
+        return $this->createQueryBuilder('u')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function countsearch($title, $location, $secteur)
     {
         return $this->createQueryBuilder('u')
             ->select('count(u)')
-            ->innerJoin('u.categorie','c')
+            ->innerJoin('u.categorie', 'c')
             ->where('c.titre LIKE :s')
             ->andWhere('u.titre LIKE :t and u.location LIKE :l and u.date_expiration > CURRENT_DATE()')
             ->setParameter(':t', '%' . $title . '%')
@@ -77,7 +84,7 @@ class OffreEmploiRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('u')
             ->select('u')
-            ->innerJoin('u.categorie','c')
+            ->innerJoin('u.categorie', 'c')
             ->where('c.titre LIKE :s')
             ->andWhere('u.titre LIKE :t and u.location LIKE :l and u.date_expiration > CURRENT_DATE()')
             ->setParameter(':t', '%' . $title . '%')
@@ -98,6 +105,16 @@ class OffreEmploiRepository extends ServiceEntityRepository
         }
 
         return $query->orderBy('u.date_debut', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function countByDate()
+    {
+        return $this->createQueryBuilder('u')
+            ->select('count(u.id) as nbr,c.titre as titre,c.couleur as color')
+            ->innerJoin('u.categorie', 'c')
+            ->groupBy('titre')
             ->getQuery()
             ->getResult();
     }
