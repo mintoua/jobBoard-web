@@ -285,6 +285,7 @@ class OffreEmploiController extends AbstractController
         $offers = $repo->findAll();
         $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
         //relation //circular  referance
+        //dump($offers);
         $data = $serializer->normalize($offers, null, array('attributes' => array(
             'id', 'titre', 'poste', 'description', 'date_debut',
             'date_expiration', 'maxSalary', 'minSalary', 'location', 'file', 'email', 'categorie' => ['id', 'titre'], 'applies' => ['id']
@@ -321,8 +322,7 @@ class OffreEmploiController extends AbstractController
         $offer->setIdCandidat(null);
         $offer->setDescription($request->query->get('description'));
         $offer->setDateDebut(new \DateTime('now'));
-        $offer->setDateExpiration(new \DateTime('now + 10 days'));
-        //$request->query->get('date_expiration')
+        $offer->setDateExpiration(new \DateTime($request->query->get('date_expiration')));
         $offer->setMaxSalary($request->query->get('maxSalary'));
         $offer->setMinSalary($request->query->get('minSalary'));
         $offer->setLocation($request->query->get('location'));
@@ -339,34 +339,6 @@ class OffreEmploiController extends AbstractController
             'date_expiration', 'maxSalary', 'minSalary', 'location', 'file', 'email', 'categorie' => ['id', 'titre'], 'applies' => ['id']
         )));
         return new JsonResponse($data);
-        /*
-        $content = $request->getContent();
-        $var = json_decode($content);
-        $offer = new OffreEmploi();
-        $offer->setTitre($var->{'titre'});
-        $offer->setPoste($var->{'poste'});
-        $offer->setIdRecruteur(null);
-        $offer->setIdCandidat(null);
-        $offer->setDescription($var->{'description'});
-        $offer->setDateDebut(new \DateTime('now'));
-        $offer->setDateExpiration(new \DateTime('now'));
-        $offer->setMaxSalary($var->{'maxSalary'});
-        $offer->setMinSalary($var->{'minSalary'});
-        $offer->setLocation($var->{'location'});
-        $offer->setCategorie($categ->find($var->{'categ'}));
-        $offer->setFile($var->{'file'});
-        $offer->setEmail($var->{'email'});
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($offer);
-        $em->flush();
-        $normalizer = new ObjectNormalizer();
-        $serializer = new Serializer(array(new DateTimeNormalizer(), $normalizer));
-        $data = $serializer->normalize($offer, null, array('attributes' => array(
-            'id', 'titre', 'poste', 'description', 'date_debut',
-            'date_expiration', 'maxSalary', 'minSalary', 'location', 'file', 'email', 'categorie' => ['id'], 'applies' => ['id']
-        )));
-        return new JsonResponse($data);
-        */
     }
 
     /**
@@ -380,7 +352,7 @@ class OffreEmploiController extends AbstractController
         $offer->setIdRecruteur(null);
         $offer->setIdCandidat(null);
         $offer->setDescription($request->query->get('description'));
-        //$offer->setDateExpiration($request->query->get('date_expiration'));
+        $offer->setDateExpiration(new \DateTime($request->query->get('date_expiration')));
         $offer->setMaxSalary($request->query->get('maxSalary'));
         $offer->setMinSalary($request->query->get('minSalary'));
         $offer->setLocation($request->query->get('location'));
