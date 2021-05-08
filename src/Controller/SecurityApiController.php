@@ -26,7 +26,7 @@ use Symfony\Component\Serializer\Serializer;
  * @Route("/api", name="security_")
  */
 class SecurityApiController extends AbstractController
-{
+{/*
     private $entityManager;
     private $passwordEncoder;
 
@@ -34,13 +34,12 @@ class SecurityApiController extends AbstractController
     {
         $this->entityManager = $entityManager;
         $this->passwordEncoder = $passwordEncoder;
-    }
+    }*/
     /**
      * @Route("/loginApiTest", name="loginApiTest")
      * @return Response
-     * methods={"GET"}
      */
-    public function login(Request $request, UserPasswordEncoder $encoder, GuardAuthenticatorHandler $authenticatorHandler, LoginFormAuthenticator $loginFormAuthenticator): Response
+    public function login(Request $request): Response
     {
         $email = $request->query->get("email");
         $password = $request->query->get("password");
@@ -49,7 +48,8 @@ class SecurityApiController extends AbstractController
         $user = $em->getRepository(User::class)->findOneBy(['email'=>$email]);
         if($user){
             if(password_verify($password,$user->getPassword())) {
-                $serializer = new Serializer([new ObjectNormalizer()]);
+                $normalizer = new ObjectNormalizer();
+                $serializer = new Serializer(array(new DateTimeNormalizer(), $normalizer));
                 $formatted = $serializer->normalize($user);
                 return new JsonResponse($formatted);
             }
@@ -68,9 +68,8 @@ class SecurityApiController extends AbstractController
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param EntityManagerInterface $em
      * @return \Symfony\Component\HttpFoundation\JsonResponse
-     * methods={"GET"}
      */
-    public function register(Request $request, TokenGenerator $tokenGenerator, UserPasswordEncoderInterface $encoder, EntityManagerInterface $em)
+    public function register(Request $request,  UserPasswordEncoderInterface $encoder)
     {
         /* if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
              return new JsonResponse('Already connected');
@@ -93,8 +92,6 @@ class SecurityApiController extends AbstractController
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
             return new JsonResponse("Please enter a valid email");
         }
-
-
         $user->setEmail();
         $role = array("ROLE_USER");
         $user->setRoles($request->get('roles', $role));
