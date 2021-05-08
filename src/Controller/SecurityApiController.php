@@ -13,11 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
@@ -26,54 +22,52 @@ use Symfony\Component\Serializer\Serializer;
  * @Route("/api", name="security_")
  */
 class SecurityApiController extends AbstractController
-{/*
-    private $entityManager;
-    private $passwordEncoder;
+{
 
-    public function __construct(EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder)
-    {
-        $this->entityManager = $entityManager;
-        $this->passwordEncoder = $passwordEncoder;
-    }*/
+
     /**
      * @Route("/loginApiTest", name="loginApiTest")
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $encoder
      * @return Response
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    public function login(Request $request): Response
+    public function login(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
         $email = $request->query->get("email");
         $password = $request->query->get("password");
 
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository(User::class)->findOneBy(['email'=>$email]);
-        if($user){
-            if(password_verify($password,$user->getPassword())) {
+        $user = $em->getRepository(User::class)->findOneBy(['email' => $email]);
+
+        $validPassword = $encoder->isPasswordValid($user, $password);
+        if ($user) {
+            if ($validPassword) {
                 $normalizer = new ObjectNormalizer();
                 $serializer = new Serializer(array(new DateTimeNormalizer(), $normalizer));
                 $formatted = $serializer->normalize($user);
                 return new JsonResponse($formatted);
-            }
-            else {
+            } else {
                 return new Response("Wrong Password");
             }
-        }
-        else {
+        } else {
             return new Response("Please verify your username or password");
 
         }
     }
+
     /**
      * @Route("/register", name="register_api")
      * @param Request $request
-     * @param UserPasswordEncoderInterface $passwordEncoder
-     * @param EntityManagerInterface $em
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @param UserPasswordEncoderInterface $encoder
+     * @return JsonResponse
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    public function register(Request $request,  UserPasswordEncoderInterface $encoder)
+    public function register(Request $request, UserPasswordEncoderInterface $encoder)
     {
-        /* if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
              return new JsonResponse('Already connected');
-         } */
+         }
         $user = new User();
         $user->setFirstName($request->get('firstName'));
         $user->setLastName($request->get('lastName'));
@@ -89,10 +83,10 @@ class SecurityApiController extends AbstractController
             )
         );
         $email = $request->get('email');
-        if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return new JsonResponse("Please enter a valid email");
         }
-        $user->setEmail();
+        $user->setEmail($request->get('email'));
         $role = array("ROLE_USER");
         $user->setRoles($request->get('roles', $role));
         $user->setIsActive($request->get('isActive', true));
@@ -102,8 +96,9 @@ class SecurityApiController extends AbstractController
         $normalizer = new ObjectNormalizer();
         $serializer = new Serializer(array(new DateTimeNormalizer(), $normalizer));
         $data = $serializer->normalize($user);
-        return new JsonResponse("Account Created",200 );
+        return new JsonResponse("Account Created", 200);
     }
+
     /**
      * @Route("/logout", name="logout")
      * @throws \Exception
@@ -113,6 +108,7 @@ class SecurityApiController extends AbstractController
         throw new \Exception('Don\'t forget to activate logout in security.yaml');
         return $this->redirectToRoute('security_login');
     }
+
     /**
      * @Route("/candidatesApi", name="candidates_list")
      *
@@ -125,6 +121,7 @@ class SecurityApiController extends AbstractController
         , 'phone', 'adresse', 'professionalTitle')));
         return new JsonResponse($data);
     }
+
     /**
      * @Route("/editProfileApi", name="candidateprofileEdit")
      * @param Request $request

@@ -14,8 +14,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use InvalidArgumentException;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -23,7 +23,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity()
  * @UniqueEntity(fields={"email"}, message="user.exists")
  */
-class User implements AdvancedUserInterface, \Serializable
+class User implements UserInterface, \Serializable
 {
     /**
      * @ORM\Column(type="integer")
@@ -87,10 +87,7 @@ class User implements AdvancedUserInterface, \Serializable
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
-    /**
-     * @ORM\Column(name="salt", type="string")
-     */
-    private $salt;
+
     /**
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
@@ -384,17 +381,7 @@ class User implements AdvancedUserInterface, \Serializable
         return $this->getEmail();
     }
 
-    public function getSalt()
-    {
-        return $this->getSalt();
-    }
-    /**
-     * @param mixed $salt
-     */
-    public function setSalt($salt)
-    {
-        $this->salt = $salt;
-    }
+
 
     public function eraseCredentials()
     {
@@ -436,7 +423,6 @@ class User implements AdvancedUserInterface, \Serializable
             $this->phone,
             $this->roles,
             $this->password,
-            $this->salt,
             $this->isActive,
 
         ));
@@ -453,7 +439,6 @@ class User implements AdvancedUserInterface, \Serializable
             $this->phone,
             $this->roles,
             $this->password,
-            $this->salt,
             $this->isActive,
 
             ) = unserialize($serialized);
@@ -525,5 +510,8 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
 
-
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
 }

@@ -2,6 +2,6 @@ index:
   path: /
   controller: App\Controller\DefaultController::index
 login:
-  path:       /loginApi
+  path:       /loginApiTest
   controller: App\Controller\SecurityApiController::login
   methods: POST
