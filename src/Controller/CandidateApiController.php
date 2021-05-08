@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Controller;
-
 use App\Entity\CandidateResume;
 use App\Entity\Education;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

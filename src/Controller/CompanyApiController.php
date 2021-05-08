@@ -122,7 +122,6 @@ class CompanyApiController extends AbstractController
         $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
         $data = $serializer->normalize($company);
         return new JsonResponse($data);
-
     }
     /**
      * @Route("/findCompanies", name="Companies_filter")

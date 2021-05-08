@@ -87,7 +87,10 @@ class User implements AdvancedUserInterface, \Serializable
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
-
+    /**
+     * @ORM\Column(name="salt", type="string")
+     */
+    private $salt;
     /**
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
@@ -112,7 +115,6 @@ class User implements AdvancedUserInterface, \Serializable
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $adresse;
-
 
 
     public function getImageName()
@@ -142,7 +144,6 @@ class User implements AdvancedUserInterface, \Serializable
     {
         $this->adresse = $adresse;
     }
-
 
     /**
      * @ORM\OneToMany(targetEntity=OffreEmploi::class, mappedBy="idRecruteur")
@@ -330,7 +331,6 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
 
-
     /**
      * @return mixed
      */
@@ -386,7 +386,14 @@ class User implements AdvancedUserInterface, \Serializable
 
     public function getSalt()
     {
-        return null;
+        return $this->getSalt();
+    }
+    /**
+     * @param mixed $salt
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
     }
 
     public function eraseCredentials()
@@ -429,6 +436,7 @@ class User implements AdvancedUserInterface, \Serializable
             $this->phone,
             $this->roles,
             $this->password,
+            $this->salt,
             $this->isActive,
 
         ));
@@ -445,9 +453,10 @@ class User implements AdvancedUserInterface, \Serializable
             $this->phone,
             $this->roles,
             $this->password,
+            $this->salt,
             $this->isActive,
 
-        ) = unserialize($serialized);
+            ) = unserialize($serialized);
     }
 
     public function getActivatedAt(): ?\DateTimeInterface

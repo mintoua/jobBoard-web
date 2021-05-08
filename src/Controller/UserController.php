@@ -124,7 +124,6 @@ class UserController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->persist($user);
         $em->flush();
-
         $this->addFlash('success', 'user.welcome');
 
         // automatic login
