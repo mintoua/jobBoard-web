@@ -3,10 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Security\LoginFormAuthenticator;
 use App\Service\FileUploader;
-use App\Service\TokenGenerator;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,11 +45,10 @@ class SecurityApiController extends AbstractController
                 $formatted = $serializer->normalize($user);
                 return new JsonResponse($formatted);
             } else {
-                return new Response("Wrong Password");
+                return new JsonResponse(['error' => "Wrong Password"],403 );
             }
         } else {
-            return new Response("Please verify your username or password");
-
+            return new JsonResponse(['error' => "Please verify your username or password"],403  );
         }
     }
 
@@ -66,8 +62,8 @@ class SecurityApiController extends AbstractController
     public function register(Request $request, UserPasswordEncoderInterface $encoder)
     {
         if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
-             return new JsonResponse('Already connected');
-         }
+            return new JsonResponse('Already connected');
+        }
         $user = new User();
         $user->setFirstName($request->get('firstName'));
         $user->setLastName($request->get('lastName'));
