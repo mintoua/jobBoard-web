@@ -285,7 +285,7 @@ class OffreEmploiController extends AbstractController
         $offers = $repo->findAll();
         $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
         //relation //circular  referance
-        //dump($offers);
+        dump($offers);
         $data = $serializer->normalize($offers, null, array('attributes' => array(
             'id', 'titre', 'poste', 'description', 'date_debut',
             'date_expiration', 'maxSalary', 'minSalary', 'location', 'file', 'email', 'categorie' => ['id', 'titre'], 'applies' => ['id']

@@ -61,26 +61,39 @@ class CommentController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $event = $this->getDoctrine()->getRepository(Event::class)->find($req->query->get('id'));
-        $listCommentaire = $this->getDoctrine()->getRepository(Comment::class)->findBy(array('idEvent' => $event));
-        $nbreC = count($listCommentaire);
         $commentaire = new Comment();
-        if ($req->isMethod('get')) {
-            $today = new \DateTime();
-            $commentaire->setCreatedAt($today);
-            $commentaire->setEmail($req->query->get('email'));
-            $commentaire->setIdEvent($event);
-            $commentaire->setMessage($req->query->get('message'));
-            $commentaire->setName($req->query->get('name'));
-            $commentaire->setPhone($req->query->get('phone'));
-            $em->persist($commentaire);
-            $em->flush();
-            $normalizer = new ObjectNormalizer();
-            $serializer = new Serializer(array(new DateTimeNormalizer(), $normalizer));
-            $data = $serializer->normalize($commentaire, null, array('attributes' => array(
-                'id', 'email', 'message', 'name', 'phone'
-            )));
-            return new JsonResponse($data);
-        }
-        return new JsonResponse($commentaire);
+        $today = new \DateTime();
+        $commentaire->setCreatedAt($today);
+        $commentaire->setEmail($req->query->get('email'));
+        $commentaire->setIdEvent($event);
+        $commentaire->setMessage($req->query->get('message'));
+        $commentaire->setName($req->query->get('name'));
+        $commentaire->setPhone($req->query->get('phone'));
+        $em->persist($commentaire);
+        $em->flush();
+        $listCommentaire = $this->getDoctrine()->getRepository(Comment::class)->findBy(array('idEvent' => $event));
+        $normalizer = new ObjectNormalizer();
+        $serializer = new Serializer(array(new DateTimeNormalizer(), $normalizer));
+        $data = $serializer->normalize($listCommentaire, null, array('attributes' => array(
+            'id', 'email', 'message', 'name', 'phone', 'event' => ['id']
+        )));
+        return new JsonResponse($data);
+    }
+
+
+    /**
+     * @Route("/listcomms", name="listcomms")
+     */
+    function listcomms(Request $req)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $event = $this->getDoctrine()->getRepository(Event::class)->find($req->query->get('id'));
+        $listCommentaire = $this->getDoctrine()->getRepository(Comment::class)->findBy(array('idEvent' => $event));
+        $normalizer = new ObjectNormalizer();
+        $serializer = new Serializer(array(new DateTimeNormalizer(), $normalizer));
+        $data = $serializer->normalize($listCommentaire, null, array('attributes' => array(
+            'id', 'email', 'message', 'name', 'createdAt', 'event' => ['id']
+        )));
+        return new JsonResponse($data);
     }
 }
