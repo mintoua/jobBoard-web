@@ -45,10 +45,10 @@ class SecurityApiController extends AbstractController
                 $formatted = $serializer->normalize($user);
                 return new JsonResponse($formatted);
             } else {
-                return new JsonResponse(['error' => "Wrong Password"],403 );
+                return new JsonResponse(['error' => "Wrong Password"], 403);
             }
         } else {
-            return new JsonResponse(['error' => "Please verify your username or password"],403  );
+            return new JsonResponse(['error' => "Please verify your username or password"], 403);
         }
     }
 
@@ -80,7 +80,7 @@ class SecurityApiController extends AbstractController
         );
         $email = $request->get('email');
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return new JsonResponse("Please enter a valid email");
+            return new JsonResponse("Please enter a valid email", 500);
         }
         $user->setEmail($request->get('email'));
         $role = array("ROLE_USER");
@@ -140,15 +140,16 @@ class SecurityApiController extends AbstractController
         $loggedUser->setAdresse($request->get('adresse'));
         $loggedUser->setProfessionalTitle($request->get('professionalTitle'));
         $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
-        /*     if ($form->isSubmitted() && $form->isValid()) {
-                 /**
-                  * @var UploadedFile $image
-
-                 $image = $form->get('imageName')->getData();
-                 if ($image) {
-                     $newFilename = $fileUploader->upload($image);
-                     $user->setImageName($newFilename);
-                 }*/
+        if ($request->isMethod('post')) {
+            /**
+             * @var UploadedFile $image
+             */
+            $image = $request->get('imageName')->getData();
+            if ($image) {
+                $newFilename = $fileUploader->upload($image);
+                $user->setImageName($newFilename);
+            }
+        }
         $em->persist($user);
         $em->flush();
         return new JsonResponse('User Edited');

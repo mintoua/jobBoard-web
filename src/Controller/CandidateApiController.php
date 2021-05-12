@@ -31,7 +31,7 @@ class CandidateApiController extends AbstractController
         $candidateresume->setResumeHeadline($request->get('ResumeHeadline'));
         $candidateresume->setExperience($request->get('experience'));
         $candidateresume->setSkills($request->get('skills'));
-        $candidateresume->setUserId($request->get('userId',$loggedUser));
+        $candidateresume->setUserId($request->get('userId'));
         $em->persist($candidateresume);
         $em->flush();
         return new JsonResponse('OK');
