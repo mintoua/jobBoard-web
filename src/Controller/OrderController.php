@@ -179,8 +179,9 @@ class OrderController extends AbstractController
      * @param NormalizerInterface $normalizer
      * @Route("/getLastOrderMobile", name="getLastOrderMobile")
      */
-    public function getLastOrder(OrderRepository $rep, NormalizerInterface $normalizer){
+    public function getLastOrderMobile(OrderRepository $rep, NormalizerInterface $normalizer){
         $order = $rep->getLastOrder();
+        //dd($order);
         $jsonContent = $normalizer->normalize($order,'json');
         $retour = json_encode($jsonContent);
 

@@ -51,7 +51,8 @@ class OrderRepository extends ServiceEntityRepository
     
     public function getLastOrder(){
         $em = $this->getEntityManager();
-        $query = $em->createQuery('select * from App\Entity\Order O order by o.id desc limit 1');
+        $query = $em->createQuery('select o from App\Entity\Order o order by o.id desc');
+        $query->setMaxResults(1);
         return $query->getResult();
     }
 }
