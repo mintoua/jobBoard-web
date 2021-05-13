@@ -110,7 +110,7 @@
                         $('#t tbody#search').empty();
                         $.each(JSON.parse(retour), function(i, obj){
                             $('#t tbody#all').hide();
-                            $('#t tbody#search').append('<tr> <td> '+obj.id+' </td><td> '+obj.name+'</td><td> '+obj.description+'</td><td> '+obj.ref+'</td><td> '+obj.quantity+'</td><td> '+obj.price+'</td><td> '+obj.image+'</td><td> <a href="{{ path('updateProduct', {'id': 'obj.id'}) }}" class="btn btn-light"> Edit </a> </td><td> <a href="{{ path('deleteProduct', {'id': 'obj.id'}) }}" class="btn btn-danger btn-sm" > Delete </a> </td> <tr>');
+                            $('#t tbody#search').append('<tr> <td> '+obj.id+' </td><td> '+obj.name+'</td><td> '+obj.description+'</td><td> '+obj.ref+'</td><td> '+obj.quantity+'</td><td> '+obj.price+'</td><td> '+obj.image+'</td><td> <a href="/jobBoard-web/public/index.php/product/updateProduct/'+obj.id+'" class="btn btn-light"> Edit </a> </td><td> <a class="confirmModalLink" href="/jobBoard-web/public/index.php/deleteProduct/'+obj.id+'" > Delete </a> </td> <tr>');
                             
                         }); 
                     }else{
@@ -123,6 +123,7 @@
             return false;
         });
     });
+
 $(document).ready(function () {
     var theHREF;
 

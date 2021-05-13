@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
-    {% block stylesheets %}
+
     <!-- Bootstrap CSS-->
     <link rel="stylesheet" href="{{ asset('BackEnd/vendor/bootstrap/css/bootstrap.min.css') }}">
     <!-- Font Awesome CSS-->
@@ -29,7 +29,10 @@
     <!-- Tweaks for older IEs--><!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+
+    {% block stylesheets %}
     {% endblock %}
+
   </head>
   {% block body %}
   <body>
@@ -171,10 +174,7 @@
       {% endblock %}
     </div>
     <!-- JavaScript files-->
-    {% block jsProducts %}
-
-    {% endblock %}
-    {% block javascipts %}
+    
 
     <script src="BackEnd/vendor/jquery/jquery.min.js"></script>
     <script src="BackEnd/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -185,6 +185,10 @@
     <script src="BackEnd/js/charts-home.js"></script>
     <!-- Main File-->
     <script src="BackEnd/js/front.js"></script>
+
+    {% block javascipts %}
+    {% endblock %}
+    {% block jsProducts %}
     {% endblock %}
   </body>
   {% endblock %}

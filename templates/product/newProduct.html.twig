@@ -1,5 +1,9 @@
 {% extends 'baseback.html.twig' %}
 
+{% block stylesheet %}
+      <link rel="stylesheet" type="text/css" href=" {{ asset('frontOffice/shop/css/bootstrap.min.css') }} ">
+{% endblock %}
+
 {% block contentHeader %}
            <div class="breadcrumb-holder">
         <div class="container-fluid">
@@ -12,11 +16,8 @@
         </div>
       </div>
 {% endblock %}
-{% block stylesheet %}
 
-      <link rel="stylesheet" type="text/css" href=" {{ asset('frontOffice/shop/css/bootstrap.min.css') }} ">{% endblock %}
-
-
+{% block content %}
 
             <div class="card-header d-flex align-items-center">
                 <h4>Fill the form to add a product</h4>
