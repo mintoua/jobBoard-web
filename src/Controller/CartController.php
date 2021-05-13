@@ -3,11 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\ProductCart;
+use App\Entity\Products;
+use App\Entity\Order;
+use App\Repository\OrderRepository;
 use App\Repository\ProductCartRepository;
+use App\Repository\ProductsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\Cart\CartService;
-
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\SerializerInterface;
+use Doctrine\ORM\EntityManagerInterface;
 class CartController extends AbstractController
 {
     /**
@@ -37,8 +44,6 @@ class CartController extends AbstractController
         $cartService->decrease($id);
         return $this->redirectToRoute("cart");
     }
-
-
 
     /**
      * @Route("/cart/remove/{id}", name="cart_remove")
@@ -73,5 +78,26 @@ class CartController extends AbstractController
 
         return $this->redirectToRoute("cart_list");
     }
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $idOrder
+     * @param [type] $idProduct
+     * @param [type] $qty
+     * @param EntityManagerInterface $em
+     * @Route("/addCartMobile/{qty}/{idOrder}/{idProduct}", name="addCartMobile")
+     */
+    public function addCartMobile($idOrder,$idProduct,$qty,EntityManagerInterface $em, OrderRepository $repOrder,ProductsRepository $reP){
+        
+        $idOrder = $repOrder->find($idOrder);
+        $idProduct = $reP->find($idProduct);
+        $cart = new ProductCart($idOrder,$idProduct,$qty);
+        $em->persist($cart);
+        $em->flush();
+        
+        return new Response('Product cart add successfully');
+    }
+
 
 }
