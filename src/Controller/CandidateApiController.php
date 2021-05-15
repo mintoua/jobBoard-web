@@ -31,7 +31,7 @@ class CandidateApiController extends AbstractController
         $candidateresume->setResumeHeadline($request->get('ResumeHeadline'));
         $candidateresume->setExperience($request->get('experience'));
         $candidateresume->setSkills($request->get('skills'));
-        $candidateresume->setUserId($request->get('userId'));
+        $candidateresume->setUserId($request->get('userId',$loggedUser));
         $em->persist($candidateresume);
         $em->flush();
         return new JsonResponse('OK');
@@ -43,9 +43,9 @@ class CandidateApiController extends AbstractController
      */
     public function deleteResumeApi($id)
     {
-        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
-            $this->redirectToRoute('security_login');
-        }
+//        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+//            $this->redirectToRoute('security_login');
+//        }
         $em = $this->getDoctrine()->getManager();
         $resume = $em->getRepository(CandidateResume::class)->find($id);
         if ($resume->getUserId() === $this->getUser()){
@@ -78,7 +78,7 @@ class CandidateApiController extends AbstractController
         $education->setDateFrom(new \DateTime($request->get('dateFrom')));
         $education->setDateTo(new \DateTime($request->get('dateTo')));
         $education->setInstitute($request->get('institute'));
-        $education->setResume($resume);
+        $education->setResume($request->get('resume_id',$resume));
         $em->persist($education);
         $em->flush();
         return new JsonResponse('EDITED');
