@@ -40,18 +40,19 @@ class CompanyApiController extends AbstractController
             return new JsonResponse('Pending Request');
         }
         else{ if(!$company){
-          /*  !$company  && */ $company = new Company();
+            !$company  &&  $company = new Company();
             $company->setCompanyName($request->get('companyName'));
             $company->setContactEmail($request->get('contactEmail'));
             $company->setWebsite($request->get('website'));
             $company->setFoundedDate(new \DateTime($request->get('foundedDate')));
             $company->setCategory($request->get('category'));
-            $company->setCountry($request->get('country'));
+          //  $company->setCountry($request->get('country'));
             $company->setDescription($request->get('description'));
             $company->setContactPhone($request->get('contactPhone'));
             $company->setCompanyAdress($request->get('companyAdress'));
             $company->setFacebookLink($request->get('facebookLink'));
-            $company->setTwitterLink($request->get('twitterLink'));
+         //   $company->setTwitterLink($request->get('twitterLink'));
+
             /*
                         /**
                              * @var UploadedFile $companyimage
@@ -72,12 +73,12 @@ class CompanyApiController extends AbstractController
             $company->setWebsite($request->get('website'));
             $company->setFoundedDate(new \DateTime($request->get('foundedDate')));
             $company->setCategory($request->get('category'));
-            $company->setCountry($request->get('country'));
+        //    $company->setCountry($request->get('country'));
             $company->setDescription($request->get('description'));
             $company->setContactPhone($request->get('contactPhone'));
             $company->setCompanyAdress($request->get('companyAdress'));
             $company->setFacebookLink($request->get('facebookLink'));
-            $company->setTwitterLink($request->get('twitterLink'));
+         //   $company->setTwitterLink($request->get('twitterLink'));
             /*
                         /**
                              * @var UploadedFile $companyimage
