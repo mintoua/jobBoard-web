@@ -4,10 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Company;
 use App\Entity\Rating;
-use App\Form\CompanyprofileType;
 use App\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -32,14 +30,11 @@ class CompanyApiController extends AbstractController
         $em= $this->getDoctrine()->getManager();
         $loggedUser = $this->getUser();
 
-        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return new JsonResponse('Please SignIn');}
+
         $company = $em->getRepository(Company::class)->findOneByUserId($loggedUser);
 
-        if ($company and !$company->getStatus()){
-            return new JsonResponse('Pending Request');
-        }
-        else{ if(!$company){
+
+         if(!$company){
             !$company  &&  $company = new Company();
             $company->setCompanyName($request->get('companyName'));
             $company->setContactEmail($request->get('contactEmail'));
@@ -95,7 +90,7 @@ class CompanyApiController extends AbstractController
         }
 
             }
-    }
+
     /**
      *
      * @Route("/all", name="companies_list")
