@@ -142,7 +142,7 @@ class Event
         return $this->image;
     }
 
-    public function setImage( $image)
+    public function setImage($image)
     {
         $this->image = $image;
 

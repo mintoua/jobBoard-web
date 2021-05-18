@@ -292,6 +292,7 @@ class UserApiController extends AbstractController
      */
 
     public function findCandidate(Request $request, PaginatorInterface $paginator){
+
         $firstName = $request->get('firstName');
         $lastName = $request->get('lastName');
         $professionalTitle = $request->get('professionalTitle');

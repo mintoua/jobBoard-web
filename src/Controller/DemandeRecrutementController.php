@@ -8,8 +8,14 @@ use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class DemandeRecrutementController extends AbstractController
 {
@@ -96,7 +102,7 @@ class DemandeRecrutementController extends AbstractController
     public function listapp($id, Request $request, PaginatorInterface $pag)
     {
         $b = $this->getDoctrine()->getRepository(DemandeRecrutement::class);
-        $use = $this->getDoctrine()->getRepository(User::class)->find( $id);
+        $use = $this->getDoctrine()->getRepository(User::class)->find($id);
         $off = $use->getApplies();
 
         if ($off->isEmpty() || $off == null) {
@@ -127,5 +133,69 @@ class DemandeRecrutementController extends AbstractController
         return $this->render('demande_recrutement/appliedjobs.html.twig', [
             'list' => $jobs, 'nb' => $count, 'mes' => '', 'status' => $stat
         ]);
+    }
+
+
+    /**
+     * @Route("/deleteofferjson", name="deleteofferjson")
+     */
+    public function deleteofferjson(Request $req, EntityManagerInterface $em)
+    {
+        $job = $this->getDoctrine()->getRepository(DemandeRecrutement::class)->find($req->query->get('id'));
+        $em->remove($job);
+        $em->flush();
+        return new Response("deleted");
+    }
+
+    /**
+     * @Route("/applyjson", name="applyjson")
+     */
+    public function addappjson(Request $request, \Swift_Mailer $mailer)
+    {
+        $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
+        $apply = new DemandeRecrutement();
+
+        $r = $this->getDoctrine()->getRepository(OffreEmploi::class);
+        $job = $r->find($request->query->get('idoffer'));
+        $a = $this->getDoctrine()->getRepository(User::class);
+        $user = $a->find($request->query->get('iduser'));
+        $b = $this->getDoctrine()->getRepository(DemandeRecrutement::class);
+
+        $apply->setOffre($job);
+        $apply->setStatus(false);
+        $apply->setCandidat($user);
+        $apply->setDateDebut(new \DateTime('now'));
+        $exp = new \DateTime('now + 10 day');
+        $apply->setDateexpiration($exp);
+        if ($b->finddemande($job->getId(), $user->getId()) == null) {
+            $em = $this->getDoctrine()->getManager();
+            $user->addApply($apply);
+            $em->persist($apply);
+            $em->flush();
+            $message = (new \Swift_Message('Nouvelle demande de recrutement !'))
+                ->setFrom('jobhubwebsiteesprit@gmail.com')
+                ->setTo('oussema.makni@esprit.tn')
+                ->setBody($this->renderView('demande_recrutement/email.html.twig', ['c' => $job]), 'text/html');
+            $mailer->send($message);
+            $mes = "Job Applied";
+        } else {
+            $mes = "Job Application Exist";
+        }
+        return new Response($mes);
+    }
+
+    /**
+     * @Route("/listappjson", name="listappjson")
+     */
+    public function listappjson(Request $request)
+    {
+        $b = $this->getDoctrine()->getRepository(DemandeRecrutement::class);
+        $use = $this->getDoctrine()->getRepository(User::class)->find(5/*$request->query->get('userid')*/);
+        $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
+        $apps = $use->getApplies();
+        $data = $serializer->normalize($apps, null, array('attributes' => array(
+            'id', 'offre' => ['id', 'titre'], 'candidat' => ['id', 'firstName', 'lastName'], 'dateDebut', 'dateexpiration', 'status'
+        )));
+        return new JsonResponse($data);
     }
 }

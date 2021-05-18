@@ -38,26 +38,23 @@ class CandidateApiController extends AbstractController
     }
     /**
      * @param $id
-     * @Route("/deleteresumeApi/{id}", name="deleteresumeApi")
+     * @Route("/deleteresumeApi", name="deleteresumeApi")
      * methods={"GET"}
      */
-    public function deleteResumeApi($id)
+    public function deleteResumeApi(Request $request)
     {
 //        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
 //            $this->redirectToRoute('security_login');
 //        }
+        $id = $request->query->get("id");
         $em = $this->getDoctrine()->getManager();
         $resume = $em->getRepository(CandidateResume::class)->find($id);
-        if ($resume->getUserId() === $this->getUser()){
-            $education = $em->getRepository(Education::class)->findOneByResume($resume);
-            if ($education){
-                $em->remove($education);
-            }
+        if ($resume->getUserId() === $this->getUser(){
             $em->remove($resume);
             $em->flush();
             return new JsonResponse('Deleted');
     }
-        return new JsonResponse('Error');
+        return new JsonResponse('Error not found');
     }
     /**
      * @Route("/resumeEducationApi/{id}", name="resumeEducationApi")

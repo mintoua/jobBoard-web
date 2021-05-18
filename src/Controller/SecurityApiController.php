@@ -3,7 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\User\RequestResetPasswordType;
+use App\Service\CaptchaValidator;
 use App\Service\FileUploader;
+use App\Service\Mailer;
+use App\Service\TokenGenerator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +18,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Validator\Exception\ValidatorException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/api", name="security_")
@@ -113,7 +119,7 @@ class SecurityApiController extends AbstractController
     {
         $candidate = $this->getDoctrine()->getRepository(User::class)->findAll();
         $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
-        $data = $serializer->normalize($candidate, null, array('attributes' => array('firstName', 'lastName', 'dateOfBirth'
+        $data = $serializer->normalize($candidate, null, array('attributes' => array('id','firstName', 'lastName', 'email','dateOfBirth'
         , 'phone', 'adresse', 'professionalTitle')));
         return new JsonResponse($data);
     }
@@ -153,5 +159,41 @@ class SecurityApiController extends AbstractController
         $em->persist($user);
         $em->flush();
         return new JsonResponse('User Edited');
+    }
+
+    /**
+     * @Route("/request-password-api", name="request_password_reset")
+     * @param Request $request
+     * @param TokenGenerator $tokenGenerator
+     * @param Mailer $mailer
+     * @param CaptchaValidator $captchaValidator
+     * @param TranslatorInterface $translator
+     * @return Response
+     * @throws \Throwable
+     */
+    public function requestPasswordResetapi(Request $request, TokenGenerator $tokenGenerator, Mailer $mailer,
+                                         CaptchaValidator $captchaValidator, TranslatorInterface $translator)
+    {
+
+
+        $email = $request->query->get("email");
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository(User::class)->findOneBy(['email' => $email]);
+        if ($user) {
+                $token = $tokenGenerator->generateToken();
+                $user->setToken($token);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
+                $mailer->sendResetPasswordEmailMessage($user);
+                return new JsonResponse("Done Email Has Benn Sent ", 500);
+
+            } else {
+            return new JsonResponse("user not found ", 500);
+
+        }
+
+        return new JsonResponse('User Updated Password');
+
     }
 }
