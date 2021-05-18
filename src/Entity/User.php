@@ -14,8 +14,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use InvalidArgumentException;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -23,7 +23,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity()
  * @UniqueEntity(fields={"email"}, message="user.exists")
  */
-class User implements UserInterface, \Serializable
+class User implements AdvancedUserInterface, \Serializable
 {
     /**
      * @ORM\Column(type="integer")
@@ -85,17 +85,20 @@ class User implements UserInterface, \Serializable
     /**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $createdAt;
 
     /**
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $activatedAt;
 
@@ -112,6 +115,7 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $adresse;
+
 
 
     public function getImageName()
@@ -141,6 +145,7 @@ class User implements UserInterface, \Serializable
     {
         $this->adresse = $adresse;
     }
+
 
     /**
      * @ORM\OneToMany(targetEntity=OffreEmploi::class, mappedBy="idRecruteur")
@@ -328,6 +333,7 @@ class User implements UserInterface, \Serializable
     }
 
 
+
     /**
      * @return mixed
      */
@@ -381,7 +387,10 @@ class User implements UserInterface, \Serializable
         return $this->getEmail();
     }
 
-
+    public function getSalt()
+    {
+        return null;
+    }
 
     public function eraseCredentials()
     {
@@ -441,7 +450,7 @@ class User implements UserInterface, \Serializable
             $this->password,
             $this->isActive,
 
-            ) = unserialize($serialized);
+        ) = unserialize($serialized);
     }
 
     public function getActivatedAt(): ?\DateTimeInterface
@@ -507,11 +516,5 @@ class User implements UserInterface, \Serializable
         }
 
         return $this;
-    }
-
-
-    public function getSalt()
-    {
-        // TODO: Implement getSalt() method.
     }
 }
