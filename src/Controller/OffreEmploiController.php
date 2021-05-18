@@ -285,7 +285,7 @@ class OffreEmploiController extends AbstractController
         $offers = $repo->findAll();
         $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
         //relation //circular  referance
-        dump($offers);
+        //dump($offers);
         $data = $serializer->normalize($offers, null, array('attributes' => array(
             'id', 'titre', 'poste', 'description', 'date_debut',
             'date_expiration', 'maxSalary', 'minSalary', 'location', 'file', 'email', 'categorie' => ['id', 'titre'], 'applies' => ['id']
@@ -388,10 +388,13 @@ class OffreEmploiController extends AbstractController
      */
     public function treatappjson(Request $request, SerializerInterface $ser)
     {
-        $content = $request->getContent();
-        $var = json_decode($content);
-        $this->getDoctrine()->getRepository(DemandeRecrutement::class)->treat($var->{'id'},);
-        return new Response("treated");
+        $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
+        $this->getDoctrine()->getRepository(DemandeRecrutement::class)->treat($request->query->get('id'));
+        $app = $this->getDoctrine()->getRepository(DemandeRecrutement::class)->find($request->query->get('id'));
+        $data = $serializer->normalize($app, null, array('attributes' => array(
+            'id', 'offre' => ['id', 'titre'], 'candidat' => ['id', 'firstName', 'lastName'], 'status', 'date_debut', 'date_expiration'
+        )));
+        return new JsonResponse($data);
     }
 
     /**
