@@ -85,17 +85,20 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $createdAt;
 
     /**
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $activatedAt;
 
@@ -514,7 +517,4 @@ class User implements AdvancedUserInterface, \Serializable
 
         return $this;
     }
-
-
-
 }
