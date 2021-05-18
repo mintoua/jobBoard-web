@@ -186,7 +186,7 @@ class SecurityApiController extends AbstractController
                 $em->persist($user);
                 $em->flush();
                 $mailer->sendResetPasswordEmailMessage($user);
-                return new JsonResponse("Done Email Has Benn Sent ", 200);
+                return new JsonResponse("Email has been sent ", 200);
 
             } else {
             return new JsonResponse("user not found ", 500);
