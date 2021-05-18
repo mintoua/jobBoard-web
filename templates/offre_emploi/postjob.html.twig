@@ -185,16 +185,15 @@ style: google.maps.NavigationControlStyle.ZOOM_PAN
 window.onload = function () { // Fonction d'initialisation qui s'exécute lorsque le DOM est chargé
 initMap();
 };
-			</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5WEs73ZKe8-8YdYVDH8qAhIE38O_njO4&sensor=false&amp;libraries=places"
-            type="text/javascript"></script>
 
-<script type="text/javascript">
-        function initialize() {
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAM6hBJIe9C4K0UcegqEjf6O0psKXNGcQU&sensor=false&amp;libraries=places" type="text/javascript">
+        function initialize1() {
             var input = document.getElementById('offre_emploi_location');
             var autocomplete = new google.maps.places.Autocomplete(input);
         }
 
-        google.maps.event.addDomListener(window, 'load', initialize);
+        google.maps.event.addDomListener(window, 'load', initialize1);
     </script>
 		{% endblock %}

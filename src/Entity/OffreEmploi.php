@@ -73,10 +73,6 @@ class OffreEmploi
      *      type = "\DateTime",
      *      message = "vacancy.date.valid",
      * )
-     * @Assert\GreaterThanOrEqual(
-     *      value = "today",
-     *      message = "vacancy.date.not_today"
-     * )
      */
     private  $date_debut;
 
@@ -85,10 +81,6 @@ class OffreEmploi
      * @Assert\Type(
      *      type = "\DateTime",
      *      message = "vacancy.date.valid",
-     * )
-     * @Assert\GreaterThanOrEqual(
-     *      value = "today",
-     *      message = "vacancy.date.not_today"
      * )
      * @Assert\Expression(
      *     "this.getDateExpiration() >= this.getDateDebut()",

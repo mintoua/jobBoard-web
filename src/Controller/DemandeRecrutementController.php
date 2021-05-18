@@ -137,14 +137,16 @@ class DemandeRecrutementController extends AbstractController
 
 
     /**
-     * @Route("/deleteofferjson", name="deleteofferjson")
+     * @Route("/deleteappjson", name="deleteappjson")
      */
-    public function deleteofferjson(Request $req, EntityManagerInterface $em)
+    public function deleteappjson(Request $req, EntityManagerInterface $em)
     {
-        $job = $this->getDoctrine()->getRepository(DemandeRecrutement::class)->find($req->query->get('id'));
-        $em->remove($job);
-        $em->flush();
-        return new Response("deleted");
+        $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
+        $b = $this->getDoctrine()->getRepository(DemandeRecrutement::class)->delap($req->query->get('id'));
+        $data = $serializer->normalize($b, null, array('attributes' => array(
+            'id', 'offre' => ['id', 'titre'], 'candidat' => ['id', 'firstName', 'lastName'], 'status', 'date_debut', 'date_expiration'
+        )));
+        return new JsonResponse($data);
     }
 
     /**
