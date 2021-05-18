@@ -62,10 +62,8 @@ class UserController extends AbstractController
         }
         $form = $this->createForm(RegistrationType::class);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
-
             try {
                 if (!$captchaValidator->validateCaptcha($request->get('g-recaptcha-response'))) {
                     $form->addError(new FormError($translator->trans('captcha.wrong')));
@@ -100,12 +98,8 @@ class UserController extends AbstractController
 
             }
         }
-
-
         // last username entered by the user
         $error = $authenticationUtils->getLastAuthenticationError();
-
-
         return $this->render('user/security/register.html.twig', [
             'form' => $form->createView(),
             'error' => $error,
@@ -130,7 +124,6 @@ class UserController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->persist($user);
         $em->flush();
-
         $this->addFlash('success', 'user.welcome');
 
         // automatic login

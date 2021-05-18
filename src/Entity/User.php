@@ -14,8 +14,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use InvalidArgumentException;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -23,7 +23,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity()
  * @UniqueEntity(fields={"email"}, message="user.exists")
  */
-class User implements AdvancedUserInterface, \Serializable
+class User implements UserInterface, \Serializable
 {
     /**
      * @ORM\Column(type="integer")
@@ -114,7 +114,6 @@ class User implements AdvancedUserInterface, \Serializable
     private $adresse;
 
 
-
     public function getImageName()
     {
         return $this->imageName;
@@ -142,7 +141,6 @@ class User implements AdvancedUserInterface, \Serializable
     {
         $this->adresse = $adresse;
     }
-
 
     /**
      * @ORM\OneToMany(targetEntity=OffreEmploi::class, mappedBy="idRecruteur")
@@ -330,7 +328,6 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
 
-
     /**
      * @return mixed
      */
@@ -384,10 +381,7 @@ class User implements AdvancedUserInterface, \Serializable
         return $this->getEmail();
     }
 
-    public function getSalt()
-    {
-        return null;
-    }
+
 
     public function eraseCredentials()
     {
@@ -447,7 +441,7 @@ class User implements AdvancedUserInterface, \Serializable
             $this->password,
             $this->isActive,
 
-        ) = unserialize($serialized);
+            ) = unserialize($serialized);
     }
 
     public function getActivatedAt(): ?\DateTimeInterface
@@ -516,5 +510,8 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
 
-
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
 }

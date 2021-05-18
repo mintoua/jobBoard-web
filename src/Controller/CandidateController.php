@@ -6,10 +6,7 @@ use App\Entity\CandidateResume;
 use App\Entity\Education;
 use App\Form\CandidateResumeType;
 use App\Form\EducationType;
-use App\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -63,24 +60,18 @@ class CandidateController extends AbstractController
         if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
             $this->redirectToRoute('security_login');
         }
-
         $em = $this->getDoctrine()->getManager();
         $resume = $em->getRepository(CandidateResume::class)->find($id);
         if ($resume->getUserId() === $this->getUser()){
             $education = $em->getRepository(Education::class)->findOneByResume($resume);
             if ($education){
                 $em->remove($education);
-
             }
             $em->remove($resume);
             $em->flush();
         }
-
         return $this->redirectToRoute('resume_candidateresume');
-
     }
-
-
     /**
      * @Route("/resumeEducation/{id}", name="resumeEducation")
      * @param Request $request
@@ -112,7 +103,6 @@ class CandidateController extends AbstractController
             'education' => $education]);
 
     }
-
 
 
 
