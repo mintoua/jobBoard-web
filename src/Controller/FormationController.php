@@ -8,9 +8,12 @@ use App\Entity\Formation;
 use App\Form\CategoryType;
 use App\Form\CategorySearchType;
 use App\Form\FormationType;
+use App\Repository\CategorieRepository;
 use App\Repository\FormationRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,10 +22,16 @@ use Dompdf\Options;
 use App\Form\PropertySearchType;
 use App\Entity\PropertySearch;
 
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+
+
 class FormationController extends AbstractController
 {
 
-
+    /**partie json ligne 310 **/
     /**
      * @Route("/formation", name="formation")
      */
@@ -45,15 +54,15 @@ class FormationController extends AbstractController
                 $donnees= $category->getFormation();
             else
                 $donnees = $this->getDoctrine()->getRepository(Formation::class)->findBy([],['id' => 'desc']);
-                $formation = $paginator->paginate(
-                    $donnees, // Requête contenant les données à paginer (ici nos articles)
-                    $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
-                    4 // Nombre de résultats par page
-                );
+            $formation = $paginator->paginate(
+                $donnees, // Requête contenant les données à paginer (ici nos articles)
+                $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+                4 // Nombre de résultats par page
+            );
         }
 
         return $this->render('formation/formation.html.twig',['form' => $form->createView(),'formation' => $formation]);
- }
+    }
 
 
 
@@ -103,8 +112,7 @@ class FormationController extends AbstractController
      * Method({"GET", "POST"})
      */
     public function new(Request $request) {
-        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return $this->redirect($this->generateUrl('homepage'));}
+
         $formation = new formation();
         $form = $this->createForm(FormationType::class,$formation);
         $form->handleRequest($request);
@@ -132,7 +140,7 @@ class FormationController extends AbstractController
         $formation = $this->getDoctrine()->getManager()->getRepository(Formation::class)->findAll();
         $html = $this->renderView('formation/pdf.html.twig', [
             'list' => $formation,
-            ]);
+        ]);
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
@@ -301,6 +309,168 @@ class FormationController extends AbstractController
             $form->createView()]);
     }
 
+    /** gfdgdsgqdsgdsgdwxdcfghjkolpoiuytfrdesdrgyhujiklpkojihugytfrdftghjk */
+
+    /**partie json lena **/
+
+
+    /**categorie json**/
+    /**
+     * @Route("/category*", name="category*")
+     * Method({"GET", "POST"})
+     */
+
+
+    public function getAllCat(NormalizerInterface $normalizer) {
+        $category= $this->getDoctrine()->getRepository(category::class)->findAll();
+        $jsonContent=$normalizer->normalize($category,'json',['groups'=>'post:read']);
+        $retour = json_encode($jsonContent);
+
+        return new Response($retour);
+
+    }
+
+
+    /**
+     * @Route("/category/newCat*", name="new_category*")
+     */
+    public function newCategoryjson(Request $request,NormalizerInterface $Normalizer) {
+
+        $em = $this ->getDoctrine()->getManager();
+        $category=new category();
+        $category->setTitre($request->get('titre'));
+        $category->setDescriptionc($request->get('descriptionc'));
+        $em->persist($category);
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($category,'json',['groups'=>'post:read']);
+        return new Response(json_encode($jsonContent));
+
+    }
+
+
+    /**
+     * @Route("/editcatjson/{id}", name="edit_category*")
+     * Method({"GET", "POST"})
+     */
+    public function editcat(Request $request,NormalizerInterface $Normalizer, $id) {
+        $em = $this->getDoctrine()->getManager();
+        $category = $em->getRepository(category::class)->find($id);
+        $category->setTitre($request->get('titre'));
+        $category->setDescriptionc($request->get('descriptionc'));
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($category,'json',['groups'=>'post:read']);
+        return new Response("updated successfully".json_encode($jsonContent));
+    }
+
+
+
+    /**
+     * @Route("/deletecatjson", name="deletecatjson")
+     */
+    public function deletecatjson(Request $req, EntityManagerInterface $em)
+    {
+        $category = $this->getDoctrine()->getRepository(Category::class)->find($req->query->get('id'));
+        $em->remove($category);
+        $em->flush();
+        return new Response('deleted');
+    }
+    /**formation json**/
+    /**
+     * @Route("/formation*", name="formation*")
+     * Method({"GET", "POST"})
+     */
+
+
+    public function getAllfor(NormalizerInterface $normalizer) {
+        $formation= $this->getDoctrine()->getRepository(formation::class)->findAll();
+        $jsonContent=$normalizer->normalize($formation,'json',['groups'=>'post:read']);
+        $retour = json_encode($jsonContent);
+
+        return new Response($retour);
+
+    }
+
+    /**
+    public function listforjson(FormationRepository $repo)
+    {
+    $formation = $repo->findAll();
+    $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
+    //relation //circular  referance
+    $data = $serializer->normalize($formation, null, array('attributes' => array(
+    'id','categoriy' => ['id', 'titre'], 'nom','formateur','date_debut',
+    'date_fin', 'adresse', 'mail', 'tel','applies' => ['id']
+    )));
+    //$data = $serializer->normalize($offers, 'json');
+
+    return new JsonResponse($data);
+    }**/
+    /**
+     * @Route("/formation/newformation*", name="new_formation*")
+     */
+    public function newformationjson(Request $request, NormalizerInterface $Normalizer,CategorieRepository $categ) {
+
+        $em = $this ->getDoctrine()->getManager();
+        $formation=new formation();
+        $formation->setNom($request->get('nom'));
+        $formation->setFormateur($request->get('formateur'));
+        $formation->setDescription($request->get('description'));
+        $formation->setDateDebut(new \DateTime($request->query->get('date_debut')));
+        $formation->setDateFin(new \DateTime($request->query->get('date_fin')));
+        $formation->setCategorie($categ->find($request->query->get('categ')));
+        //$formation->setDateDebut($request->get('date_debut'));
+        // $formation->setDateFin($request->get('date_fin'));
+        $formation->setAdresse($request->get('adresse'));
+        $formation->setmail($request->get('mail'));
+        $formation->settel($request->get('tel'));
+        $formation->setPrix($request->get('prix'));
+        $em->persist($formation);
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($formation,'json',['groups'=>'post:read']);
+        return new Response(json_encode($jsonContent));
+
+    }
+
+
+    /**
+     * @Route("/editcatjsonfor/{id}", name="edit_for*")
+     * Method({"GET", "POST"})
+     */
+    public function editfor(Request $request,NormalizerInterface $Normalizer, $id) {
+        $em = $this->getDoctrine()->getManager();
+        $formation = $em->getRepository(formation::class)->find($id);
+        $formation->setCategory($request->get('category_id'));
+        $formation->setNom($request->get('nom'));
+        $formation->setFormateur($request->get('formateur'));
+        $formation->setDescription($request->get('description'));
+        $formation->setDateDebut($request->get('date_debut'));
+        $formation->setDateFin($request->get('date_fin'));
+        $formation->setAdresse($request->get('adresse'));
+        $formation->setmail($request->get('mail'));
+        $formation->settel($request->get('tel'));
+        $formation->setPrix($request->get('prix'));
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($formation ,'json',['groups'=>'post:read']);
+        return new Response("updated successfully".json_encode($jsonContent));
+    }
+
+    /**
+     * @Route("/deletjsonefor",name="delete_formation*")
+     * Method({"DELETE"})
+     */
+    public function deleteforjson(Request $req, EntityManagerInterface $em)
+    {
+        $formation = $this->getDoctrine()->getRepository(Formation::class)->find($req->query->get('id'));
+        $em->remove($formation);
+        $em->flush();
+        return new Response('deleted');
+    }
+
+
+    /**       fin json  */
+
+
+
+
 
     /**
      * @Route("/planification", name="planification")
@@ -333,7 +503,7 @@ class FormationController extends AbstractController
 
 
 
-    
+
     /**
      *@Route("/recherche",name="recherche")
      */
@@ -353,13 +523,23 @@ class FormationController extends AbstractController
             $nom = $propertySearch->getNom();
             if ($nom!="")
 
- $formation= $this->getDoctrine()->getRepository(Formation::class)->findBy(['nom' => $nom] );
- else
- //si si aucun nom n'est fourni on affiche tous les articles
- $formation= $this->getDoctrine()->getRepository(Formation::class)->findAll();
- }
+                $formation= $this->getDoctrine()->getRepository(Formation::class)->findBy(['nom' => $nom] );
+            else
+                //si si aucun nom n'est fourni on affiche tous les articles
+                $formation= $this->getDoctrine()->getRepository(Formation::class)->findAll();
+        }
         return $this->render('formation/recherche.html.twig',[ 'form' =>$form->createView(), 'formation' => $formation]);
- }
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 }
-

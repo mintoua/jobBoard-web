@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\FormationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=FormationRepository::class)
@@ -15,29 +16,34 @@ class Formation
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     *  @Groups("post:read")
      */
-   public $id;
+    public $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *  @Groups("post:read")
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *  @Groups("post:read")
      */
     private $formateur;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *  @Groups("post:read")
      */
     private $description;
 
     /**
      * @ORM\Column(type="date")
      * @Assert\GreaterThanOrEqual("today")
+     *  @Groups("post:read")
      */
-   public $date_debut;
+    public $date_debut;
 
     /**
      * @ORM\Column(type="date")
@@ -45,156 +51,218 @@ class Formation
      *     "this.getDateDebut() < this.getDateFin()",
      *     message="la date fin ne doit pas inferieur à la date debut"
      * )
+     *  @Groups("post:read")
      */
     public $date_fin;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *  @Groups("post:read")
      */
     private $adresse;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *  @Groups("post:read")
      */
     private $mail;
 
     /**
      * @ORM\Column(type="float")
+     *  @Groups("post:read")
      */
     private $tel;
 
     /**
      * @ORM\Column(type="float")
+     *  @Groups("post:read")
      */
-   public $prix;
+    public $prix;
+
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="formation")
+     *  @Groups("post:read")
      */
     private $category;
 
-    public function getId(): ?int
+    /**
+     * @return mixed
+     */
+    public function getId()
     {
         return $this->id;
     }
 
-    public function getNom(): ?string
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNom()
     {
         return $this->nom;
     }
 
-    public function setNom(string $nom): self
+    /**
+     * @param mixed $nom
+     */
+    public function setNom($nom): void
     {
         $this->nom = $nom;
-
-        return $this;
     }
 
-    public function getFormateur(): ?string
+    /**
+     * @return mixed
+     */
+    public function getFormateur()
     {
         return $this->formateur;
     }
 
-    public function setFormateur(string $formateur): self
+    /**
+     * @param mixed $formateur
+     */
+    public function setFormateur($formateur): void
     {
         $this->formateur = $formateur;
-
-        return $this;
     }
 
-    public function getDescription(): ?string
+    /**
+     * @return mixed
+     */
+    public function getDescription()
     {
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description): void
     {
         $this->description = $description;
-
-        return $this;
     }
 
-    public function getDateDebut(): ?\DateTimeInterface
+    /**
+     * @return mixed
+     */
+    public function getDateDebut()
     {
         return $this->date_debut;
     }
 
-    public function setDateDebut(\DateTimeInterface $date_debut): self
+    /**
+     * @param mixed $date_debut
+     */
+    public function setDateDebut($date_debut): void
     {
         $this->date_debut = $date_debut;
-
-        return $this;
     }
 
-    public function getDateFin(): ?\DateTimeInterface
+    /**
+     * @return mixed
+     */
+    public function getDateFin()
     {
         return $this->date_fin;
     }
 
-    public function setDateFin(\DateTimeInterface $date_fin): self
+    /**
+     * @param mixed $date_fin
+     */
+    public function setDateFin($date_fin): void
     {
         $this->date_fin = $date_fin;
-
-        return $this;
     }
 
-    public function getAdresse(): ?string
+    /**
+     * @return mixed
+     */
+    public function getAdresse()
     {
         return $this->adresse;
     }
 
-    public function setAdresse(string $adresse): self
+    /**
+     * @param mixed $adresse
+     */
+    public function setAdresse($adresse): void
     {
         $this->adresse = $adresse;
-
-        return $this;
     }
 
-    public function getMail(): ?string
+    /**
+     * @return mixed
+     */
+    public function getMail()
     {
         return $this->mail;
     }
 
-    public function setMail(string $mail): self
+    /**
+     * @param mixed $mail
+     */
+    public function setMail($mail): void
     {
         $this->mail = $mail;
-
-        return $this;
     }
 
-    public function getTel(): ?float
+    /**
+     * @return mixed
+     */
+    public function getTel()
     {
         return $this->tel;
     }
 
-    public function setTel(float $tel): self
+    /**
+     * @param mixed $tel
+     */
+    public function setTel($tel): void
     {
         $this->tel = $tel;
-
-        return $this;
     }
 
-    public function getPrix(): ?float
+    /**
+     * @return mixed
+     */
+    public function getPrix()
     {
         return $this->prix;
     }
 
-    public function setPrix(float $prix): self
+    /**
+     * @param mixed $prix
+     */
+    public function setPrix($prix): void
     {
         $this->prix = $prix;
-
-        return $this;
     }
 
-    public function getCategory(): ?Category
+    /**
+     * @return mixed
+     */
+    public function getCategory()
     {
         return $this->category;
     }
 
-    public function setCategory(?Category $category): self
+    /**
+     * @param mixed $category
+     */
+    public function setCategory($category): void
     {
         $this->category = $category;
-
-        return $this;
     }
+
+
+
+
 }
