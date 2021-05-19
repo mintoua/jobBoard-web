@@ -8,12 +8,10 @@ use App\Entity\Formation;
 use App\Form\CategoryType;
 use App\Form\CategorySearchType;
 use App\Form\FormationType;
-use App\Repository\CategorieRepository;
 use App\Repository\FormationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,17 +19,12 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use App\Form\PropertySearchType;
 use App\Entity\PropertySearch;
-
-use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
-
 
 class FormationController extends AbstractController
 {
 
-    /**partie json ligne 310 **/
+
     /**
      * @Route("/formation", name="formation")
      */
@@ -54,15 +47,15 @@ class FormationController extends AbstractController
                 $donnees= $category->getFormation();
             else
                 $donnees = $this->getDoctrine()->getRepository(Formation::class)->findBy([],['id' => 'desc']);
-            $formation = $paginator->paginate(
-                $donnees, // Requête contenant les données à paginer (ici nos articles)
-                $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
-                4 // Nombre de résultats par page
-            );
+                $formation = $paginator->paginate(
+                    $donnees, // Requête contenant les données à paginer (ici nos articles)
+                    $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+                    4 // Nombre de résultats par page
+                );
         }
 
         return $this->render('formation/formation.html.twig',['form' => $form->createView(),'formation' => $formation]);
-    }
+ }
 
 
 
@@ -112,7 +105,8 @@ class FormationController extends AbstractController
      * Method({"GET", "POST"})
      */
     public function new(Request $request) {
-
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirect($this->generateUrl('homepage'));}
         $formation = new formation();
         $form = $this->createForm(FormationType::class,$formation);
         $form->handleRequest($request);
@@ -140,7 +134,7 @@ class FormationController extends AbstractController
         $formation = $this->getDoctrine()->getManager()->getRepository(Formation::class)->findAll();
         $html = $this->renderView('formation/pdf.html.twig', [
             'list' => $formation,
-        ]);
+            ]);
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
@@ -309,8 +303,65 @@ class FormationController extends AbstractController
             $form->createView()]);
     }
 
-    /** gfdgdsgqdsgdsgdwxdcfghjkolpoiuytfrdesdrgyhujiklpkojihugytfrdftghjk */
 
+    /**
+     * @Route("/planification", name="planification")
+     */
+    public function indexplan(FormationRepository $calendar)
+    {
+        $events = $calendar->findAll();
+
+
+        Source: https://prograide.com/pregunta/59280/afficher-plus-de-texte-en-plein-calendrier
+        $rdvs = [];
+
+        foreach($events as $event){
+            $rdvs[] = [
+                'id' => $event->getId(),
+                'start' => $event->getDateDebut()->format('Y-m-d'),
+                'end' => $event->getDateFin()->format('Y-m-d'),
+                'title' => $event->getNom(),
+                'description' => $event->getDescription(),
+
+
+            ];
+        }
+
+
+        $data = json_encode($rdvs);
+
+        return $this->render('formation/plan.html.twig', compact('data'));
+    }
+
+
+
+    
+    /**
+     *@Route("/recherche",name="recherche")
+     */
+    public function home(Request $request)
+    {
+        $propertySearch = new PropertySearch();
+        $form = $this->createForm(PropertySearchType::class,$propertySearch);
+        $form->handleRequest($request);
+        //initialement le tableau des articles est vide,
+        //c.a.d on affiche les articles que lorsque l'utilisateur
+        //clique sur le bouton rechercher
+        $formation= [];
+
+        if($form->isSubmitted() && $form->isValid()) {
+            //on récupère le nom d'article tapé dans le formulaire
+
+            $nom = $propertySearch->getNom();
+            if ($nom!="")
+
+ $formation= $this->getDoctrine()->getRepository(Formation::class)->findBy(['nom' => $nom] );
+ else
+ //si si aucun nom n'est fourni on affiche tous les articles
+ $formation= $this->getDoctrine()->getRepository(Formation::class)->findAll();
+ }
+        return $this->render('formation/recherche.html.twig',[ 'form' =>$form->createView(), 'formation' => $formation]);
+ }
     /**partie json lena **/
 
 
@@ -407,7 +458,7 @@ class FormationController extends AbstractController
     /**
      * @Route("/formation/newformation*", name="new_formation*")
      */
-    public function newformationjson(Request $request, NormalizerInterface $Normalizer,CategorieRepository $categ) {
+    public function newformationjson(Request $request, NormalizerInterface $Normalizer) {
 
         $em = $this ->getDoctrine()->getManager();
         $formation=new formation();
@@ -416,7 +467,7 @@ class FormationController extends AbstractController
         $formation->setDescription($request->get('description'));
         $formation->setDateDebut(new \DateTime($request->query->get('date_debut')));
         $formation->setDateFin(new \DateTime($request->query->get('date_fin')));
-        $formation->setCategorie($categ->find($request->query->get('categ')));
+     //   $formation->setCategorie($categ->find($request->query->get('categ')));
         //$formation->setDateDebut($request->get('date_debut'));
         // $formation->setDateFin($request->get('date_fin'));
         $formation->setAdresse($request->get('adresse'));
@@ -457,7 +508,7 @@ class FormationController extends AbstractController
      * @Route("/deletjsonefor",name="delete_formation*")
      * Method({"DELETE"})
      */
-    public function deleteforjson(Request $req, EntityManagerInterface $em)
+    public function deleteforjson(Request $req, EntityManagerInterface  $em)
     {
         $formation = $this->getDoctrine()->getRepository(Formation::class)->find($req->query->get('id'));
         $em->remove($formation);
@@ -469,77 +520,5 @@ class FormationController extends AbstractController
     /**       fin json  */
 
 
-
-
-
-    /**
-     * @Route("/planification", name="planification")
-     */
-    public function indexplan(FormationRepository $calendar)
-    {
-        $events = $calendar->findAll();
-
-
-        Source: https://prograide.com/pregunta/59280/afficher-plus-de-texte-en-plein-calendrier
-        $rdvs = [];
-
-        foreach($events as $event){
-            $rdvs[] = [
-                'id' => $event->getId(),
-                'start' => $event->getDateDebut()->format('Y-m-d'),
-                'end' => $event->getDateFin()->format('Y-m-d'),
-                'title' => $event->getNom(),
-                'description' => $event->getDescription(),
-
-
-            ];
-        }
-
-
-        $data = json_encode($rdvs);
-
-        return $this->render('formation/plan.html.twig', compact('data'));
-    }
-
-
-
-
-    /**
-     *@Route("/recherche",name="recherche")
-     */
-    public function home(Request $request)
-    {
-        $propertySearch = new PropertySearch();
-        $form = $this->createForm(PropertySearchType::class,$propertySearch);
-        $form->handleRequest($request);
-        //initialement le tableau des articles est vide,
-        //c.a.d on affiche les articles que lorsque l'utilisateur
-        //clique sur le bouton rechercher
-        $formation= [];
-
-        if($form->isSubmitted() && $form->isValid()) {
-            //on récupère le nom d'article tapé dans le formulaire
-
-            $nom = $propertySearch->getNom();
-            if ($nom!="")
-
-                $formation= $this->getDoctrine()->getRepository(Formation::class)->findBy(['nom' => $nom] );
-            else
-                //si si aucun nom n'est fourni on affiche tous les articles
-                $formation= $this->getDoctrine()->getRepository(Formation::class)->findAll();
-        }
-        return $this->render('formation/recherche.html.twig',[ 'form' =>$form->createView(), 'formation' => $formation]);
-    }
-
-
-
-
-
-
-
-
-
-
-
-
 }
+
