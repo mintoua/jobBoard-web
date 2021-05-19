@@ -47,7 +47,7 @@ class Category
 
     public function __toString()
     {
-        return (string) $this->getTitre();
+        return (string)$this->getTitre();
     }
 
     public function __construct()
@@ -57,12 +57,12 @@ class Category
         $this->offreemplois = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId()
     {
         return $this->id;
     }
 
-    public function getTitre(): ?string
+    public function getTitre()
     {
         return $this->titre;
     }
