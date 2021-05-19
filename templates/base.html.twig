@@ -4,10 +4,10 @@
     <!-- FAVICONS ICON -->
     <link rel="icon"
           href="{{ asset('frontOffice/') }}images/favicon.ico"
-          type="image/x-icon" />
+          type="image/x-icon"/>
     <link rel="shortcut icon"
           type="image/x-icon"
-          href="{{ asset('frontOffice/') }}images/favicon.png" />
+          href="{{ asset('frontOffice/') }}images/favicon.png"/>
 
 
     <title>
@@ -16,19 +16,22 @@
         {% endblock %}
     </title>
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}css/plugins.min.css" />
-    <link rel="stylesheet" type="text/css" href="{{ asset( 'frontOffice' ) }}/plugins/fontawesome/css/font-awesome.min.css" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}plugins/themify/themify-icons.css" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}css/style.min.css" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}css/templete.min.css" />
-    <link class="skin" rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}css/skin/skin-1.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&amp;family=Montserrat:wght@100;200;300;400;500;600;700;800;900&amp;family=Open+Sans:wght@300;400;600;700;800&amp;family=Roboto:wght@100&amp;family=Rubik:wght@300;400;500;700;900&amp;display=swap" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}css/plugins.min.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="{{ asset( 'frontOffice' ) }}/plugins/fontawesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}plugins/themify/themify-icons.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}css/style.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}css/templete.min.css"/>
+    <link class="skin" rel="stylesheet" type="text/css" href="{{ asset('frontOffice/') }}css/skin/skin-1.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&amp;family=Montserrat:wght@100;200;300;400;500;600;700;800;900&amp;family=Open+Sans:wght@300;400;600;700;800&amp;family=Roboto:wght@100&amp;family=Rubik:wght@300;400;500;700;900&amp;display=swap"
+          rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/font-awesome.min.css') }} ">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,400i,700,800|Varela+Round" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/owl.carousel.min.css') }} ">
     <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/style.css') }} ">
     <link rel="stylesheet" type="text/css" href="{{ asset('frontOffice/shop/css/responsive.css') }} ">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.css" integrity="sha256-uq9PNlMzB+1h01Ij9cx7zeE2OR2pLAfRw3uUUOOPKdA=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.css"
+          integrity="sha256-uq9PNlMzB+1h01Ij9cx7zeE2OR2pLAfRw3uUUOOPKdA=" crossorigin="anonymous">
 
     {% block stylesheets %}
     {% endblock %}
@@ -38,28 +41,33 @@
     <body id="bg">
     <div class="page-wraper">
         {% block header %}
-          <header class="site-header mo-left header">
-            <!-- main header -->
-            <div class="sticky-header main-bar-wraper navbar-expand-lg">
-              <div class="main-bar clearfix">
-                <div class="container clearfix">
-                  <!-- website logo -->
-                  <div class="logo-header mostion">
-                    <a href="{{ asset('index.php') }}">
-                      <img src="{{ asset('frontOffice/') }}images/logo.png"
-                        class="logo"
-                        alt="" />
-                    </a>
-                  </div>
+            <header class="site-header mo-left header">
+                <!-- main header -->
+                <div class="sticky-header main-bar-wraper navbar-expand-lg">
+                    <div class="main-bar clearfix">
+                        <div class="container clearfix">
+                            <!-- website logo -->
+                            <div class="logo-header mostion">
+                                <a href="{{ asset('index.php') }}">
+                                    <img src="{{ asset('frontOffice/') }}images/logo.png"
+                                         class="logo"
+                                         alt=""/>
+                                </a>
+                            </div>
                             <div class="extra-nav">
                                 <div class="extra-cell">
-                                    <a href="{{ path('cart') }}"> <i class="fa fa-shopping-cart fa-1x"></i><span>{{ app.session.get('panier', []) | length }}</span></a>
+                                    <a href="{{ path('cart') }}"> <i
+                                                class="fa fa-shopping-cart fa-1x"></i><span>{{ app.session.get('panier', []) | length }}</span></a>
                                     {% if is_granted('ROLE_USER') %}
-                                        <a href="{{ path('user_candidateprofile') }}" class="site-button"><i class="fa fa-user"></i> {{ app.user.username }}</a>
-                                        <a href="{{ path('security_logout') }}" class="site-button"> <i class="fa fa-user"></i> Logout </a>
+                                        <a href="{{ path('user_candidateprofile') }}" class="site-button"><i
+                                                    class="fa fa-user"></i> {{ app.user.username }}</a>
+                                        <a href="{{ path('security_logout') }}" class="site-button"> <i
+                                                    class="fa fa-user"></i> Logout </a>
                                     {% else %}
-                                        <a href="{{ path('security_login') }}" class="site-button"> <i class="fa fa-user"></i>Login </a>
-                                        <a href="{{ path('user_register') }}" class="site-button"> <i class="fa fa-user"></i> Sign Up </a>
+                                        <a href="{{ path('security_login') }}" class="site-button"> <i
+                                                    class="fa fa-user"></i>Login </a>
+                                        <a href="{{ path('user_register') }}" class="site-button"> <i
+                                                    class="fa fa-user"></i> Sign Up </a>
                                     {% endif %}
 
                                 </div>
@@ -83,11 +91,9 @@
                                  id="navbarNavDropdown">
                                 <ul class="nav navbar-nav">
                                     <li class="active">
-                                        <a href="{{
-                                        path(
+                                        <a href="{{ path(
                                             'homepage'
-                                        )
-                                        }}">
+                                        ) }}">
                                             Home <i class="fa fa-chevron-down"></i>
                                         </a>
                                     </li>
@@ -96,33 +102,34 @@
                                             For Candidates <i class="fa fa-chevron-down"></i>
                                         </a>
                                         <ul class="sub-menu">
-                                            <li><a href="{{ path('user_candidateprofile') }}" class="dez-page">My Profile</a></li>
-                                            <li><a href="{{ path('resume_candidateresume') }}" class="dez-page">My Resume </a></li>
-                                            <li><a href="{{ path('user_candidates_list') }}" class="dez-page">Browse Candidates </a></li>
+                                            <li><a href="{{ path('user_candidateprofile') }}" class="dez-page">My
+                                                    Profile</a></li>
+                                            <li><a href="{{ path('resume_candidateresume') }}" class="dez-page">My
+                                                    Resume </a></li>
+                                            <li><a href="{{ path('user_candidates_list') }}" class="dez-page">Browse
+                                                    Candidates </a></li>
                                             {% if is_granted('ROLE_USER') %}
                                                 <li>
-                                                    <a href="{{
-                                                    path(
+                                                    <a href="{{ path(
                                                         'listapp',
                                                         {
                                                             'id': app.user.id
                                                         }
-                                                    )
-                                                    }}" class="dez-page">
+                                                    ) }}" class="dez-page">
                                                         Applied Jobs <span class="new-page">New</span>
                                                     </a>
                                                 </li>
-                                            <li>
-                                                <a href="#"
-                                                   class="dez-page">
-                                                    Jobs Alerts <span class="new-page">New</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="{{path('browsejob')}}" class="dez-page">
-                                                    Apply To A Job<span class="new-page">New</span>
-                                                </a>
-                                            </li>
+                                                <li>
+                                                    <a href="#"
+                                                       class="dez-page">
+                                                        Jobs Alerts <span class="new-page">New</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ path('browsejob') }}" class="dez-page">
+                                                        Apply To A Job<span class="new-page">New</span>
+                                                    </a>
+                                                </li>
                                             {% endif %}
                                             <li>
                                                 <a href="jobs-saved-jobs.html" class="dez-page">
@@ -148,24 +155,22 @@
                                             For Employers <i class="fa fa-chevron-down"></i>
                                         </a>
                                         <ul class="sub-menu">
-                                            <li><a href="{{ path('company_companyprofile') }}" class="dez-page">Company Profile </a></li>
-                                            <li><a href="{{ path('company_companies_list') }}" class="dez-page">Browse Companies </a></li>
+                                            <li><a href="{{ path('company_companyprofile') }}" class="dez-page">Company
+                                                    Profile </a></li>
+                                            <li><a href="{{ path('company_companies_list') }}" class="dez-page">Browse
+                                                    Companies </a></li>
                                             {% if is_granted('ROLE_COMPANY') %}
                                                 <li>
-                                                    <a href="{{
-                                                    path(
+                                                    <a href="{{ path(
                                                         'addjob'
-                                                    )
-                                                    }}" class="dez-page">
+                                                    ) }}" class="dez-page">
                                                         Post A Jobs <span class="new-page">New</span>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="{{
-                                                    path(
+                                                    <a href="{{ path(
                                                         'joblist'
-                                                    )
-                                                    }}" class="dez-page">
+                                                    ) }}" class="dez-page">
                                                         Manage jobs <span class="new-page">New</span>
                                                     </a>
                                                 </li>
@@ -214,11 +219,9 @@
                                                 </a>
                                                 <ul class="sub-menu">
                                                     <li>
-                                                        <a href="{{
-                                                        path(
+                                                        <a href="{{ path(
                                                             'browsejob'
-                                                        )
-                                                        }}" class="dez-page">
+                                                        ) }}" class="dez-page">
                                                             browse job list
                                                         </a>
                                                     </li>
@@ -249,7 +252,7 @@
                                                 </a>
                                                 <ul class="sub-menu">
                                                     <li>
-                                                        <a href="{{path('browsejob')}}" class="dez-page">
+                                                        <a href="{{ path('browsejob') }}" class="dez-page">
                                                             all jobs
                                                             <span class="new-page">New</span>
                                                         </a>
@@ -289,22 +292,26 @@
                                             <li>
 
 
-
-
                                             <li>
 
                                                 <a href="#" class="dez-page">Formation <i class="fa fa-angle-right"></i></a>
                                                 <ul class="sub-menu">
-                                                    <li><a href="{{path('planification')}}" class="dez-page">Calendrier</a></li>
-                                                    <li><a href="{{path('formation')}}" class="dez-page">Liste des formations <span
+                                                    <li><a href="{{ path('planification') }}" class="dez-page">Calendrier</a>
+                                                    </li>
+                                                    <li><a href="{{ path('formation') }}" class="dez-page">Liste des
+                                                            formations <span
                                                                     class="new-page">New</span></a></li>
-                                                    <li><a href="{{path('formation_free')}}" class="dez-page">Formations gratuites<br><span
+                                                    <li><a href="{{ path('formation_free') }}" class="dez-page">Formations
+                                                            gratuites<br><span
                                                                     class="new-page">New</span></a></li>
 
-                                                    <li><a href="{{path('category')}}" class="dez-page">Liste des categories</a></li>
+                                                    <li><a href="{{ path('category') }}" class="dez-page">Liste des
+                                                            categories</a></li>
                                                     {% if is_granted('ROLE_USER') %}
-                                                        <li><a href="{{path('new_formation')}}" class="dez-page">Ajouter des formations </a></li>
-                                                        <li><a href="{{path('add_Categorie')}}" class="dez-page">Ajouter des catégories </a></li>
+                                                        <li><a href="{{ path('new_formation') }}" class="dez-page">Ajouter
+                                                                des formations </a></li>
+                                                        <li><a href="{{ path('add_Categorie') }}" class="dez-page">Ajouter
+                                                                des catégories </a></li>
                                                     {% endif %}
                                                 </ul>
                                                 </a>
@@ -314,12 +321,14 @@
 
                                                 <a href="#" class="dez-page">event <i class="fa fa-angle-right"></i></a>
                                                 <ul class="sub-menu">
-                                                    <li><a href="{{path('ListEvent')}}" class="dez-page">Liste des evenements <span
+                                                    <li><a href="{{ path('ListEvent') }}" class="dez-page">Liste des
+                                                            evenements <span
                                                                     class="new-page">New</span></a></li>
                                                     {% if is_granted('ROLE_USER') %}
 
-                                                    <li><a href="{{path('ajout_event')}}" class="dez-page">ajouter des evenements<br><span
-                                                                    class="new-page">New</span></a></li>
+                                                        <li><a href="{{ path('ajout_event') }}" class="dez-page">ajouter
+                                                                des evenements<br><span
+                                                                        class="new-page">New</span></a></li>
                                                     {% endif %}
 
 
@@ -416,14 +425,12 @@
                         <div class="row">
                             <div class="col-xl-5 col-lg-4 col-md-12 col-sm-12">
                                 <div class="widget">
-                                    <img src="{{
-                                    asset(
+                                    <img src="{{ asset(
                                         'frontOffice/'
-                                    )
-                                    }}images/logo-white.png"
+                                    ) }}images/logo-white.png"
                                          width="180"
                                          class="m-b15"
-                                         alt="" />
+                                         alt=""/>
                                     <p class="text-capitalize m-b20">
                                         Lorem Ipsum is simply dummy text of the printing and
                                         typesetting industry has been the industry's standard
@@ -439,7 +446,7 @@
                                                        required="required"
                                                        class="form-control"
                                                        placeholder="Your Email Address"
-                                                       type="email" />
+                                                       type="email"/>
                                                 <span class="input-group-btn">
                               <button name="submit"
                                       value="Submit"
@@ -531,7 +538,8 @@
     </body>
     <script src="{{ asset('frontOffice/') }}js/combining.js"></script>
 {% block javascripts %}
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.js" integrity="sha256-ekrJn2FeZaiUFq99QswpQCUTME/HxaDfX7R8INzKJGE=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.js"
+            integrity="sha256-ekrJn2FeZaiUFq99QswpQCUTME/HxaDfX7R8INzKJGE=" crossorigin="anonymous"></script>
 
 {% endblock %}
 {% endblock %}
