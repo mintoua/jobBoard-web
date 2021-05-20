@@ -47,7 +47,7 @@ class DemandeRecrutementController extends AbstractController
             $mes = "Job Applied";
             $message = (new \Swift_Message('Nouvelle demande de recrutement !'))
                 ->setFrom('jobhubwebsiteesprit@gmail.com')
-                ->setTo('oussema.makni@esprit.tn')
+                ->setTo('flawnflawn@gmail.com')
                 ->setBody($this->renderView('demande_recrutement/email.html.twig', ['c' => $job]), 'text/html');
 
             $mailer->send($message);
@@ -192,7 +192,7 @@ class DemandeRecrutementController extends AbstractController
     public function listappjson(Request $request)
     {
         $b = $this->getDoctrine()->getRepository(DemandeRecrutement::class);
-        $use = $this->getDoctrine()->getRepository(User::class)->find(5/*$request->query->get('userid')*/);
+        $use = $this->getDoctrine()->getRepository(User::class)->find(45/*$request->query->get('userid')*/);
         $serializer = new Serializer([new DateTimeNormalizer(), new ObjectNormalizer()]);
         $apps = $use->getApplies();
         $data = $serializer->normalize($apps, null, array('attributes' => array(

@@ -48,7 +48,9 @@ class SecurityApiController extends AbstractController
             if ($validPassword) {
                 $normalizer = new ObjectNormalizer();
                 $serializer = new Serializer(array(new DateTimeNormalizer(), $normalizer));
-                $formatted = $serializer->normalize($user);
+                $formatted = $serializer->normalize($user,null,array('attributes' => array(
+                    'id', 'firstName', 'lastName', 'dateOfBirth', 'professionalTitle', 'adresse', 'email', 'roles', 'phone',
+                    'isActive','createdAt')));
                 return new JsonResponse($formatted);
             } else {
                 return new JsonResponse(['error' => "Wrong Password"], 403);
