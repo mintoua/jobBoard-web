@@ -24,7 +24,7 @@ class CartController extends AbstractController
     {
         return $this->render('cart/index.html.twig', [
             'items' => $cartService->getFullCart(),
-            'total' => $cartService->getTotal()
+            'total' => $cartService->getTotal() 
         ]);
     }
 
@@ -93,7 +93,7 @@ class CartController extends AbstractController
         $idOrder = $repOrder->find($idOrder);
         $idProduct = $reP->find($idProduct);
         $cart = new ProductCart($idOrder,$idProduct,$qty);
-        $em->persist($cart);
+        $em->persist($cart);   
         $em->flush();
         
         return new Response('Product cart add successfully');
